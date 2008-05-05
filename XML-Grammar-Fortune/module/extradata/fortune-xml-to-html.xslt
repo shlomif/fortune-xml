@@ -1,5 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <xsl:stylesheet version = '1.0'
-     xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+    xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+    
      >
 
 <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"
@@ -7,7 +9,7 @@
  doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"
  />
 
-<xsl:template match="/">
+<xsl:template match="/collection">
     <html>
         <head><title>Fortunes</title></head>
         <body>
@@ -28,7 +30,7 @@
 </xsl:template>
 
 <xsl:template match="body">
-    <xsl:apply-template select="saying|me_is|joins|leaves" />
+    <xsl:apply-templates select="saying|me_is|joins|leaves" />
 </xsl:template>
 
 <xsl:template match="saying|me_is|joins|leaves">
@@ -42,16 +44,16 @@
                     <xsl:text>* </xsl:text>
                 </xsl:when>
                 <xsl:when test="name(.) = 'joins'">
-                    <xsl:text>&larr;</xsl:text>
+                    <xsl:text>←</xsl:text>
                 </xsl:when>
                 <xsl:when test="name(.) = 'leaves'">
-                    <xsl:text>&rarr;</xsl:text>
+                    <xsl:text>→</xsl:text>
                 </xsl:when>
             </xsl:choose> 
-            <xsl:value-of "@who" />
+            <xsl:value-of select="@who" />
         </td>        
         <td class="text">
-            <xsl:value-of "." />
+            <xsl:value-of select="." />
         </td>
     </tr>
 </xsl:template>
