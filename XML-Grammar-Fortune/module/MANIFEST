@@ -1,8 +1,11 @@
 Build.PL
 Changes
+inc/Test/Run/Builder.pm
+lib/XML/Grammar/Fortune.pm
 MANIFEST
 README
-lib/XML/Grammar/Fortune.pm
 t/00-load.t
 t/pod-coverage.t
 t/pod.t
+Makefile.PL
+META.yml
