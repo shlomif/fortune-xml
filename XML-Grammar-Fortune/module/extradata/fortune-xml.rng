@@ -17,6 +17,9 @@
         <element name="fortune">
             <attribute name="id">
             </attribute>
+            <element name="title">
+                <text/>
+            </element>
             <choice>
                 <element name="irc">
                     <element name="body">

@@ -20,7 +20,7 @@
 
 <xsl:template match="fortune">
     <div class="fortune">
-        <h3 id="{@id}"><xsl:call-template name="get_irc_header" /></h3>
+        <h3 id="{@id}"><xsl:call-template name="get_header" /></h3>
         <table class="irc-conversation">
             <tbody>
                 <xsl:apply-templates select="irc/body"/>
@@ -58,7 +58,7 @@
     </tr>
 </xsl:template>
 
-<xsl:template name="get_irc_header">
+<xsl:template name="get_irc_default_header">
     <xsl:if test="info/tagline">
         <xsl:value-of select="info/tagline" /> on
     </xsl:if>
@@ -66,6 +66,17 @@
         <xsl:value-of select="info/network" />'s
     </xsl:if>
     <xsl:value-of select="info/channel" />
+</xsl:template>
+
+<xsl:template name="get_header">
+    <xsl:choose>
+        <xsl:when test="title">
+            <xsl:value-of select="title" />
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:call-template name="get_irc_default_header" select="irc" />
+        </xsl:otherwise>
+    </xsl:choose>
 </xsl:template>
 
 </xsl:stylesheet>

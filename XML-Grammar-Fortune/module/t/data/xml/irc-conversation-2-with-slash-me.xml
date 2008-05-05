@@ -2,7 +2,8 @@
 <collection>
     <head />
     <list>
-        <fortune id="I-need-to-get-a-life">
+        <fortune id="bad-python-code">
+            <title>Bad Python Code</title>
             <irc>
                 <body>
                     <saying who="rindolf">sussman: for the record, I think the 
