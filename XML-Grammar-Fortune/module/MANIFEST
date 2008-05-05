@@ -1,6 +1,7 @@
 Build.PL
 Changes
 extradata/fortune-xml.rng
+extradata/fortune-xml-to-html.xslt
 inc/Test/Run/Builder.pm
 lib/XML/Grammar/Fortune.pm
 Makefile.PL
