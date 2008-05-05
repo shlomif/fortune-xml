@@ -17,21 +17,32 @@
 use strict;
 use warnings;
 
-use Test::More tests => 1;                      # last test to print
+use Test::More tests => 2;                      # last test to print
 
 use XML::LibXML;
 
-my $doc = XML::LibXML->new->parse_file("./t/data/xml/irc-conversation-1.xml");
+my @inputs = (qw(
+        irc-conversation-1
+        irc-conversation-2-with-slash-me
+    ));
 
 my $rngschema = XML::LibXML::RelaxNG->new(
-    location => "./extradata/fortune-xml.rng" 
-);
+        location => "./extradata/fortune-xml.rng" 
+    );
 
-my $code;
-$code = $rngschema->validate($doc);
 
-# TEST
-ok ((defined($code) && ($code == 0)),
-    "The validation succeeded.") ||
-    diag("\$@ == $@");
+# TEST:$num_tests=2
 
+foreach my $fn_base (@inputs)
+{
+    my $doc = XML::LibXML->new->parse_file("./t/data/xml/$fn_base.xml");
+
+    my $code;
+    $code = $rngschema->validate($doc);
+
+    # TEST*$num_tests
+    ok ((defined($code) && ($code == 0)),
+        "The validation succeeded.") ||
+        diag("\$@ == $@");
+
+}
