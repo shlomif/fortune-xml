@@ -59,19 +59,26 @@
 </xsl:template>
 
 <xsl:template name="get_irc_default_header">
-    <xsl:if test="info/tagline">
-        <xsl:value-of select="info/tagline" /> on
-    </xsl:if>
-    <xsl:if test="info/network">
-        <xsl:value-of select="info/network" />'s
-    </xsl:if>
-    <xsl:value-of select="info/channel" />
+    <xsl:choose>
+        <xsl:when test="info">
+            <xsl:if test="info/tagline">
+                <xsl:value-of select="info/tagline" /> on
+            </xsl:if>
+            <xsl:if test="info/network">
+                <xsl:value-of select="info/network" />'s
+            </xsl:if>
+            <xsl:value-of select="info/channel" />
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:text>Unknown Subject</xsl:text>
+        </xsl:otherwise>
+    </xsl:choose>
 </xsl:template>
 
 <xsl:template name="get_header">
     <xsl:choose>
-        <xsl:when test="title">
-            <xsl:value-of select="title" />
+        <xsl:when test="meta/title">
+            <xsl:value-of select="meta/title" />
         </xsl:when>
         <xsl:otherwise>
             <xsl:call-template name="get_irc_default_header" select="irc" />

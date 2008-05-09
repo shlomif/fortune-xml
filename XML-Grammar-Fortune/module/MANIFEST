@@ -9,10 +9,12 @@ MANIFEST
 META.yml
 README
 t/00-load.t
+t/data/xhtml-results/irc-conversation-4-several-convos.xhtml
 t/data/xml/irc-conversation-1.xml
 t/data/xml/irc-conversation-2-with-slash-me.xml
 t/data/xml/irc-conversation-3-with-join-unjoin.xml
 t/data/xml/irc-conversation-4-several-convos.xml
 t/pod-coverage.t
 t/pod.t
+t/to-xhtml.t
 t/xml-validate.t
