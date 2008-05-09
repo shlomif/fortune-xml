@@ -3,7 +3,9 @@
     <head />
     <list>
         <fortune id="bad-python-code">
-            <title>Bad Python Code</title>
+            <meta>
+                <title>Bad Python Code</title>
+            </meta>
             <irc>
                 <body>
                     <saying who="rindolf">sussman: for the record, I think the 

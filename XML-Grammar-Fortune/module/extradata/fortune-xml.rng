@@ -17,8 +17,10 @@
         <element name="fortune">
             <attribute name="id">
             </attribute>
-            <element name="title">
-                <text/>
+            <element name="meta">
+                <element name="title">
+                    <text/>
+                </element>
             </element>
             <choice>
                 <element name="irc">

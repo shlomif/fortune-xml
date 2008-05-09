@@ -37,14 +37,15 @@ my $rngschema = XML::LibXML::RelaxNG->new(
 
 foreach my $fn_base (@inputs)
 {
-    my $doc = XML::LibXML->new->parse_file("./t/data/xml/$fn_base.xml");
+    my $filename = "./t/data/xml/$fn_base.xml";
+    my $doc = XML::LibXML->new->parse_file($filename);
 
     my $code;
     $code = $rngschema->validate($doc);
 
     # TEST*$num_tests
     ok ((defined($code) && ($code == 0)),
-        "The validation succeeded.") ||
+        "The validation of '$filename' succeeded.") ||
         diag("\$@ == $@");
 
 }

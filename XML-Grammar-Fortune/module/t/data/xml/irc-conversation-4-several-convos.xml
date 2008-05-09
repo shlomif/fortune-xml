@@ -3,7 +3,9 @@
     <head />
     <list>
         <fortune id="Im-not-an-asshole">
-            <title>I'm not an Asshole…</title>
+            <meta>
+                <title>I'm not an Asshole…</title>
+            </meta>
             <irc>
                 <body>
                     <joins who="mofino">has joined #perlcafe</joins>
@@ -19,7 +21,9 @@
             </irc>
         </fortune>
         <fortune id="the-only-language">
-            <title>"The Only Language"</title>
+            <meta>
+                <title>"The Only Language"</title>
+            </meta>
             <irc>
                 <body>
                     <saying who="rindolf">This reminds me of a fun 
@@ -43,7 +47,9 @@
             </irc>
         </fortune>
         <fortune id="let-me-wikipedia-it">
-            <title>(Human) Language Fun on Freenode's #perl</title>
+            <meta>
+                <title>(Human) Language Fun on Freenode's #perl</title>
+            </meta>
             <irc>
                 <body>
                     <saying who="rindolf">Let me wikipedia it.</saying>

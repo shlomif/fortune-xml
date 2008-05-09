@@ -3,7 +3,9 @@
     <head />
     <list>
         <fortune id="Im-not-an-asshole">
-            <title>I'm not an Asshole…</title>
+            <meta>
+                <title>I'm not an Asshole…</title>
+            </meta>
             <irc>
                 <body>
                     <saying who="rindolf">sussman: for the record, I think the 

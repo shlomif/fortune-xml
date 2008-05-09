@@ -3,7 +3,9 @@
     <head />
     <list>
         <fortune id="I-need-to-get-a-life">
-            <title>Getting a Life</title>
+            <meta>
+                <title>Getting a Life</title>
+            </meta>
             <irc>
                 <body>
                     <saying who="rindolf">LeoNerd: I need to get a life.</saying>
