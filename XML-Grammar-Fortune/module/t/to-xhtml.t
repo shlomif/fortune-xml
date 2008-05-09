@@ -3,16 +3,12 @@
 use strict;
 use warnings;
 
-use Test::More;
-
-use Test::XML tests => 1;
+use Test::More tests => 1;
 
 use File::Spec;
 
 use XML::LibXML;
-
-use XML::Grammar::Screenplay::ToDocBook;
-use XML::SemanticDiff;
+use XML::LibXSLT;
 
 # TEST:$num_texts=1
 
