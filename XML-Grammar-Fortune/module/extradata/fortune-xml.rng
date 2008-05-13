@@ -77,6 +77,35 @@
                         </optional>
                     </element>
                 </element>
+                <element name="raw">
+                    <element name="body">
+                        <element name="text">
+                            <text />
+                        </element>
+                    </element>
+                    <element name="info">
+                        <optional>
+                            <element name="author">
+                                <text />
+                            </element>
+                        </optional>
+                        <optional>
+                            <element name="date">
+                                <text />
+                            </element>
+                        </optional>
+                        <optional>
+                            <element name="source">
+                                <text />
+                            </element>
+                        </optional>
+                        <optional>
+                            <element name="license">
+                                <text />
+                            </element>
+                        </optional>
+                    </element>
+                </element>
             </choice>
         </element>
     </define>

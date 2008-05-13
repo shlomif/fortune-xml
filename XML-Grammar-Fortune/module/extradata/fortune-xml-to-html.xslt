@@ -24,11 +24,19 @@
 <xsl:template match="fortune">
     <div xmlns="http://www.w3.org/1999/xhtml" class="fortune">
         <h3 id="{@id}"><xsl:call-template name="get_header" /></h3>
-        <table class="irc-conversation">
-            <tbody>
-                <xsl:apply-templates select="irc/body"/>
-            </tbody>
-        </table>
+        <xsl:choose>
+            <xsl:when test="irc">
+                <table class="irc-conversation">
+                    <tbody>
+                        <xsl:apply-templates select="irc/body"/>
+                    </tbody>
+                </table>
+            </xsl:when>
+            <xsl:when test="raw">
+                <xsl:apply-templates select="raw" />
+            </xsl:when>
+
+        </xsl:choose> 
     </div>
 </xsl:template>
 
@@ -89,4 +97,34 @@
     </xsl:choose>
 </xsl:template>
 
+<xsl:template match="raw">
+    <pre xmlns="http://www.w3.org/1999/xhtml" class="raw">
+        <xsl:value-of select="body/text"/>
+    </pre>
+    <table xmlns="http://www.w3.org/1999/xhtml" class="info">
+        <tbody>
+            <xsl:apply-templates select="info/*" name="raw_info_subs"/>
+        </tbody>
+    </table>
+</xsl:template>
+
+<xsl:template match="*" name="raw_info_subs">
+    <tr xmlns="http://www.w3.org/1999/xhtml" class="{name(.)}">
+        <td class="field">
+            <b>
+                <xsl:choose>
+                    <xsl:when test="name(.) = 'author'">
+                        <xsl:text>Author</xsl:text>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="name(.)" />
+                    </xsl:otherwise>
+                </xsl:choose> 
+            </b>
+        </td>
+        <td class="value">
+            <xsl:value-of select="." />
+        </td>
+    </tr>
+</xsl:template>
 </xsl:stylesheet>

@@ -17,7 +17,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 4;                      # last test to print
+use Test::More tests => 5;                      # last test to print
 
 use XML::LibXML;
 
@@ -26,6 +26,7 @@ my @inputs = (qw(
         irc-conversation-2-with-slash-me
         irc-conversation-3-with-join-unjoin
         irc-conversation-4-several-convos
+        irc-convos-and-raw-fortunes-1
     ));
 
 my $rngschema = XML::LibXML::RelaxNG->new(
@@ -33,7 +34,7 @@ my $rngschema = XML::LibXML::RelaxNG->new(
     );
 
 
-# TEST:$num_tests=4
+# TEST:$num_tests=5
 
 foreach my $fn_base (@inputs)
 {
