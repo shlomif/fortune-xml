@@ -12,6 +12,7 @@ my $builder = Test::Run::Builder->new(
     dist_author         => 'Shlomi Fish <shlomif@iglu.org.il>',
     dist_version_from   => 'lib/XML/Grammar/Fortune.pm',
     requires => {
+        'Class::Accessor' => 0,
         'File::Spec' => 0,
         'vars' => 0,
         'warnings' => 0,
