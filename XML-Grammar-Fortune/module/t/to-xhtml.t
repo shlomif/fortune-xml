@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Test::More tests => 1;
+use Test::Differences;
 
 use File::Spec;
 
@@ -49,7 +50,7 @@ foreach my $fn_base (@tests)
     my $results = $stylesheet->transform($source);
 
     # TEST*$num_texts
-    is (
+    eq_or_diff (
         $stylesheet->output_string($results),
         read_file("./t/data/xhtml-results/$fn_base.xhtml"),
         "Testing for Good XSLTing of '$fn_base'",
