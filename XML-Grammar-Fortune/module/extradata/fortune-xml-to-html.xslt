@@ -10,8 +10,11 @@
  />
 
 <xsl:template match="/collection">
-    <html>
-        <head><title>Fortunes</title></head>
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US">
+        <head>
+            <title>Fortunes</title>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        </head>
         <body>
             <xsl:apply-templates select="list/fortune" />
         </body>
@@ -19,7 +22,7 @@
 </xsl:template>
 
 <xsl:template match="fortune">
-    <div class="fortune">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="fortune">
         <h3 id="{@id}"><xsl:call-template name="get_header" /></h3>
         <table class="irc-conversation">
             <tbody>
@@ -34,7 +37,7 @@
 </xsl:template>
 
 <xsl:template match="saying|me_is|joins|leaves">
-    <tr>
+    <tr xmlns="http://www.w3.org/1999/xhtml">
         <xsl:attribute name="class">
             <xsl:value-of select="name(.)" />
         </xsl:attribute>
