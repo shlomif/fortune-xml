@@ -101,11 +101,13 @@
     <pre xmlns="http://www.w3.org/1999/xhtml" class="raw">
         <xsl:value-of select="body/text"/>
     </pre>
-    <table xmlns="http://www.w3.org/1999/xhtml" class="info">
-        <tbody>
-            <xsl:apply-templates select="info/*" name="raw_info_subs"/>
-        </tbody>
-    </table>
+    <xsl:if test="info/*">
+        <table xmlns="http://www.w3.org/1999/xhtml" class="info">
+            <tbody>
+                <xsl:apply-templates select="info/*" name="raw_info_subs"/>
+            </tbody>
+        </table>
+    </xsl:if>
 </xsl:template>
 
 <xsl:template match="*" name="raw_info_subs">

@@ -1,3 +1,10 @@
+Pressing:
+---------
+
+* Remove the empty <table class="info"> where appropriate.
+
+================================
+
 * Make sure the RELAX NG validation reports line numbers for the problems
 it sees (is this a limitation of XML::LibXML or libxml2 ?).
 
