@@ -132,10 +132,12 @@
                         </optional>
                         <optional>
                             <element name="work">
-                                <attribute name="href">
-                                    <!-- TODO: perhaps add a URL datatype.-->
-                                    <text />
-                                </attribute>
+                                <optional>
+                                    <attribute name="href">
+                                        <!-- TODO: perhaps add a URL datatype.-->
+                                        <text />
+                                    </attribute>
+                                </optional>
                                 <text />
                             </element>
                         </optional>
