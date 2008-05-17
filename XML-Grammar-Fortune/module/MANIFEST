@@ -17,6 +17,7 @@ t/data/xml/irc-conversation-2-with-slash-me.xml
 t/data/xml/irc-conversation-3-with-join-unjoin.xml
 t/data/xml/irc-conversation-4-several-convos.xml
 t/data/xml/irc-convos-and-raw-fortunes-1.xml
+t/data/xml/quote-fort-sample-1.xml
 t/data/xml/raw-fort-empty-info-1.xml
 TODO
 t/pod-coverage.t

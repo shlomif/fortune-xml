@@ -109,6 +109,31 @@
                         </optional>
                     </element>
                 </element>
+                <element name="quote">
+                    <element name="body">
+                        <oneOrMore>
+                            <element name="p">
+                                <text />
+                            </element>
+                        </oneOrMore>
+                    </element>
+                    <element name="info">
+                        <optional>
+                            <element name="author">
+                                <text />
+                            </element>
+                        </optional>
+                        <optional>
+                            <element name="work">
+                                <attribute name="href">
+                                    <!-- TODO: perhaps add a URL datatype.-->
+                                    <text />
+                                </attribute>
+                                <text />
+                            </element>
+                        </optional>
+                    </element>
+                </element>
             </choice>
         </element>
     </define>
