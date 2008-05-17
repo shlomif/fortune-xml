@@ -113,7 +113,14 @@
                     <element name="body">
                         <oneOrMore>
                             <element name="p">
-                                <text />
+                                <zeroOrMore>
+                                    <choice>
+                                        <text />
+                                        <element name="br">
+                                            <empty/>
+                                        </element>
+                                    </choice>
+                                </zeroOrMore>
                             </element>
                         </oneOrMore>
                     </element>
