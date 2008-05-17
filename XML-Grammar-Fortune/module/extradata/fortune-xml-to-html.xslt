@@ -9,6 +9,15 @@
  doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"
  />
 
+<!-- The purpose of this function is to recursively copy elements without a
+namespace-->
+<xsl:template mode="copy-no-ns" match="*">
+    <xsl:element name="{local-name()}">
+        <xsl:copy-of select="@*"/>
+        <xsl:apply-templates mode="copy-no-ns"/>
+    </xsl:element>
+</xsl:template>
+
 <xsl:template match="/collection">
     <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US">
         <head>
@@ -114,7 +123,7 @@
 
 <xsl:template match="quote">
     <blockquote>
-        <xsl:apply-templates select="body/p"/>
+        <xsl:apply-templates select="body/p" mode="copy-no-ns"/>
     </blockquote>
     <xsl:if test="info/*">
         <table xmlns="http://www.w3.org/1999/xhtml" class="info">
@@ -124,6 +133,7 @@
         </table>
     </xsl:if>
 </xsl:template>
+
 
 <xsl:template match="*" name="raw_info_subs">
     <tr xmlns="http://www.w3.org/1999/xhtml" class="{name(.)}">

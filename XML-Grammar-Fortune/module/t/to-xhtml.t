@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 3;
+use Test::More tests => 4;
 use Test::Differences;
 
 use File::Spec;
@@ -11,12 +11,13 @@ use File::Spec;
 use XML::LibXML;
 use XML::LibXSLT;
 
-# TEST:$num_texts=3
+# TEST:$num_texts=4
 
 my @tests = (qw(
         irc-conversation-4-several-convos
         irc-convos-and-raw-fortunes-1
         raw-fort-empty-info-1
+        quote-fort-sample-1
     ));
 
 my $parser = XML::LibXML->new();
