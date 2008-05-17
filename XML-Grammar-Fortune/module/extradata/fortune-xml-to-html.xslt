@@ -35,7 +35,9 @@
             <xsl:when test="raw">
                 <xsl:apply-templates select="raw" />
             </xsl:when>
-
+            <xsl:when test="quote">
+                <xsl:apply-templates select="quote" />
+            </xsl:when>
         </xsl:choose> 
     </div>
 </xsl:template>
@@ -110,6 +112,19 @@
     </xsl:if>
 </xsl:template>
 
+<xsl:template match="quote">
+    <blockquote>
+        <xsl:apply-templates select="body/p"/>
+    </blockquote>
+    <xsl:if test="info/*">
+        <table xmlns="http://www.w3.org/1999/xhtml" class="info">
+            <tbody>
+                <xsl:apply-templates select="info/*" name="raw_info_subs"/>
+            </tbody>
+        </table>
+    </xsl:if>
+</xsl:template>
+
 <xsl:template match="*" name="raw_info_subs">
     <tr xmlns="http://www.w3.org/1999/xhtml" class="{name(.)}">
         <td class="field">
@@ -118,6 +133,9 @@
                     <xsl:when test="name(.) = 'author'">
                         <xsl:text>Author</xsl:text>
                     </xsl:when>
+                    <xsl:when test="name(.) = 'work'">
+                        <xsl:text>Work</xsl:text>
+                    </xsl:when>
                     <xsl:otherwise>
                         <xsl:value-of select="name(.)" />
                     </xsl:otherwise>
@@ -125,7 +143,16 @@
             </b>
         </td>
         <td class="value">
-            <xsl:value-of select="." />
+            <xsl:choose>
+                <xsl:when test="@href">
+                    <a href="{@href}">
+                        <xsl:value-of select="." />
+                    </a>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="." />
+                </xsl:otherwise>
+            </xsl:choose>
         </td>
     </tr>
 </xsl:template>
