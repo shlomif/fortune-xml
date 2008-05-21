@@ -66,10 +66,10 @@ namespace-->
                     <xsl:text>* </xsl:text>
                 </xsl:when>
                 <xsl:when test="name(.) = 'joins'">
-                    <xsl:text>←</xsl:text>
+                    <xsl:text>→</xsl:text>
                 </xsl:when>
                 <xsl:when test="name(.) = 'leaves'">
-                    <xsl:text>→</xsl:text>
+                    <xsl:text>←</xsl:text>
                 </xsl:when>
             </xsl:choose> 
             <xsl:value-of select="@who" />
