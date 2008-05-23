@@ -22,6 +22,7 @@ t/data/xml/irc-convos-and-raw-fortunes-1.xml
 t/data/xml/quote-fort-sample-1.xml
 t/data/xml/quote-fort-sample-2-with-brs.xml
 t/data/xml/raw-fort-empty-info-1.xml
+t/data/xml/screenplay-fort-sample-1.xml
 TODO
 t/pod-coverage.t
 t/pod.t

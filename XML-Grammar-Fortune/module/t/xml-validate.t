@@ -17,11 +17,11 @@
 use strict;
 use warnings;
 
-use Test::More tests => 7;                      # last test to print
+use Test::More tests => 8;                      # last test to print
 
 use XML::LibXML;
 
-# TEST:$num_tests=7
+# TEST:$num_tests=8
 my @inputs = (qw(
         irc-conversation-1
         irc-conversation-2-with-slash-me
@@ -30,6 +30,7 @@ my @inputs = (qw(
         irc-convos-and-raw-fortunes-1
         quote-fort-sample-1
         quote-fort-sample-2-with-brs
+        screenplay-fort-sample-1
     ));
 
 my $rngschema = XML::LibXML::RelaxNG->new(
