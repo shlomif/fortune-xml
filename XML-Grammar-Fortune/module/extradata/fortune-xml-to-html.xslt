@@ -47,6 +47,10 @@ namespace-->
             <xsl:when test="quote">
                 <xsl:apply-templates select="quote" />
             </xsl:when>
+            <xsl:when test="screenplay">
+                <xsl:apply-templates select="screenplay" />
+            </xsl:when>
+            
         </xsl:choose> 
     </div>
 </xsl:template>
@@ -166,4 +170,70 @@ namespace-->
         </td>
     </tr>
 </xsl:template>
+
+<xsl:template match="screenplay">
+    <div class="screenplay">
+        <xsl:apply-templates select="body/*" mode="screenplay"/>
+    </div>
+    <xsl:if test="info/*">
+        <table xmlns="http://www.w3.org/1999/xhtml" class="info">
+            <tbody>
+                <xsl:apply-templates select="info/*" name="raw_info_subs"/>
+            </tbody>
+        </table>
+    </xsl:if>
+</xsl:template>
+
+<xsl:template match="description" mode="screenplay">
+    <div class="description">
+        <xsl:apply-templates  mode="screenplay"/>
+    </div>
+</xsl:template>
+
+
+<xsl:template match="saying" mode="screenplay">
+    <div class="saying">
+        <xsl:apply-templates mode="screenplay"/>
+    </div>
+</xsl:template>
+
+<xsl:template match="para" mode="screenplay">
+    <p>
+        <xsl:if test="local-name(..) = 'saying'">
+            <strong class="sayer"><xsl:value-of select="../@character" />:</strong> 
+            <xsl:text> </xsl:text>
+        </xsl:if>
+        <xsl:if test="local-name(..) = 'description' and ../child::para[position()=1] = .">
+            <xsl:text>[</xsl:text>
+        </xsl:if>
+        <xsl:apply-templates mode="screenplay"/>
+        <xsl:if test="local-name(..) = 'description' and ../child::para[position()=last()] = .">
+            <xsl:text>]</xsl:text>
+        </xsl:if>
+    </p>
+</xsl:template>
+
+<xsl:template match="ulink" mode="screenplay">
+    <a>
+        <xsl:attribute name="href">
+            <xsl:value-of select="@url" />
+        </xsl:attribute>
+        <xsl:apply-templates  mode="screenplay"/>
+    </a>
+</xsl:template>
+
+<xsl:template match="bold" mode="screenplay">
+    <strong class="bold">
+        <xsl:apply-templates  mode="screenplay"/>
+    </strong>
+</xsl:template>
+
+<xsl:template match="inlinedesc" mode="screenplay">
+    <span class="inlinedesc">[<xsl:apply-templates mode="screenplay"/>]</span>
+</xsl:template>
+
+<xsl:template match="br" mode="screenplay">
+    <br />
+</xsl:template>
+
 </xsl:stylesheet>
