@@ -63,6 +63,15 @@ sub _init
     return 0;
 }
 
+sub _out
+{
+    my $self = shift;
+
+    print {$self->_output()} @_;
+
+    return;
+}
+
 =head2 $self->run()
 
 Runs the processor. If $mode is "validate", validates the document.
@@ -79,7 +88,9 @@ sub run
 
     while (my $fortune = $fortunes_list->shift())
     {
-        my ($text_node) = $fortune->findnodes("raw/body/text");
+        my ($raw_node) = $fortune->findnodes("raw");
+
+        my ($text_node) = $raw_node->findnodes("body/text");
 
         my @text_childs = $text_node->childNodes();
 
@@ -98,16 +109,56 @@ sub run
         my $value = $cdata->nodeValue();
 
         $value =~ s{\n+\z}{}g;
-        print {$self->_output()} "$value\n";
+        $self->_out("$value\n");
+
+        if (() = $fortune->findnodes("descendant::info/*"))
+        {
+            $self->_render_info($fortune);
+        }
         # If there are more fortunes - output a separator.
         if ($fortunes_list->size())
         {
-            print {$self->_output()} "%\n";
+            $self->_out("%\n");
         }
     }
 
     return;
 }
 
+sub _render_info
+{
+    my ($self, $fortune) = @_;
+
+    $self->_out("\n");
+
+    my ($info) = $fortune->findnodes("descendant::info");
+    
+    my @fields = $info->findnodes("*");
+
+    foreach my $field_node (@fields)
+    {
+        my $name = $field_node->localname();
+
+        if ($name eq "author")
+        {
+            $self->_out((" " x 4) . "-- " . $field_node->textContent() . "\n");
+        }
+        elsif ($name eq "work")
+        {
+            my $url = "";
+            if ($field_node->hasAttribute("href"))
+            {
+                $url = " ( " . $field_node->getAttribute("href") . " )";
+            }
+            $self->_out(
+                  (" " x 4) . "-- "
+                . $field_node->textContent()
+                . $url
+                . "\n"
+            );
+        }
+
+    }   
+}
 1;
 
