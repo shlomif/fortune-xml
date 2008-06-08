@@ -16,6 +16,7 @@ my $builder = Test::Run::Builder->new(
         'File::Spec' => 0,
         'vars' => 0,
         'warnings' => 0,
+        'Text::Format' => 0,
         'XML::LibXML' => 0,
         'XML::LibXSLT' => 0,
     },

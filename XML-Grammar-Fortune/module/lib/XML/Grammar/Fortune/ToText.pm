@@ -92,7 +92,7 @@ sub run
 
     while ($self->_fortune($self->_fortunes_list->shift()))
     {
-        my ($raw_node) = $self->_fortune()->findnodes("raw|irc");
+        my ($raw_node) = $self->_fortune()->findnodes("raw|irc|screenplay");
 
         if ($raw_node->localname() eq "raw")
         {
@@ -101,6 +101,10 @@ sub run
         elsif ($raw_node->localname() eq "irc")
         {
             $self->_process_irc_node($raw_node);
+        }
+        elsif ($raw_node->localname() eq "screenplay")
+        {
+            $self->_process_screenplay_node($raw_node);
         }
     }
     continue
@@ -306,6 +310,101 @@ sub _process_irc_node
     }
 
     return;
+}
+
+sub _process_screenplay_node
+{
+    my ($self, $play_node) = @_;
+
+    my ($body_node) = $play_node->findnodes("body");
+
+    my $portions_list = $body_node->findnodes("description|saying");
+
+    my $formatter =
+        Text::Format->new(
+            {
+                columns => 80,
+                firstIndent => 0,
+                leftMargin => 0,
+            }
+        );
+    
+    while (my $portion = $portions_list->shift())
+    {
+        if ($portion->localname() eq "description")
+        {
+            $self->_out("[");
+
+            $self->_render_screenplay_paras($portion);
+
+            $self->_out("]\n");
+        }
+        else # localname() is "saying"
+        {
+            $self->_out($portion->getAttribute("character") . ": ");
+
+            $self->_render_screenplay_paras($portion);
+
+            $self->_out("\n");
+        }
+    }
+    continue
+    {
+        if ($portions_list->size())
+        {
+            $self->_out("\n");
+        }
+    }
+
+    if (() = $self->_fortune()->findnodes("descendant::info/*"))
+    {
+        $self->_render_info();
+    }    
+}
+
+sub _render_screenplay_paras
+{
+    my ($self, $portion) = @_;
+
+    my $paragraphs = $portion->findnodes("para");
+
+    while (my $para = $paragraphs->shift())
+    {
+        foreach my $node ($para->childNodes())
+        {
+            if ($node->nodeType() == XML_ELEMENT_NODE())
+            {
+                if ($node->localname() eq "br")
+                {
+                    $self->_out("\n");
+                }
+                else
+                {
+                    $self->_out($node->textContent());
+                }
+            }
+            elsif ($node->nodeType() == XML_TEXT_NODE())
+            {
+                my $text = $node->textContent();
+
+                # Intent: format the text.
+                # Trim leading and trailing nelines.
+                $text =~ s{\A\n+}{}ms;
+                $text =~ s{\n+\z}{}ms;
+
+                # Convert a sequence of space to a single space.
+                $text =~ s{\s+}{ }ms;
+                $self->_out($text);
+            }
+        }
+    }
+    continue
+    {
+        if ($paragraphs->size())
+        {
+            $self->_out("\n");
+        }
+    }
 }
 
 my @info_fields_order = (qw(work author channel tagline));
