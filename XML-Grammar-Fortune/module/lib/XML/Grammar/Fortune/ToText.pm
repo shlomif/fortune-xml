@@ -12,6 +12,8 @@ use Carp ();
 use base 'Class::Accessor';
 
 __PACKAGE__->mk_accessors(qw(
+    _formatter
+    _is_first_line
     _mode
     _input
     _output
@@ -63,6 +65,16 @@ sub _init
 
     $self->_input($args->{input});
     $self->_output($args->{output});
+
+    $self->_formatter(
+        Text::Format->new(
+            {
+                columns => 78,
+                firstIndent => 0,
+                leftMargin => 0,
+            }
+        )
+    );
 
     return 0;
 }
@@ -330,14 +342,6 @@ sub _process_screenplay_node
 
     my $portions_list = $body_node->findnodes("description|saying");
 
-    my $formatter =
-        Text::Format->new(
-            {
-                columns => 80,
-                firstIndent => 0,
-                leftMargin => 0,
-            }
-        );
     
     while (my $portion = $portions_list->shift())
     {
@@ -372,6 +376,34 @@ sub _process_screenplay_node
     }    
 }
 
+sub _out_formatted_line
+{
+    my $self = shift;
+    my $text = shift;
+
+    $text =~ s{\A\n+}{}ms;
+    $text =~ s{\n+\z}{}ms;
+    $text =~ s{\s+}{ }gms;
+
+    if ($self->_is_first_line())
+    {
+        $self->_is_first_line(0);
+    }
+    else
+    {
+        $self->_out("\n");
+    }
+
+    my $output_string = $self->_formatter->format($text);
+
+    # Text::Format inserts a new line - remove it.
+    chomp($output_string);
+
+    $self->_out($output_string);
+
+    return;
+}
+
 sub _render_portion_paras
 {
     my ($self, $portion, $args) = @_;
@@ -382,6 +414,7 @@ sub _render_portion_paras
 
     while (my $para = $paragraphs->shift())
     {
+        $self->_is_first_line(1);
         my $text = "";
 
         foreach my $node ($para->childNodes())
@@ -390,7 +423,9 @@ sub _render_portion_paras
             {
                 if ($node->localname() eq "br")
                 {
-                    $text .= "\n";
+                    $self->_out_formatted_line($text);
+
+                    $text = "";
                 }
                 else
                 {
@@ -407,16 +442,17 @@ sub _render_portion_paras
                 $node_text =~ s{\n+\z}{}ms;
 
                 # Convert a sequence of space to a single space.
-                $node_text =~ s{\s+}{ }ms;
+                $node_text =~ s{\s+}{ }gms;
                 
                 $text .= $node_text;
             }
         }
 
-        $text =~ s{\A\n+}{}ms;
-        $text =~ s{\n+\z}{}ms;
-
-        $self->_out("$text");
+        if ($text =~ m{\S})
+        {
+            $self->_out_formatted_line($text);
+            $text = "";
+        }
     }
     continue
     {
