@@ -427,6 +427,8 @@ sub _process_quote_node
 
     $self->_render_portion_paras($body_node, { para_is => "p" });
 
+    $self->_out("\n");
+
     if (() = $self->_fortune()->findnodes("descendant::info/*"))
     {
         $self->_render_info();
