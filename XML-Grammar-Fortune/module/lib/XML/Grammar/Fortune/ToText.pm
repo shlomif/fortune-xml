@@ -19,6 +19,7 @@ __PACKAGE__->mk_accessors(qw(
     _output
     _fortunes_list
     _fortune
+    _this_line
     ));
 
 
@@ -75,6 +76,8 @@ sub _init
             }
         )
     );
+
+    $self->_this_line("");
 
     return 0;
 }
@@ -347,7 +350,7 @@ sub _process_screenplay_node
     {
         if ($portion->localname() eq "description")
         {
-            $self->_out("[");
+            $self->_this_line("[");
 
             $self->_render_screenplay_paras($portion);
 
@@ -355,7 +358,7 @@ sub _process_screenplay_node
         }
         else # localname() is "saying"
         {
-            $self->_out($portion->getAttribute("character") . ": ");
+            $self->_this_line($portion->getAttribute("character") . ": ");
 
             $self->_render_screenplay_paras($portion);
 
@@ -379,7 +382,7 @@ sub _process_screenplay_node
 sub _out_formatted_line
 {
     my $self = shift;
-    my $text = shift;
+    my $text = $self->_this_line();
 
     $text =~ s{\A\n+}{}ms;
     $text =~ s{\n+\z}{}ms;
@@ -401,7 +404,16 @@ sub _out_formatted_line
 
     $self->_out($output_string);
 
+    $self->_this_line("");
+
     return;
+}
+
+sub _append_to_this_line
+{
+    my ($self, $more_text) = @_;
+
+    $self->_this_line($self->_this_line() . $more_text);
 }
 
 sub _render_portion_paras
@@ -415,7 +427,6 @@ sub _render_portion_paras
     while (my $para = $paragraphs->shift())
     {
         $self->_is_first_line(1);
-        my $text = "";
 
         foreach my $node ($para->childNodes())
         {
@@ -423,13 +434,11 @@ sub _render_portion_paras
             {
                 if ($node->localname() eq "br")
                 {
-                    $self->_out_formatted_line($text);
-
-                    $text = "";
+                    $self->_out_formatted_line();
                 }
                 else
                 {
-                    $text .= $node->textContent();
+                    $self->_append_to_this_line($node->textContent());
                 }
             }
             elsif ($node->nodeType() == XML_TEXT_NODE())
@@ -443,15 +452,15 @@ sub _render_portion_paras
 
                 # Convert a sequence of space to a single space.
                 $node_text =~ s{\s+}{ }gms;
-                
-                $text .= $node_text;
+ 
+                $self->_append_to_this_line($node_text);
             }
         }
 
-        if ($text =~ m{\S})
+        if ($self->_this_line() =~ m{\S})
         {
-            $self->_out_formatted_line($text);
-            $text = "";
+            $self->_out_formatted_line();
+            $self->_this_line("");
         }
     }
     continue
@@ -545,5 +554,6 @@ sub _render_info
         }
     }   
 }
+
 1;
 
