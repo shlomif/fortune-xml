@@ -156,7 +156,7 @@ sub _process_irc_node
 
     my ($body_node) = $irc_node->findnodes("body");
 
-    my @lines_list = $body_node->findnodes("saying");
+    my @lines_list = $body_node->findnodes("saying|me_is|joins|leaves");
     
     use List::Util qw(max);
 
@@ -175,6 +175,42 @@ sub _process_irc_node
                 };
 
             $longest_nick_len = max($longest_nick_len, length($nick));
+        }
+        elsif ($line->localname() eq "me_is")
+        {
+            my $nick = $line->getAttribute("who");
+            push @messages,
+                {
+                    type => "me_is",
+                    nick => $nick,
+                    msg => $line->textContent(),
+                };
+            
+            $longest_nick_len = max($longest_nick_len, length("*"));
+        }
+        elsif ($line->localname() eq "joins")
+        {
+            my $nick = $line->getAttribute("who");
+            push @messages,
+                {
+                    type => "joins",
+                    nick => $nick,
+                    msg => $line->textContent(),
+                };
+            
+            $longest_nick_len = max($longest_nick_len, length("<--"));
+        }
+        elsif ($line->localname() eq "leaves")
+        {
+            my $nick = $line->getAttribute("who");
+            push @messages,
+                {
+                    type => "leaves",
+                    nick => $nick,
+                    msg => $line->textContent(),
+                };
+            
+            $longest_nick_len = max($longest_nick_len, length("-->"));
         }
         else
         {
@@ -225,6 +261,8 @@ sub _process_irc_node
 
     foreach my $m (@messages)
     {
+        my %cmds = ("me_is" => "*", "joins" => "-->", "leaves" => "<--",);
+
         if ($m->{'type'} eq "say")
         {
             my @lines = ($formatter->format([$m->{'msg'}]));
@@ -244,6 +282,21 @@ sub _process_irc_node
         {
             $self->_out((" " x ($line_starts_at)) .
                 $m->{'old'} ." is now known as " . $m->{'new'} . "\n");
+        }
+        elsif (exists($cmds{$m->{'type'}}))
+        {
+            my @lines = $formatter->format(
+                    [$m->{'nick'} . " " . $m->{'msg'}]
+            );
+
+            $self->_out(" " . sprintf("%${nick_len_with_delim}s", 
+                    $cmds{$m->{'type'}}) . "  " . $lines[0]);
+
+            $self->_out(join("",
+                    map { (" " x $line_starts_at) . $_ } 
+                    @lines[1..$#lines]
+                )
+            );
         }
     }
 

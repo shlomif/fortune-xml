@@ -11,6 +11,7 @@ META.yml
 README
 t/00-load.t
 t/data/text-results/irc-conversation-1.txt
+t/data/text-results/irc-conversation-3-with-join-unjoin.txt
 t/data/text-results/raw-fort-empty-info-1.txt
 t/data/text-results/raw-fort-with-info-1.txt
 t/data/xhtml-results/irc-conversation-4-several-convos.xhtml
