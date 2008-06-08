@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 5;
+use Test::More tests => 6;
 use Test::Differences;
 
 use File::Spec;
@@ -14,13 +14,14 @@ use XML::LibXSLT;
 
 use XML::Grammar::Fortune::ToText;
 
-# TEST:$num_texts=5
+# TEST:$num_texts=6
 
 my @tests = (qw(
         raw-fort-empty-info-1
         raw-fort-with-info-1
         irc-conversation-1
         irc-conversation-3-with-join-unjoin
+        quote-fort-sample-2-with-brs
         screenplay-fort-sample-1
     ));
 

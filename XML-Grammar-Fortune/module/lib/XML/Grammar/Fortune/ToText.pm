@@ -92,7 +92,7 @@ sub run
 
     while ($self->_fortune($self->_fortunes_list->shift()))
     {
-        my ($raw_node) = $self->_fortune()->findnodes("raw|irc|screenplay");
+        my ($raw_node) = $self->_fortune()->findnodes("raw|irc|screenplay|quote");
 
         if ($raw_node->localname() eq "raw")
         {
@@ -105,6 +105,10 @@ sub run
         elsif ($raw_node->localname() eq "screenplay")
         {
             $self->_process_screenplay_node($raw_node);
+        }
+        elsif ($raw_node->localname() eq "quote")
+        {
+            $self->_process_quote_node($raw_node);
         }
     }
     continue
@@ -312,6 +316,12 @@ sub _process_irc_node
     return;
 }
 
+sub _render_screenplay_paras
+{
+    my ($self, $portion) = @_;
+    return $self->_render_portion_paras($portion, {para_is => "para"});
+}
+
 sub _process_screenplay_node
 {
     my ($self, $play_node) = @_;
@@ -362,11 +372,13 @@ sub _process_screenplay_node
     }    
 }
 
-sub _render_screenplay_paras
+sub _render_portion_paras
 {
-    my ($self, $portion) = @_;
+    my ($self, $portion, $args) = @_;
 
-    my $paragraphs = $portion->findnodes("para");
+    my $para_name = $args->{para_is};
+
+    my $paragraphs = $portion->findnodes($para_name);
 
     while (my $para = $paragraphs->shift())
     {
@@ -404,6 +416,20 @@ sub _render_screenplay_paras
         {
             $self->_out("\n");
         }
+    }
+}
+
+sub _process_quote_node
+{
+    my ($self, $quote_node) = @_;
+
+    my ($body_node) = $quote_node->findnodes("body");
+
+    $self->_render_portion_paras($body_node, { para_is => "p" });
+
+    if (() = $self->_fortune()->findnodes("descendant::info/*"))
+    {
+        $self->_render_info();
     }
 }
 
