@@ -382,39 +382,47 @@ sub _render_portion_paras
 
     while (my $para = $paragraphs->shift())
     {
+        my $text = "";
+
         foreach my $node ($para->childNodes())
         {
             if ($node->nodeType() == XML_ELEMENT_NODE())
             {
                 if ($node->localname() eq "br")
                 {
-                    $self->_out("\n");
+                    $text .= "\n";
                 }
                 else
                 {
-                    $self->_out($node->textContent());
+                    $text .= $node->textContent();
                 }
             }
             elsif ($node->nodeType() == XML_TEXT_NODE())
             {
-                my $text = $node->textContent();
+                my $node_text = $node->textContent();
 
                 # Intent: format the text.
                 # Trim leading and trailing nelines.
-                $text =~ s{\A\n+}{}ms;
-                $text =~ s{\n+\z}{}ms;
+                $node_text =~ s{\A\n+}{}ms;
+                $node_text =~ s{\n+\z}{}ms;
 
                 # Convert a sequence of space to a single space.
-                $text =~ s{\s+}{ }ms;
-                $self->_out($text);
+                $node_text =~ s{\s+}{ }ms;
+                
+                $text .= $node_text;
             }
         }
+
+        $text =~ s{\A\n+}{}ms;
+        $text =~ s{\n+\z}{}ms;
+
+        $self->_out("$text");
     }
     continue
     {
         if ($paragraphs->size())
         {
-            $self->_out("\n");
+            $self->_out("\n\n");
         }
     }
 }
