@@ -35,11 +35,7 @@ namespace-->
         <h3 id="{@id}"><xsl:call-template name="get_header" /></h3>
         <xsl:choose>
             <xsl:when test="irc">
-                <table class="irc-conversation">
-                    <tbody>
-                        <xsl:apply-templates select="irc/body"/>
-                    </tbody>
-                </table>
+                <xsl:apply-templates select="irc" />
             </xsl:when>
             <xsl:when test="raw">
                 <xsl:apply-templates select="raw" />
@@ -139,6 +135,35 @@ namespace-->
 </xsl:template>
 
 
+<xsl:template match="irc">
+    <table xmlns="http://www.w3.org/1999/xhtml" class="irc-conversation">
+        <tbody>
+            <xsl:apply-templates select="body"/>
+        </tbody>
+    </table>
+    <xsl:if test="info/*">
+        <table xmlns="http://www.w3.org/1999/xhtml" class="info">
+            <tbody>
+                <xsl:apply-templates select="info/*" name="raw_info_subs"/>
+            </tbody>
+        </table>
+    </xsl:if>    
+</xsl:template>
+
+<xsl:template match="screenplay">
+    <div class="screenplay">
+        <xsl:apply-templates select="body/*" mode="screenplay"/>
+    </div>
+    <xsl:if test="info/*">
+        <table xmlns="http://www.w3.org/1999/xhtml" class="info">
+            <tbody>
+                <xsl:apply-templates select="info/*" name="raw_info_subs"/>
+            </tbody>
+        </table>
+    </xsl:if>
+</xsl:template>
+
+
 <xsl:template match="*" name="raw_info_subs">
     <tr xmlns="http://www.w3.org/1999/xhtml" class="{name(.)}">
         <td class="field">
@@ -150,6 +175,16 @@ namespace-->
                     <xsl:when test="name(.) = 'work'">
                         <xsl:text>Work</xsl:text>
                     </xsl:when>
+                    <xsl:when test="name(.) = 'network'">
+                        <xsl:text>Network</xsl:text>
+                    </xsl:when>
+                    <xsl:when test="name(.) = 'channel'">
+                        <xsl:text>Channel</xsl:text>
+                    </xsl:when>
+                    <xsl:when test="name(.) = 'tagline'">
+                        <xsl:text>Tagline</xsl:text>
+                    </xsl:when>
+
                     <xsl:otherwise>
                         <xsl:value-of select="name(.)" />
                     </xsl:otherwise>
@@ -169,19 +204,6 @@ namespace-->
             </xsl:choose>
         </td>
     </tr>
-</xsl:template>
-
-<xsl:template match="screenplay">
-    <div class="screenplay">
-        <xsl:apply-templates select="body/*" mode="screenplay"/>
-    </div>
-    <xsl:if test="info/*">
-        <table xmlns="http://www.w3.org/1999/xhtml" class="info">
-            <tbody>
-                <xsl:apply-templates select="info/*" name="raw_info_subs"/>
-            </tbody>
-        </table>
-    </xsl:if>
 </xsl:template>
 
 <xsl:template match="description" mode="screenplay">
