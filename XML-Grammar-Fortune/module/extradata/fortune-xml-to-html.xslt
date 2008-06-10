@@ -108,10 +108,7 @@ namespace-->
     </xsl:choose>
 </xsl:template>
 
-<xsl:template match="raw">
-    <pre xmlns="http://www.w3.org/1999/xhtml" class="raw">
-        <xsl:value-of select="body/text"/>
-    </pre>
+<xsl:template name="render_info">
     <xsl:if test="info/*">
         <table xmlns="http://www.w3.org/1999/xhtml" class="info">
             <tbody>
@@ -121,17 +118,18 @@ namespace-->
     </xsl:if>
 </xsl:template>
 
+<xsl:template match="raw">
+    <pre xmlns="http://www.w3.org/1999/xhtml" class="raw">
+        <xsl:value-of select="body/text"/>
+    </pre>
+    <xsl:call-template name="render_info" select="." />
+</xsl:template>
+
 <xsl:template match="quote">
     <blockquote>
         <xsl:apply-templates select="body/p" mode="copy-no-ns"/>
     </blockquote>
-    <xsl:if test="info/*">
-        <table xmlns="http://www.w3.org/1999/xhtml" class="info">
-            <tbody>
-                <xsl:apply-templates select="info/*" name="raw_info_subs"/>
-            </tbody>
-        </table>
-    </xsl:if>
+    <xsl:call-template name="render_info" select="." />
 </xsl:template>
 
 
@@ -141,26 +139,14 @@ namespace-->
             <xsl:apply-templates select="body"/>
         </tbody>
     </table>
-    <xsl:if test="info/*">
-        <table xmlns="http://www.w3.org/1999/xhtml" class="info">
-            <tbody>
-                <xsl:apply-templates select="info/*" name="raw_info_subs"/>
-            </tbody>
-        </table>
-    </xsl:if>    
+    <xsl:call-template name="render_info" select="." />
 </xsl:template>
 
 <xsl:template match="screenplay">
     <div class="screenplay">
         <xsl:apply-templates select="body/*" mode="screenplay"/>
     </div>
-    <xsl:if test="info/*">
-        <table xmlns="http://www.w3.org/1999/xhtml" class="info">
-            <tbody>
-                <xsl:apply-templates select="info/*" name="raw_info_subs"/>
-            </tbody>
-        </table>
-    </xsl:if>
+    <xsl:call-template name="render_info" select="." />
 </xsl:template>
 
 
