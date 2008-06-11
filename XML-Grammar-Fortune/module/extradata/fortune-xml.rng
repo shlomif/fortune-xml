@@ -96,11 +96,10 @@
                                     <ref name="inside_para_text" />
                                 </element>
                                 <element name="ul">
-                                    <oneOrMore>
-                                        <element name="li">
-                                            <ref name="inside_para_text" />
-                                        </element>
-                                    </oneOrMore>
+                                    <ref name="inside_quote_list" />
+                                </element>
+                                <element name="ol">
+                                    <ref name="inside_quote_list" />
                                 </element>
                             </choice>
                         </oneOrMore>
@@ -221,5 +220,12 @@
                 </element>
             </choice>
         </zeroOrMore>
+    </define>
+    <define name="inside_quote_list">
+        <oneOrMore>
+            <element name="li">
+                <ref name="inside_para_text" />
+            </element>
+        </oneOrMore>
     </define>
 </grammar>
