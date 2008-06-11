@@ -91,16 +91,18 @@
                 <element name="quote">
                     <element name="body">
                         <oneOrMore>
-                            <element name="p">
-                                <zeroOrMore>
-                                    <choice>
-                                        <text />
-                                        <element name="br">
-                                            <empty/>
+                            <choice>
+                                <element name="p">
+                                    <ref name="inside_para_text" />
+                                </element>
+                                <element name="ul">
+                                    <oneOrMore>
+                                        <element name="li">
+                                            <ref name="inside_para_text" />
                                         </element>
-                                    </choice>
-                                </zeroOrMore>
-                            </element>
+                                    </oneOrMore>
+                                </element>
+                            </choice>
                         </oneOrMore>
                     </element>
                     <ref name="common_info" />
@@ -209,5 +211,15 @@
             <ref name="ulink"/>
             <ref name="bold"/>
         </choice>
-    </define>    
+    </define>
+    <define name="inside_para_text">
+        <zeroOrMore>
+            <choice>
+                <text />
+                <element name="br">
+                    <empty/>
+                </element>
+            </choice>
+        </zeroOrMore>
+    </define>
 </grammar>

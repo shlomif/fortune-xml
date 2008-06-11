@@ -1,27 +1,11 @@
-#===============================================================================
-#
-#         FILE:  xml-validate.t
-#
-#  DESCRIPTION:  
-#
-#        FILES:  ---
-#         BUGS:  ---
-#        NOTES:  ---
-#       AUTHOR:  Shlomi Fish (SHLOMIF), <shlomif@iglu.org.il>
-#      COMPANY:  None
-#      VERSION:  1.0
-#      CREATED:  05/05/08 13:34:28 IDT
-#     REVISION:  ---
-#===============================================================================
-
 use strict;
 use warnings;
 
-use Test::More tests => 8;                      # last test to print
+use Test::More tests => 9;                      # last test to print
 
 use XML::LibXML;
 
-# TEST:$num_tests=8
+# TEST:$num_tests=9
 my @inputs = (qw(
         irc-conversation-1
         irc-conversation-2-with-slash-me
@@ -30,6 +14,7 @@ my @inputs = (qw(
         irc-convos-and-raw-fortunes-1
         quote-fort-sample-1
         quote-fort-sample-2-with-brs
+        quote-fort-sample-4-ul
         screenplay-fort-sample-1
     ));
 
