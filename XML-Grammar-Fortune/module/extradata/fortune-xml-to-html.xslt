@@ -127,7 +127,7 @@ namespace-->
 
 <xsl:template match="quote">
     <blockquote>
-        <xsl:apply-templates select="body/p" mode="copy-no-ns"/>
+        <xsl:apply-templates select="body/*" mode="copy-no-ns"/>
     </blockquote>
     <xsl:call-template name="render_info" select="." />
 </xsl:template>
