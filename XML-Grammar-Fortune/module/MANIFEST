@@ -26,6 +26,7 @@ t/data/xhtml-results/quote-fort-sample-2-with-brs.xhtml
 t/data/xhtml-results/quote-fort-sample-4-ul.xhtml
 t/data/xhtml-results/quote-fort-sample-5-ol.xhtml
 t/data/xhtml-results/quote-fort-sample-6-with-bold.xhtml
+t/data/xhtml-results/quote-fort-sample-7-with-italics.xhtml
 t/data/xhtml-results/raw-fort-empty-info-1.xhtml
 t/data/xhtml-results/screenplay-fort-sample-1.xhtml
 t/data/xml/irc-conversation-1.xml
@@ -39,6 +40,7 @@ t/data/xml/quote-fort-sample-3-more-than-one-para.xml
 t/data/xml/quote-fort-sample-4-ul.xml
 t/data/xml/quote-fort-sample-5-ol.xml
 t/data/xml/quote-fort-sample-6-with-bold.xml
+t/data/xml/quote-fort-sample-7-with-italics.xml
 t/data/xml/raw-fort-empty-info-1.xml
 t/data/xml/raw-fort-with-info-1.xml
 t/data/xml/screenplay-fort-sample-1.xml

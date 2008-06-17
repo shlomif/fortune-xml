@@ -221,6 +221,9 @@
                 <element name="b">
                     <text />
                 </element>
+                <element name="i">
+                    <text />
+                </element>
             </choice>
         </zeroOrMore>
     </define>
