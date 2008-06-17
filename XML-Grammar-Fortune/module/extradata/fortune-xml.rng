@@ -218,6 +218,9 @@
                 <element name="br">
                     <empty/>
                 </element>
+                <element name="b">
+                    <text />
+                </element>
             </choice>
         </zeroOrMore>
     </define>
