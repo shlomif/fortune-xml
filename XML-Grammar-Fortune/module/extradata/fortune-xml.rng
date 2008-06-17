@@ -224,6 +224,12 @@
                 <element name="i">
                     <text />
                 </element>
+                <element name="strong">
+                    <text />
+                </element>
+                <element name="em">
+                    <text />
+                </element>
             </choice>
         </zeroOrMore>
     </define>
