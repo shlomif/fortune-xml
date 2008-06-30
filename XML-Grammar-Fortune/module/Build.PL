@@ -22,8 +22,9 @@ my $builder = Test::Run::Builder->new(
     },
     build_requires =>
     {
-        'Test::More' => 0,
+        'IO::String' => 0,
         'Test::Differences' => 0,
+        'Test::More' => 0,
     },
     add_to_cleanup      => [ 'XML-Grammar-Fortune-*' ],
     create_makefile_pl => 'traditional',
