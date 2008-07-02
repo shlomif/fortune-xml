@@ -19,7 +19,8 @@ use base 'Class::Accessor';
 __PACKAGE__->mk_accessors(qw(
     date
     id
-    script
+    idx
+    file
     ));
 
 # "All problems in computer science can be solved by 
@@ -28,7 +29,13 @@ __PACKAGE__->mk_accessors(qw(
 sub cmp
 {
     my ($self, $other) = @_;
-    return $self->date()->compare($other->date());
+    return
+    (
+        ($self->date()->compare($other->date()))
+            ||
+        ($self->idx() <=> $other->idx())
+    )
+    ;
 }
 
 package main;
@@ -44,73 +51,102 @@ my $xml_parser = XML::LibXML->new;
 
 my $date_formatter = DateTime::Format::W3CDTF->new();
 
-my $scripts_hash_filename = "ids-data.yaml";
-
-my $scripts_hash = LoadFile($scripts_hash_filename);
-
-my @scripts = (qw(irc-3));
-
-my $ids_heap = Heap::Binary->new();
-
-my $ids_heap_count = 0;
-
-my $ids_limit = 20;
-
-
-foreach my $script (@scripts)
+sub get_most_recent_ids
 {
-    my $xml = $xml_parser->parse_file("t/data/web-feed-synd/before/$script.xml");
+    my ($self, $args) = @_;
 
-    my @fortune_elems = $xml->findnodes("//fortune");
+    my $scripts_hash_filename = $args->{'yaml_persistence_file'};
+    my $scripts_hash_fn_out =   $args->{'yaml_persistence_file_out'};
+    my $xmls_dir = $args->{xmls_dir};
+    my @xml_files = @{$args->{xml_files}};
 
-    my @ids = (map { $_->getAttribute("id") } @fortune_elems);
 
-    IDS_LOOP:
-    foreach my $id (@ids)
+    my $scripts_hash = LoadFile($scripts_hash_filename);
+
+    my $ids_heap = Heap::Binary->new();
+
+    my $ids_heap_count = 0;
+
+    my $ids_limit = 20;
+
+    foreach my $file (@xml_files)
     {
-        if (! exists($scripts_hash->{$script}->{$id}))
+        my $xml = $xml_parser->parse_file(
+            "$xmls_dir/$file",
+        );
+
+        my @fortune_elems = $xml->findnodes("//fortune");
+
+        my @ids = (map { $_->getAttribute("id") } @fortune_elems);
+
+        my $id_count = 1;
+
+        IDS_LOOP:
+        foreach my $id (@ids)
         {
-            $scripts_hash->{$script}->{$id} =
+            if (! exists($scripts_hash->{$file}->{$id}))
             {
-                'date' => $date_formatter->format_datetime(
-                    DateTime->now(),
-                ),
-            };
-        }
+                $scripts_hash->{$file}->{$id} =
+                {
+                    'date' => $date_formatter->format_datetime(
+                        DateTime->now(),
+                    ),
+                };
+            }
 
-        my $date = $date_formatter->parse_datetime(
-            $scripts_hash->{$script}->{$id}->{'date'},
-        );
+            my $date = $date_formatter->parse_datetime(
+                $scripts_hash->{$file}->{$id}->{'date'},
+            );
 
-        $ids_heap->add(
-            RefElem(
-                XML::Grammar::Fortune::Synd::Heap::Elem->new(
-                    {
-                        date => $date,
-                        id => $id,
-                        script => $script,
-                    }
+            $ids_heap->add(
+                RefElem(
+                    XML::Grammar::Fortune::Synd::Heap::Elem->new(
+                        {
+                            date => $date,
+                            idx => $id_count,
+                            id => $id,
+                            file => $file,
+                        }
+                    )
                 )
-            )
-        );
+            );
 
-        if (++$ids_heap_count > $ids_limit)
+            if (++$ids_heap_count > $ids_limit)
+            {
+                $ids_heap->extract_top();
+                $ids_heap_count--;
+            }
+        }
+        continue
         {
-            $ids_heap->extract_top();
-            $ids_heap_count--;
+            $id_count++;
         }
     }
+
+    my @recent_ids = ();
+
+    # TODO : Should we reverse this?
+    while (defined(my $id_obj = $ids_heap->extract_top()))
+    {
+        push @recent_ids, $id_obj;
+    }
+    DumpFile($scripts_hash_fn_out, $scripts_hash);
+
+    return
+    {
+        'recent_ids' => \@recent_ids,
+    };
 }
 
-my @recent_ids = ();
+my $recent_ids_struct = get_most_recent_ids(undef,
+    {
+        yaml_persistence_file => "ids-data.yaml",
+        yaml_persistence_file_out => "ids-data.yaml",
+        xml_files => [qw(irc-3.xml)],
+        xmls_dir => "t/data/web-feed-synd/before/"
+    }
+);
 
-# TODO : Should we reverse this?
-while (defined(my $id_obj = $ids_heap->extract_top()))
-{
-    push @recent_ids, $id_obj;
-}
+print join(",", map { $_->val->id() } @{$recent_ids_struct->{recent_ids}}), "\n";
 
-print join(",", map { $_->val->id() } @recent_ids), "\n";
-
-DumpFile($scripts_hash_filename, $scripts_hash);
 
