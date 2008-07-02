@@ -61,7 +61,14 @@ sub get_most_recent_ids
     my @xml_files = @{$args->{xml_files}};
 
 
-    my $scripts_hash = LoadFile($scripts_hash_filename);
+    my $persistent_data = LoadFile($scripts_hash_filename);
+
+    if (!exists($persistent_data->{'files'}))
+    {
+        $persistent_data->{'files'} = +{};
+    }
+
+    my $scripts_hash = $persistent_data->{'files'};
 
     my $ids_heap = Heap::Binary->new();
 
@@ -130,7 +137,7 @@ sub get_most_recent_ids
     {
         push @recent_ids, $id_obj;
     }
-    DumpFile($scripts_hash_fn_out, $scripts_hash);
+    DumpFile($scripts_hash_fn_out, $persistent_data);
 
     return
     {
