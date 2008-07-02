@@ -141,19 +141,30 @@ sub get_most_recent_ids
 
     return
     {
-        'recent_ids' => \@recent_ids,
+        'recent_ids' => [reverse(@recent_ids)],
     };
+}
+
+if (0)
+{
+    my $recent_ids_struct = get_most_recent_ids(undef,
+        {
+            yaml_persistence_file => "ids-data.yaml",
+            yaml_persistence_file_out => "ids-data.yaml",
+            xml_files => [qw(irc-3.xml)],
+            xmls_dir => "t/data/web-feed-synd/before/"
+        }
+    );
 }
 
 my $recent_ids_struct = get_most_recent_ids(undef,
     {
         yaml_persistence_file => "ids-data.yaml",
-        yaml_persistence_file_out => "ids-data.yaml",
+        yaml_persistence_file_out => "ids-data-new.yaml",
         xml_files => [qw(irc-3.xml)],
-        xmls_dir => "t/data/web-feed-synd/before/"
+        xmls_dir => "t/data/web-feed-synd/after/"
     }
 );
-
 print join(",", map { $_->val->id() } @{$recent_ids_struct->{recent_ids}}), "\n";
 
 
