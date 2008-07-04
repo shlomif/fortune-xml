@@ -6,11 +6,8 @@ use warnings;
 use Getopt::Long;
 
 use XML::Feed;
-use YAML::Syck;
 use XML::LibXML;
 use DateTime::Format::W3CDTF;
-use Heap::Elem::Ref (qw(RefElem));
-use Heap::Binary;
 
 package XML::Grammar::Fortune::Synd::Heap::Elem;
 
@@ -38,18 +35,32 @@ sub cmp
     ;
 }
 
-package main;
+package XML::Grammar::Fortune::Synd;
 
+use base 'Class::Accessor';
 
-my $input;
+use YAML::Syck;
+use Heap::Elem::Ref (qw(RefElem));
+use Heap::Binary;
 
-GetOptions(
-    'i|input=s' => \$input,
-);
+__PACKAGE__->mk_accessors(qw(
+        _xml_parser
+        _file_doms
+        _date_formatter
+    ));
 
-my $xml_parser = XML::LibXML->new;
+sub new
+{
+    my ($class, $args) = @_;
 
-my $date_formatter = DateTime::Format::W3CDTF->new();
+    my $self = $class->SUPER::new($args);
+
+    $self->_xml_parser(XML::LibXML->new());
+    $self->_date_formatter(DateTime::Format::W3CDTF->new());
+    $self->_file_doms(+{});
+
+    return $self;
+}
 
 sub get_most_recent_ids
 {
@@ -78,9 +89,11 @@ sub get_most_recent_ids
 
     foreach my $file (@xml_files)
     {
-        my $xml = $xml_parser->parse_file(
+        my $xml = $self->_xml_parser->parse_file(
             "$xmls_dir/$file",
         );
+
+        $self->_file_doms->{$file} = $xml;
 
         my @fortune_elems = $xml->findnodes("//fortune");
 
@@ -95,13 +108,13 @@ sub get_most_recent_ids
             {
                 $scripts_hash->{$file}->{$id} =
                 {
-                    'date' => $date_formatter->format_datetime(
+                    'date' => $self->_date_formatter->format_datetime(
                         DateTime->now(),
                     ),
                 };
             }
 
-            my $date = $date_formatter->parse_datetime(
+            my $date = $self->_date_formatter->parse_datetime(
                 $scripts_hash->{$file}->{$id}->{'date'},
             );
 
@@ -145,24 +158,46 @@ sub get_most_recent_ids
     };
 }
 
-if (0)
-{
-    my $recent_ids_struct = get_most_recent_ids(undef,
-        {
-            yaml_persistence_file => "ids-data.yaml",
-            yaml_persistence_file_out => "ids-data.yaml",
-            xml_files => [qw(irc-3.xml)],
-            xmls_dir => "t/data/web-feed-synd/before/"
+package main;
+
+my $input;
+
+GetOptions(
+    'i|input=s' => \$input,
+);
+
+
+
+my $syndicator = XML::Grammar::Fortune::Synd->new();
+
+my @xml_files = (qw(
+        friends.xml
+        joel-on-software.xml
+        nyh-sigs.xml
+        osp_rules.xml
+        paul-graham.xml
+        shlomif-fav.xml
+        shlomif.xml
+        subversion.xml
+        tinic.xml
+    ));
+
+my $recent_ids_struct = $syndicator->get_most_recent_ids(
+       {
+            yaml_persistence_file => "shlomif-ids-data.yaml",
+            yaml_persistence_file_out => "shlomif-ids-data.yaml",
+            xmls_dir => "forts.old",
+            xml_files => \@xml_files,
+
         }
     );
-}
 
-my $recent_ids_struct = get_most_recent_ids(undef,
+$recent_ids_struct = $syndicator->get_most_recent_ids(
     {
-        yaml_persistence_file => "ids-data.yaml",
-        yaml_persistence_file_out => "ids-data-new.yaml",
-        xml_files => [qw(irc-3.xml)],
-        xmls_dir => "t/data/web-feed-synd/after/"
+        yaml_persistence_file => "shlomif-ids-data.yaml",
+        yaml_persistence_file_out => "shlomif-ids-data-new.yaml",
+        xml_files => \@xml_files,
+        xmls_dir => "forts.new"
     }
 );
 print join(",", map { $_->val->id() } @{$recent_ids_struct->{recent_ids}}), "\n";
