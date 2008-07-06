@@ -14,6 +14,7 @@ __PACKAGE__->mk_accessors(qw(
     _mode
     _input
     _output
+    _output_mode
     ));
 
 =head1 NAME
@@ -61,19 +62,35 @@ sub _init
 
     $self->_input($args->{input});
     $self->_output($args->{output});
+    $self->_output_mode($args->{output_mode} || "filename");
 
     return 0;
 }
 
-=head2 $self->run()
+=head2 $self->run({ %args})
 
 Runs the processor. If $mode is "validate", validates the document.
+
+%args may contain:
+
+=over 4
+
+=item * xslt_params
+
+Parameters for the XSLT stylesheet.
+
+=back
 
 =cut
 
 sub run
 {
     my $self = shift;
+    my $args = shift;
+
+    my $xslt_params = $args->{'xslt_params'} || {};
+
+    my $output = $args->{'output'} || $self->_output();
 
     my $mode = $self->_mode();
 
@@ -105,13 +122,22 @@ sub run
 
         my $source = XML::LibXML->new->parse_file($self->_input());
 
-        my $results = $stylesheet->transform($source);
+        my $results = $stylesheet->transform($source, %$xslt_params);
 
-        open my $xhtml_out_fh, ">", $self->_output();
-        binmode ($xhtml_out_fh, ":utf8");
-        print {$xhtml_out_fh} $stylesheet->output_string($results);
-        close($xhtml_out_fh);
+        if ($self->_output_mode() eq "string")
+        {
+            $$output .= $stylesheet->output_string($results);
+        }
+        else
+        {
+            open my $xhtml_out_fh, ">", $output;
+            binmode ($xhtml_out_fh, ":utf8");
+            print {$xhtml_out_fh} $stylesheet->output_string($results);
+            close($xhtml_out_fh);
+        }
     }
+    
+    return;
 }
 =head1 FUNCTIONS
 

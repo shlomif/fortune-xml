@@ -9,6 +9,8 @@
  doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"
  />
 
+<xsl:param name="fortune.id"></xsl:param>
+
 <!-- The purpose of this function is to recursively copy elements without a
 namespace-->
 <xsl:template mode="copy-no-ns" match="*">
@@ -25,7 +27,14 @@ namespace-->
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         </head>
         <body>
-            <xsl:apply-templates select="list/fortune" />
+            <xsl:choose>
+                <xsl:when test="$fortune.id">
+                    <xsl:apply-templates select="list/fortune[@id=$fortune.id]" />
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:apply-templates select="list/fortune" />
+                </xsl:otherwise>
+            </xsl:choose>
         </body>
     </html>
 </xsl:template>

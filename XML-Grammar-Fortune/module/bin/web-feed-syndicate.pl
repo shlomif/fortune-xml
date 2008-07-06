@@ -5,7 +5,6 @@ use warnings;
 
 use Getopt::Long;
 
-use XML::Feed;
 use XML::LibXML;
 use DateTime::Format::W3CDTF;
 
@@ -42,12 +41,16 @@ use base 'Class::Accessor';
 use YAML::Syck;
 use Heap::Elem::Ref (qw(RefElem));
 use Heap::Binary;
+use XML::Feed;
+use XML::Grammar::Fortune;
 
 __PACKAGE__->mk_accessors(qw(
         _xml_parser
         _file_doms
         _date_formatter
         xml_files
+        url_callback
+        _file_processors
     ));
 
 sub new
@@ -59,6 +62,7 @@ sub new
     $self->_xml_parser(XML::LibXML->new());
     $self->_date_formatter(DateTime::Format::W3CDTF->new());
     $self->_file_doms(+{});
+    $self->_file_processors(+{});
 
     return $self;
 }
@@ -152,9 +156,89 @@ sub get_most_recent_ids
     }
     DumpFile($scripts_hash_fn_out, $persistent_data);
 
+    my $feed = XML::Feed->new("Atom");
+
+    # Now fill the XML-Feed object:
+    {
+
+        foreach my $id_obj (map { $_->val() } @recent_ids)
+        {
+            my $file_dom =
+                $self->_file_doms()->{$id_obj->file()};
+
+            my ($fortune_dom) =
+                $file_dom->findnodes("descendant::fortune[\@id='". $id_obj->id() . "']");
+
+            my $entry = XML::Feed::Entry->new(
+                "Atom"
+            );
+
+            $entry->title(
+                $fortune_dom->findnodes("meta/title")->get_node(0)->textContent()
+            );
+
+            $entry->link(
+                $self->url_callback()->(
+                    $self, 
+                    {
+                        id_obj => $id_obj,
+                    }
+                ),
+            );
+
+            my $base_fn = $id_obj->file();
+            $base_fn =~ s{\.[^\.]*\z}{}ms;
+            $entry->id($base_fn . "--" . $id_obj->id());
+
+            $entry->issued($id_obj->date());
+
+            {
+                $self->_file_processors()->{$id_obj->file()} ||=
+                    XML::Grammar::Fortune->new(
+                        {
+                            mode => "convert_to_html",
+                            input => "$xmls_dir/".$id_obj->file(),
+                            output_mode => "string",
+                        }
+                    );
+
+                my $file_processor =
+                    $self->_file_processors()->{$id_obj->file()};
+
+                my $content = "";
+
+                $file_processor->run(
+                    {
+                        xslt_params =>
+                        {
+                            'fortune.id' => "'" . $id_obj->id() . "'",
+                        },
+                        output => \$content,
+                    }
+                );
+
+                $entry->content(
+                    XML::Feed::Content->new(
+                        {
+                            type => "text/html",
+                            body => $content,
+                        },
+                    )
+                );
+            }
+
+            $feed->add_entry(
+                $entry
+            );
+        }
+    }
     return
     {
         'recent_ids' => [reverse(@recent_ids)],
+        'feeds' =>
+        {
+            'Atom' => $feed,
+        },
     };
 }
 
@@ -178,7 +262,25 @@ my @xml_files = (qw(
         tinic.xml
     ));
 
-my $syndicator = XML::Grammar::Fortune::Synd->new({ xml_files => \@xml_files});
+my $syndicator = XML::Grammar::Fortune::Synd->new(
+    { 
+        xml_files => \@xml_files,
+        url_callback => sub {
+            my ($self, $args) = @_;
+
+            my $id_obj = $args->{id_obj};
+
+            my $base_fn = $id_obj->file();
+
+            $base_fn =~ s{\.[^\.]*\z}{}ms;
+
+            return 
+                  "http://www.shlomifish.org/humour/fortunes/"
+                . $base_fn . ".html" . "#" . $id_obj->id()
+                ;
+        }
+    }
+);
 
 
 my $recent_ids_struct = $syndicator->get_most_recent_ids(
@@ -196,6 +298,5 @@ $recent_ids_struct = $syndicator->get_most_recent_ids(
         xmls_dir => "forts.new"
     }
 );
-print join(",", map { $_->val->id() } @{$recent_ids_struct->{recent_ids}}), "\n";
-
-
+# print join(",", map { $_->val->id() } @{$recent_ids_struct->{recent_ids}}), "\n";
+print $recent_ids_struct->{'feeds'}->{'Atom'}->as_xml();
