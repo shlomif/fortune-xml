@@ -47,6 +47,7 @@ __PACKAGE__->mk_accessors(qw(
         _xml_parser
         _file_doms
         _date_formatter
+        xml_files
     ));
 
 sub new
@@ -69,7 +70,6 @@ sub get_most_recent_ids
     my $scripts_hash_filename = $args->{'yaml_persistence_file'};
     my $scripts_hash_fn_out =   $args->{'yaml_persistence_file_out'};
     my $xmls_dir = $args->{xmls_dir};
-    my @xml_files = @{$args->{xml_files}};
 
 
     my $persistent_data = LoadFile($scripts_hash_filename);
@@ -87,7 +87,7 @@ sub get_most_recent_ids
 
     my $ids_limit = 20;
 
-    foreach my $file (@xml_files)
+    foreach my $file (@{$self->xml_files()})
     {
         my $xml = $self->_xml_parser->parse_file(
             "$xmls_dir/$file",
@@ -166,10 +166,6 @@ GetOptions(
     'i|input=s' => \$input,
 );
 
-
-
-my $syndicator = XML::Grammar::Fortune::Synd->new();
-
 my @xml_files = (qw(
         friends.xml
         joel-on-software.xml
@@ -182,13 +178,14 @@ my @xml_files = (qw(
         tinic.xml
     ));
 
+my $syndicator = XML::Grammar::Fortune::Synd->new({ xml_files => \@xml_files});
+
+
 my $recent_ids_struct = $syndicator->get_most_recent_ids(
        {
             yaml_persistence_file => "shlomif-ids-data.yaml",
             yaml_persistence_file_out => "shlomif-ids-data.yaml",
             xmls_dir => "forts.old",
-            xml_files => \@xml_files,
-
         }
     );
 
@@ -196,7 +193,6 @@ $recent_ids_struct = $syndicator->get_most_recent_ids(
     {
         yaml_persistence_file => "shlomif-ids-data.yaml",
         yaml_persistence_file_out => "shlomif-ids-data-new.yaml",
-        xml_files => \@xml_files,
         xmls_dir => "forts.new"
     }
 );
