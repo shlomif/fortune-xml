@@ -3,7 +3,6 @@
 use strict;
 use warnings;
 
-use Getopt::Long;
 
 use XML::LibXML;
 use DateTime::Format::W3CDTF;
@@ -244,11 +243,23 @@ sub get_most_recent_ids
 
 package main;
 
-my $input;
+use Getopt::Long;
+
+my $dir;
+my $yaml_data_file;
+my @xml_files = ();
+my $atom_output_fn;
+my $master_url;
 
 GetOptions(
-    'i|input=s' => \$input,
+    'dir=s' => \$dir,
+    'xml-file=s' => \@xml_files,
+    'yaml-data=s' => \$yaml_data_file,
+    'atom-output=s' => \$atom_output_fn,
+    'master-url=s' => \$master_url,
 );
+
+=begin Hello
 
 my @xml_files = (qw(
         friends.xml
@@ -262,41 +273,41 @@ my @xml_files = (qw(
         tinic.xml
     ));
 
+=end Hello
+
+=cut
+
+sub url_callback
+{
+    my ($self, $args) = @_;
+
+    my $id_obj = $args->{id_obj};
+
+    my $base_fn = $id_obj->file();
+
+    $base_fn =~ s{\.[^\.]*\z}{}ms;
+
+    return $master_url . $base_fn . ".html" . "#" . $id_obj->id();
+
+}
+
 my $syndicator = XML::Grammar::Fortune::Synd->new(
     { 
         xml_files => \@xml_files,
-        url_callback => sub {
-            my ($self, $args) = @_;
-
-            my $id_obj = $args->{id_obj};
-
-            my $base_fn = $id_obj->file();
-
-            $base_fn =~ s{\.[^\.]*\z}{}ms;
-
-            return 
-                  "http://www.shlomifish.org/humour/fortunes/"
-                . $base_fn . ".html" . "#" . $id_obj->id()
-                ;
-        }
+        url_callback => \&url_callback,
     }
 );
-
 
 my $recent_ids_struct = $syndicator->get_most_recent_ids(
        {
-            yaml_persistence_file => "shlomif-ids-data.yaml",
-            yaml_persistence_file_out => "shlomif-ids-data.yaml",
-            xmls_dir => "forts.old",
+            yaml_persistence_file => $yaml_data_file,
+            yaml_persistence_file_out => $yaml_data_file,
+            xmls_dir => $dir,
         }
     );
 
-$recent_ids_struct = $syndicator->get_most_recent_ids(
-    {
-        yaml_persistence_file => "shlomif-ids-data.yaml",
-        yaml_persistence_file_out => "shlomif-ids-data-new.yaml",
-        xmls_dir => "forts.new"
-    }
-);
 # print join(",", map { $_->val->id() } @{$recent_ids_struct->{recent_ids}}), "\n";
-print $recent_ids_struct->{'feeds'}->{'Atom'}->as_xml();
+
+open my $atom_out, ">", $atom_output_fn;
+print {$atom_out} $recent_ids_struct->{'feeds'}->{'Atom'}->as_xml();
+close($atom_out);
