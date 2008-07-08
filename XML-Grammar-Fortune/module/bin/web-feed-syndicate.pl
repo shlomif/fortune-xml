@@ -157,6 +157,12 @@ sub get_most_recent_ids
 
     my $feed = XML::Feed->new("Atom");
 
+    # First set some global parameters
+    $feed->title($args->{feed_params}->{'title'});
+    $feed->link($args->{feed_params}->{'link'});
+    $feed->tagline($args->{feed_params}->{'tagline'});
+    $feed->author($args->{feed_params}->{'author'});
+
     # Now fill the XML-Feed object:
     {
 
@@ -176,18 +182,19 @@ sub get_most_recent_ids
                 $fortune_dom->findnodes("meta/title")->get_node(0)->textContent()
             );
 
-            $entry->link(
+            my $url =
                 $self->url_callback()->(
                     $self, 
                     {
                         id_obj => $id_obj,
                     }
-                ),
+                );
+            
+            $entry->link(
+                $url
             );
 
-            my $base_fn = $id_obj->file();
-            $base_fn =~ s{\.[^\.]*\z}{}ms;
-            $entry->id($base_fn . "--" . $id_obj->id());
+            $entry->id($url);
 
             $entry->issued($id_obj->date());
 
@@ -250,6 +257,9 @@ my $yaml_data_file;
 my @xml_files = ();
 my $atom_output_fn;
 my $master_url;
+my $feed_title;
+my $feed_tagline;
+my $feed_author;
 
 GetOptions(
     'dir=s' => \$dir,
@@ -257,25 +267,10 @@ GetOptions(
     'yaml-data=s' => \$yaml_data_file,
     'atom-output=s' => \$atom_output_fn,
     'master-url=s' => \$master_url,
+    'title=s' => \$feed_title,
+    'tagline=s' => \$feed_tagline,
+    'author=s' => \$feed_author,
 );
-
-=begin Hello
-
-my @xml_files = (qw(
-        friends.xml
-        joel-on-software.xml
-        nyh-sigs.xml
-        osp_rules.xml
-        paul-graham.xml
-        shlomif-fav.xml
-        shlomif.xml
-        subversion.xml
-        tinic.xml
-    ));
-
-=end Hello
-
-=cut
 
 sub url_callback
 {
@@ -303,6 +298,14 @@ my $recent_ids_struct = $syndicator->get_most_recent_ids(
             yaml_persistence_file => $yaml_data_file,
             yaml_persistence_file_out => $yaml_data_file,
             xmls_dir => $dir,
+            feed_params =>
+            {
+                title => $feed_title,
+                'link' => $master_url,
+                tagline => $feed_tagline,
+                author => $feed_author,
+
+            },
         }
     );
 
