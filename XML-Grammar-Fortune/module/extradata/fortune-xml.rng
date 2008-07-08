@@ -90,19 +90,7 @@
                 </element>
                 <element name="quote">
                     <element name="body">
-                        <oneOrMore>
-                            <choice>
-                                <element name="p">
-                                    <ref name="inside_para_text" />
-                                </element>
-                                <element name="ul">
-                                    <ref name="inside_quote_list" />
-                                </element>
-                                <element name="ol">
-                                    <ref name="inside_quote_list" />
-                                </element>
-                            </choice>
-                        </oneOrMore>
+                        <ref name="regular_html_text" />
                     </element>
                     <ref name="common_info" />
                 </element>
@@ -238,6 +226,24 @@
             <element name="li">
                 <ref name="inside_para_text" />
             </element>
+        </oneOrMore>
+    </define>
+    <define name="regular_html_text">
+        <oneOrMore>
+            <choice>
+                <element name="p">
+                    <ref name="inside_para_text" />
+                </element>
+                <element name="ul">
+                    <ref name="inside_quote_list" />
+                </element>
+                <element name="ol">
+                    <ref name="inside_quote_list" />
+                </element>
+                <element name="blockquote">
+                    <ref name="regular_html_text" />
+                </element>
+            </choice>
         </oneOrMore>
     </define>
 </grammar>

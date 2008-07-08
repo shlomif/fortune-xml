@@ -1,11 +1,11 @@
 use strict;
 use warnings;
 
-use Test::More tests => 13;                      # last test to print
+use Test::More tests => 14;                      # last test to print
 
 use XML::LibXML;
 
-# TEST:$num_tests=13
+# TEST:$num_tests=14
 my @inputs = (qw(
         irc-conversation-1
         irc-conversation-2-with-slash-me
@@ -20,6 +20,7 @@ my @inputs = (qw(
         quote-fort-sample-6-with-bold
         quote-fort-sample-7-with-italics
         quote-fort-sample-8-with-em-and-strong
+        quote-fort-sample-9-with-blockquote
     ));
 
 my $rngschema = XML::LibXML::RelaxNG->new(
