@@ -1,3 +1,6 @@
-0.01    TODO : FILL IN.
-        First version - implementing IRC conversations and raw messages.
-
+0.01    Wed Jul 16 13:00:24 IDT 2008
+        - First version - implementing IRC conversations, <quote>,
+        <screenplay> and raw messages.
+        - No "human-friendly" documentation for the XML format, but there's
+        a Relax NG, and comprehensive examples, both for testing
+        and on http://www.shlomifish.org/humour/fortunes/ .
