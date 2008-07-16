@@ -100,7 +100,7 @@ sub _get_rng_schema
                 location =>
                 File::Spec->catfile(
                     $self->_data_dir(), 
-                    "fortune-xml.rng"
+                    "fortune-xml.rng",
                 ),
             )
         );
@@ -117,7 +117,8 @@ sub _get_xslt_stylesheet
     {
         my $style_doc = $self->_get_xml_parser()->parse_file(
             File::Spec->catfile(
-                "extradata", "fortune-xml-to-html.xslt"
+                $self->_data_dir(),
+                "fortune-xml-to-html.xslt",
             )
         );
 
