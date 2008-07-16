@@ -203,7 +203,6 @@ sub get_most_recent_ids
                     XML::Grammar::Fortune->new(
                         {
                             mode => "convert_to_html",
-                            input => "$xmls_dir/".$id_obj->file(),
                             output_mode => "string",
                         }
                     );
@@ -220,6 +219,7 @@ sub get_most_recent_ids
                             'fortune.id' => "'" . $id_obj->id() . "'",
                         },
                         output => \$content,
+                        input => "$xmls_dir/".$id_obj->file(),
                     }
                 );
 

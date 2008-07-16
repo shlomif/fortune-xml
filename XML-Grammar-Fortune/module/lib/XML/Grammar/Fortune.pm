@@ -39,7 +39,36 @@ our $VERSION = '0.01';
 
 =head1 SYNOPSIS
 
-TODO : Fill in.
+    use XML::Grammar::Fortune;
+
+    # Validate files.
+
+    my $validator = 
+        XML::Grammar::Fortune->new(
+            {
+                mode => "validate"
+            }
+        );
+
+    # Returns 0 upon success - dies otherwise
+    exit($validator->run({input => "my-fortune-file.xml"}));
+
+    # Convert files to XHTML.
+    
+    my $converter =
+        XML::Grammar::Fortune->new(
+            {
+                mode => "convert_to_html",
+                output_mode => "filename"
+            }
+        )
+    
+    $converter->run(
+        {
+            input => "my-fortune-file.xml",
+            output => "resultant-file.xhtml",
+        }
+    )
 
 =head1 FUNCTIONS
 
@@ -159,11 +188,11 @@ Parameters for the XSLT stylesheet.
 
 =item * input
 
-Input filename - depends on input_mode.
+Input source - depends on input_mode.
 
 =item * output
 
-Output filename - depends on output mode.
+Output destination - depends on output mode.
 
 =back
 
@@ -177,12 +206,13 @@ sub run
     my $xslt_params = $args->{'xslt_params'} || {};
 
     my $output = $args->{'output'};
+    my $input = $args->{'input'};
 
     my $mode = $self->_mode();
 
     if ($mode eq "validate")
     {
-        my $doc = $self->_get_xml_parser->parse_file($self->_input());
+        my $doc = $self->_get_xml_parser->parse_file($input);
 
         my $code;
         $code = $self->_get_rng_schema()->validate($doc);
@@ -196,7 +226,7 @@ sub run
     }
     elsif ($mode eq "convert_to_html")
     {
-        my $source = $self->_get_xml_parser->parse_file($args->{input});
+        my $source = $self->_get_xml_parser->parse_file($input);
 
         my $results = $self->_get_xslt_stylesheet()->transform($source, %$xslt_params);
 
