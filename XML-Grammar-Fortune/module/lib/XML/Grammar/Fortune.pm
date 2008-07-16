@@ -18,6 +18,10 @@ __PACKAGE__->mk_accessors(qw(
     _data_dir
     _mode
     _output_mode
+    _rng_schema
+    _xslt_stylesheet
+    _xslt_obj
+    _xml_parser
     ));
 
 =head1 NAME
@@ -54,6 +58,74 @@ sub new
     $self->_init(@_);
 
     return $self;
+}
+
+sub _get_rng_schema
+{
+    my $self = shift;
+
+    if (!defined($self->_rng_schema()))
+    {
+        $self->_rng_schema(
+            XML::LibXML::RelaxNG->new(
+                location =>
+                File::Spec->catfile(
+                    $self->_data_dir(), 
+                    "fortune-xml.rng"
+                ),
+            )
+        );
+    }
+
+    return $self->_rng_schema();
+}
+
+sub _get_xslt_stylesheet
+{
+    my $self = shift;
+
+    if (! $self->_xslt_stylesheet())
+    {
+        my $style_doc = $self->_get_xml_parser()->parse_file(
+            File::Spec->catfile(
+                "extradata", "fortune-xml-to-html.xslt"
+            )
+        );
+
+        my $stylesheet = $self->_get_xslt_obj()->parse_stylesheet($style_doc);
+
+        $self->_xslt_stylesheet($stylesheet);
+    }
+
+    return $self->_xslt_stylesheet();
+}
+
+sub _get_xml_parser
+{
+    my $self = shift;
+
+    if (! $self->_xml_parser())
+    {
+        $self->_xml_parser(
+            XML::LibXML->new()
+        );
+    }
+
+    return $self->_xml_parser();
+}
+
+sub _get_xslt_obj
+{
+    my $self = shift;
+
+    if (! $self->_xslt_obj())
+    {
+        $self->_xslt_obj(
+            XML::LibXSLT->new()
+        );
+    }
+
+    return $self->_xslt_obj();
 }
 
 sub _init
@@ -110,19 +182,10 @@ sub run
 
     if ($mode eq "validate")
     {
-        my $rngschema =
-            XML::LibXML::RelaxNG->new(
-                location =>
-                File::Spec->catfile(
-                    $self->_data_dir(), 
-                    "fortune-xml.rng"
-                ),
-            );
-
-        my $doc = XML::LibXML->new->parse_file($self->_input());
+        my $doc = $self->_get_xml_parser->parse_file($self->_input());
 
         my $code;
-        $code = $rngschema->validate($doc);
+        $code = $self->_get_rng_schema()->validate($doc);
 
         if ($code)
         {
@@ -133,29 +196,20 @@ sub run
     }
     elsif ($mode eq "convert_to_html")
     {
-        my $parser = XML::LibXML->new();
-        my $xslt = XML::LibXSLT->new();
+        my $source = $self->_get_xml_parser->parse_file($args->{input});
 
-        my $style_doc = $parser->parse_file(
-            File::Spec->catfile(
-                "extradata", "fortune-xml-to-html.xslt"
-            )
-        );
-        my $stylesheet = $xslt->parse_stylesheet($style_doc);
-
-        my $source = XML::LibXML->new->parse_file($args->{input});
-
-        my $results = $stylesheet->transform($source, %$xslt_params);
+        my $results = $self->_get_xslt_stylesheet()->transform($source, %$xslt_params);
 
         if ($self->_output_mode() eq "string")
         {
-            $$output .= $stylesheet->output_string($results);
+            $$output .= $self->_get_xslt_stylesheet()->output_string($results);
         }
         else
         {
             open my $xhtml_out_fh, ">", $output;
             binmode ($xhtml_out_fh, ":utf8");
-            print {$xhtml_out_fh} $stylesheet->output_string($results);
+            print {$xhtml_out_fh}
+                $self->_get_xslt_stylesheet()->output_string($results);
             close($xhtml_out_fh);
         }
     }
