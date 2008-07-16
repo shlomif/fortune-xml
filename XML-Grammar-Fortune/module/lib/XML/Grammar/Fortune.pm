@@ -5,15 +5,18 @@ use strict;
 
 use Fatal (qw(open));
 
+use File::Spec;
+
 use XML::LibXML;
 use XML::LibXSLT;
+
+use XML::Grammar::Fortune::ConfigData;
 
 use base 'Class::Accessor';
 
 __PACKAGE__->mk_accessors(qw(
+    _data_dir
     _mode
-    _input
-    _output
     _output_mode
     ));
 
@@ -60,9 +63,12 @@ sub _init
 
     $self->_mode($args->{mode});
 
-    $self->_input($args->{input});
-    $self->_output($args->{output});
     $self->_output_mode($args->{output_mode} || "filename");
+
+    my $data_dir = $args->{'data_dir'} ||
+        XML::Grammar::Fortune::ConfigData->config('extradata_install_path')->[0];
+
+    $self->_data_dir($data_dir);
 
     return 0;
 }
@@ -79,6 +85,14 @@ Runs the processor. If $mode is "validate", validates the document.
 
 Parameters for the XSLT stylesheet.
 
+=item * input
+
+Input filename - depends on input_mode.
+
+=item * output
+
+Output filename - depends on output mode.
+
 =back
 
 =cut
@@ -90,15 +104,20 @@ sub run
 
     my $xslt_params = $args->{'xslt_params'} || {};
 
-    my $output = $args->{'output'} || $self->_output();
+    my $output = $args->{'output'};
 
     my $mode = $self->_mode();
 
     if ($mode eq "validate")
     {
-        my $rngschema = XML::LibXML::RelaxNG->new(
-            location => "./extradata/fortune-xml.rng" 
-        );
+        my $rngschema =
+            XML::LibXML::RelaxNG->new(
+                location =>
+                File::Spec->catfile(
+                    $self->_data_dir(), 
+                    "fortune-xml.rng"
+                ),
+            );
 
         my $doc = XML::LibXML->new->parse_file($self->_input());
 
@@ -117,10 +136,14 @@ sub run
         my $parser = XML::LibXML->new();
         my $xslt = XML::LibXSLT->new();
 
-        my $style_doc = $parser->parse_file("./extradata/fortune-xml-to-html.xslt");
+        my $style_doc = $parser->parse_file(
+            File::Spec->catfile(
+                "extradata", "fortune-xml-to-html.xslt"
+            )
+        );
         my $stylesheet = $xslt->parse_stylesheet($style_doc);
 
-        my $source = XML::LibXML->new->parse_file($self->_input());
+        my $source = XML::LibXML->new->parse_file($args->{input});
 
         my $results = $stylesheet->transform($source, %$xslt_params);
 

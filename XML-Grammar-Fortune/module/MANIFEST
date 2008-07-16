@@ -53,4 +53,5 @@ t/pod-coverage.t
 t/pod.t
 t/to-text.t
 t/to-xhtml.t
+t/to-xhtml-using-api.t
 t/xml-validate.t
