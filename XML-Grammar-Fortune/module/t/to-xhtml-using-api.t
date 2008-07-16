@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 11;
+use Test::More tests => 22;
 use Test::Differences;
 
 use File::Spec;
@@ -71,5 +71,36 @@ foreach my $fn_base (@tests)
     );
 }
 
+{
+    my $converter =
+        XML::Grammar::Fortune->new(
+            {
+                mode => "convert_to_html",
+                _output_mode => "string",
+            }
+        );
+
+    foreach my $fn_base (@tests)
+    {
+        my $filename = "./t/data/xml/$fn_base.xml";
+
+        my $results_buffer = "";
+
+        $converter->run(
+            {
+                input => $filename,
+                output => \$results_buffer,
+            }
+        );
+
+        # TEST*$num_texts
+        eq_or_diff (
+            decode("UTF-8", $results_buffer),
+            read_file("./t/data/xhtml-results/$fn_base.xhtml"),
+            "Testing for Good XSLTing of '$fn_base'",
+        );
+    }
+
+}
 1;
 
