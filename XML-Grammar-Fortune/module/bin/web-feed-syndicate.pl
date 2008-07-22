@@ -244,6 +244,7 @@ sub get_most_recent_ids
         'feeds' =>
         {
             'Atom' => $feed,
+            'rss20' => $feed->convert("RSS"),
         },
     };
 }
@@ -256,6 +257,7 @@ my $dir;
 my $yaml_data_file;
 my @xml_files = ();
 my $atom_output_fn;
+my $rss_output_fn;
 my $master_url;
 my $feed_title;
 my $feed_tagline;
@@ -266,6 +268,7 @@ GetOptions(
     'xml-file=s' => \@xml_files,
     'yaml-data=s' => \$yaml_data_file,
     'atom-output=s' => \$atom_output_fn,
+    'rss-output=s' => \$rss_output_fn,
     'master-url=s' => \$master_url,
     'title=s' => \$feed_title,
     'tagline=s' => \$feed_tagline,
@@ -309,8 +312,16 @@ my $recent_ids_struct = $syndicator->get_most_recent_ids(
         }
     );
 
-# print join(",", map { $_->val->id() } @{$recent_ids_struct->{recent_ids}}), "\n";
+if (defined($atom_output_fn))
+{
+    open my $atom_out, ">", $atom_output_fn;
+    print {$atom_out} $recent_ids_struct->{'feeds'}->{'Atom'}->as_xml();
+    close($atom_out);
+}
 
-open my $atom_out, ">", $atom_output_fn;
-print {$atom_out} $recent_ids_struct->{'feeds'}->{'Atom'}->as_xml();
-close($atom_out);
+if (defined($rss_output_fn))
+{
+    open my $rss20_out, ">", $rss_output_fn;
+    print {$rss20_out} $recent_ids_struct->{'feeds'}->{'rss20'}->as_xml();
+    close($rss20_out);
+}
