@@ -178,10 +178,11 @@ sub get_most_recent_ids
                 "Atom"
             );
 
-            $entry->title(
-                $fortune_dom->findnodes("meta/title")->get_node(0)->textContent()
-            );
+            my $title = $fortune_dom->findnodes("meta/title")->get_node(0)->textContent();
 
+            $entry->title($title);
+            $entry->summary($title);
+                
             my $url =
                 $self->url_callback()->(
                     $self, 
