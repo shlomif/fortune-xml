@@ -3,9 +3,12 @@
 use strict;
 use warnings;
 
-
 use XML::LibXML;
+use XML::Atom;
 use DateTime::Format::W3CDTF;
+
+# Otherwise we get wrong unicode.
+$XML::Atom::ForceUnicode = 1;
 
 package XML::Grammar::Fortune::Synd::Heap::Elem;
 
@@ -223,6 +226,9 @@ sub get_most_recent_ids
                         input => "$xmls_dir/".$id_obj->file(),
                     }
                 );
+
+                $content =~ s{\A.*?<body>}{}ms;
+                $content =~ s{</body>.*\z}{}ms;
 
                 $entry->content(
                     XML::Feed::Content->new(
