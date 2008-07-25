@@ -165,6 +165,7 @@ sub get_most_recent_ids
     $feed->link($args->{feed_params}->{'link'});
     $feed->tagline($args->{feed_params}->{'tagline'});
     $feed->author($args->{feed_params}->{'author'});
+    $feed->self_link($args->{feed_params}->{'atom_self_link'});
 
     # Now fill the XML-Feed object:
     {
@@ -245,13 +246,18 @@ sub get_most_recent_ids
             );
         }
     }
+
+
+    my $rss_feed = $feed->convert("RSS");
+    $rss_feed->self_link($args->{feed_params}->{'rss_self_link'});
+
     return
     {
         'recent_ids' => [reverse(@recent_ids)],
         'feeds' =>
         {
             'Atom' => $feed,
-            'rss20' => $feed->convert("RSS"),
+            'rss20' => $rss_feed,
         },
     };
 }
@@ -259,6 +265,7 @@ sub get_most_recent_ids
 package main;
 
 use Getopt::Long;
+use File::Spec;
 
 my $dir;
 my $yaml_data_file;
@@ -303,6 +310,20 @@ my $syndicator = XML::Grammar::Fortune::Synd->new(
     }
 );
 
+my @more_params;
+
+if ($atom_output_fn)
+{
+    my (undef, undef, $atom_base) = File::Spec->splitpath($atom_output_fn);
+    push @more_params, (atom_self_link => "$master_url$atom_base");
+}
+
+if ($rss_output_fn)
+{
+    my (undef, undef, $rss_base) = File::Spec->splitpath($rss_output_fn);
+    push @more_params, (rss_self_link => "$master_url$rss_base");
+}
+
 my $recent_ids_struct = $syndicator->get_most_recent_ids(
        {
             yaml_persistence_file => $yaml_data_file,
@@ -314,7 +335,7 @@ my $recent_ids_struct = $syndicator->get_most_recent_ids(
                 'link' => $master_url,
                 tagline => $feed_tagline,
                 author => $feed_author,
-
+                @more_params,
             },
         }
     );
