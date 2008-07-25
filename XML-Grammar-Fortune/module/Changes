@@ -1,3 +1,7 @@
+0.0101  Fri Jul 25 17:24:08 IDT 2008
+        - Added the _data_dir() to the XSLT - it was an installation
+        copy-and-paste bug.
+
 0.01    Wed Jul 16 15:17:25 IDT 2008
         - First version - implementing IRC conversations, <quote>,
         <screenplay> and raw messages.

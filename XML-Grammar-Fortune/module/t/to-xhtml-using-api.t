@@ -49,6 +49,7 @@ foreach my $fn_base (@tests)
     my $converter =
         XML::Grammar::Fortune->new(
             {
+                data_dir => "./extradata/",
                 mode => "convert_to_html",
                 _output_mode => "string",
             }
@@ -77,6 +78,7 @@ foreach my $fn_base (@tests)
             {
                 mode => "convert_to_html",
                 _output_mode => "string",
+                data_dir => "./extradata/",
             }
         );
 
