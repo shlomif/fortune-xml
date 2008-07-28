@@ -3,6 +3,7 @@ Changes
 lib/XML/Grammar/Fortune/Synd/App.pm
 lib/XML/Grammar/Fortune/Synd/Heap/Elem.pm
 lib/XML/Grammar/Fortune/Synd.pm
+inc/Test/Run/Builder.pm
 Makefile.PL
 MANIFEST
 META.yml
