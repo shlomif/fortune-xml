@@ -7,6 +7,14 @@ my $builder = Module::Build->new(
     license             => 'mit',
     dist_author         => 'Shlomi Fish <shlomif@cpan.org>',
     dist_version_from   => 'lib/XML/Grammar/Fortune/Synd.pm',
+    requires =>
+    {
+        'YAML::Syck' => 0,
+        'Heap::Elem::Ref' => 0,
+        'Heap::Binary' => 0,
+        'XML::Feed' => 0,
+        'XML::Grammar::Fortune' => 0,
+    },
     build_requires => {
         'Test::More' => 0,
     },

@@ -16,6 +16,22 @@ Version 0.01
 
 our $VERSION = '0.01';
 
+use base 'Class::Accessor';
+
+use YAML::Syck;
+use Heap::Elem::Ref (qw(RefElem));
+use Heap::Binary;
+use XML::Feed;
+use XML::Grammar::Fortune;
+
+__PACKAGE__->mk_accessors(qw(
+        _xml_parser
+        _file_doms
+        _date_formatter
+        xml_files
+        url_callback
+        _file_processors
+    ));
 
 =head1 SYNOPSIS
 
@@ -25,6 +41,252 @@ our $VERSION = '0.01';
     ...
 
 =head1 FUNCTIONS
+
+=head2 my $syndicator = $class->new(\%args)
+
+Returns the new Syndicator.
+
+=cut
+
+sub new
+{
+    my ($class, $args) = @_;
+
+    my $self = $class->SUPER::new($args);
+
+    $self->_xml_parser(XML::LibXML->new());
+    $self->_date_formatter(DateTime::Format::W3CDTF->new());
+    $self->_file_doms(+{});
+    $self->_file_processors(+{});
+
+    return $self;
+}
+
+=head2 $syndicator->calc_feeds(\%args)
+
+C<\%args> should be:
+
+    {
+        yaml_persistence_file => "/path/to/yaml-persistence.yaml",
+        yaml_persistence_file_out => "/path/to/yaml-persistence.yaml",
+        xml_dirs => "/path/to/the/directory-containing-xmls",
+        feed_params =>
+        {
+            title => "My feed title",
+            link => "http://mysite.tld/",
+            tagline => "Feed tagline",
+            author => "john.doe@hello.tld (John Doe)"
+            atom_self_link => "http://mysite.tld/my-feed.atom",
+            rss_self_link => "http://mysite.tld/my-feed.rss",
+        }
+    }
+
+Returns:
+
+    {
+        recent-ids => \@list_of_recent_ids,
+        feeds =>
+        {
+            Atom => $atom_XML_Feed_obj,
+            rss20 => $rss_XML_Feed_obj,
+        },
+    }
+
+=cut
+
+sub calc_feeds
+{
+    my ($self, $args) = @_;
+
+    my $scripts_hash_filename = $args->{'yaml_persistence_file'};
+    my $scripts_hash_fn_out =   $args->{'yaml_persistence_file_out'};
+    my $xmls_dir = $args->{xmls_dir};
+
+
+    my $persistent_data = LoadFile($scripts_hash_filename);
+
+    if (!exists($persistent_data->{'files'}))
+    {
+        $persistent_data->{'files'} = +{};
+    }
+
+    my $scripts_hash = $persistent_data->{'files'};
+
+    my $ids_heap = Heap::Binary->new();
+
+    my $ids_heap_count = 0;
+
+    my $ids_limit = 20;
+
+    foreach my $file (@{$self->xml_files()})
+    {
+        my $xml = $self->_xml_parser->parse_file(
+            "$xmls_dir/$file",
+        );
+
+        $self->_file_doms->{$file} = $xml;
+
+        my @fortune_elems = $xml->findnodes("//fortune");
+
+        my @ids = (map { $_->getAttribute("id") } @fortune_elems);
+
+        my $id_count = 1;
+
+        IDS_LOOP:
+        foreach my $id (@ids)
+        {
+            if (! exists($scripts_hash->{$file}->{$id}))
+            {
+                $scripts_hash->{$file}->{$id} =
+                {
+                    'date' => $self->_date_formatter->format_datetime(
+                        DateTime->now(),
+                    ),
+                };
+            }
+
+            my $date = $self->_date_formatter->parse_datetime(
+                $scripts_hash->{$file}->{$id}->{'date'},
+            );
+
+            $ids_heap->add(
+                RefElem(
+                    XML::Grammar::Fortune::Synd::Heap::Elem->new(
+                        {
+                            date => $date,
+                            idx => $id_count,
+                            id => $id,
+                            file => $file,
+                        }
+                    )
+                )
+            );
+
+            if (++$ids_heap_count > $ids_limit)
+            {
+                $ids_heap->extract_top();
+                $ids_heap_count--;
+            }
+        }
+        continue
+        {
+            $id_count++;
+        }
+    }
+
+    my @recent_ids = ();
+
+    # TODO : Should we reverse this?
+    while (defined(my $id_obj = $ids_heap->extract_top()))
+    {
+        push @recent_ids, $id_obj;
+    }
+    DumpFile($scripts_hash_fn_out, $persistent_data);
+
+    my $feed = XML::Feed->new("Atom");
+
+    # First set some global parameters
+    $feed->title($args->{feed_params}->{'title'});
+    $feed->link($args->{feed_params}->{'link'});
+    $feed->tagline($args->{feed_params}->{'tagline'});
+    $feed->author($args->{feed_params}->{'author'});
+    $feed->self_link($args->{feed_params}->{'atom_self_link'});
+
+    # Now fill the XML-Feed object:
+    {
+
+        foreach my $id_obj (map { $_->val() } @recent_ids)
+        {
+            my $file_dom =
+                $self->_file_doms()->{$id_obj->file()};
+
+            my ($fortune_dom) =
+                $file_dom->findnodes("descendant::fortune[\@id='". $id_obj->id() . "']");
+
+            my $entry = XML::Feed::Entry->new(
+                "Atom"
+            );
+
+            my $title = $fortune_dom->findnodes("meta/title")->get_node(0)->textContent();
+
+            $entry->title($title);
+            $entry->summary($title);
+                
+            my $url =
+                $self->url_callback()->(
+                    $self, 
+                    {
+                        id_obj => $id_obj,
+                    }
+                );
+            
+            $entry->link(
+                $url
+            );
+
+            $entry->id($url);
+
+            $entry->issued($id_obj->date());
+
+            {
+                $self->_file_processors()->{$id_obj->file()} ||=
+                    XML::Grammar::Fortune->new(
+                        {
+                            mode => "convert_to_html",
+                            output_mode => "string",
+                        }
+                    );
+
+                my $file_processor =
+                    $self->_file_processors()->{$id_obj->file()};
+
+                my $content = "";
+
+                $file_processor->run(
+                    {
+                        xslt_params =>
+                        {
+                            'fortune.id' => "'" . $id_obj->id() . "'",
+                        },
+                        output => \$content,
+                        input => "$xmls_dir/".$id_obj->file(),
+                    }
+                );
+
+                $content =~ s{\A.*?<body>}{}ms;
+                $content =~ s{</body>.*\z}{}ms;
+
+                $entry->content(
+                    XML::Feed::Content->new(
+                        {
+                            type => "text/html",
+                            body => $content,
+                        },
+                    )
+                );
+            }
+
+            $feed->add_entry(
+                $entry
+            );
+        }
+    }
+
+
+    my $rss_feed = $feed->convert("RSS");
+    $rss_feed->self_link($args->{feed_params}->{'rss_self_link'});
+
+    return
+    {
+        'recent_ids' => [reverse(@recent_ids)],
+        'feeds' =>
+        {
+            'Atom' => $feed,
+            'rss20' => $rss_feed,
+        },
+    };
+}
+
 
 =head1 AUTHOR
 
