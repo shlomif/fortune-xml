@@ -5,7 +5,8 @@ use strict;
 
 =head1 NAME
 
-XML::Grammar::Fortune::Synd - The great new XML::Grammar::Fortune::Synd!
+XML::Grammar::Fortune::Synd - Provides syndication for a set of 
+XML-Grammar-Fortune files.
 
 =head1 VERSION
 
@@ -18,35 +19,12 @@ our $VERSION = '0.01';
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
-
     use XML::Grammar::Fortune::Synd;
 
-    my $foo = XML::Grammar::Fortune::Synd->new();
+    my $syndicator = XML::Grammar::Fortune::Synd->new();
     ...
 
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
-
 =head1 FUNCTIONS
-
-=head2 function1
-
-=cut
-
-sub function1 {
-}
-
-=head2 function2
-
-=cut
-
-sub function2 {
-}
 
 =head1 AUTHOR
 
@@ -98,8 +76,9 @@ L<http://search.cpan.org/dist/XML-Grammar-Fortune-Synd>
 
 Copyright 2008 Shlomi Fish, all rights reserved.
 
-This program is released under the following license: mit
+This program is released under the following license: MIT/X11 License
 
+http://www.opensource.org/licenses/mit-license.php
 
 =cut
 
