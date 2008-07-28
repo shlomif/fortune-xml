@@ -1,8 +1,9 @@
 Build.PL
 Changes
+lib/XML/Grammar/Fortune/Synd/Heap/Elem.pm
+lib/XML/Grammar/Fortune/Synd.pm
 MANIFEST
 README
-lib/XML/Grammar/Fortune/Synd.pm
 t/00-load.t
 t/pod-coverage.t
 t/pod.t
