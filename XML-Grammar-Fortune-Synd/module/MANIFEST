@@ -1,11 +1,12 @@
 Build.PL
 Changes
+lib/XML/Grammar/Fortune/Synd/App.pm
 lib/XML/Grammar/Fortune/Synd/Heap/Elem.pm
 lib/XML/Grammar/Fortune/Synd.pm
+Makefile.PL
 MANIFEST
+META.yml
 README
 t/00-load.t
 t/pod-coverage.t
 t/pod.t
-Makefile.PL
-META.yml
