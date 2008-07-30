@@ -3,6 +3,17 @@ package XML::Grammar::Fortune::Synd::App;
 use strict;
 use warnings;
 
+use base 'Exporter';
+
+use vars qw(@EXPORT);
+
+@EXPORT=('run');
+
+use Getopt::Long;
+use File::Spec;
+
+use XML::Grammar::Fortune::Synd;
+
 =head1 NAME
 
 XML::Grammar::Fortune::Synd::App - module implementing a command line 
@@ -20,8 +31,6 @@ Call with no arguments to run the application from the commandline.
 
 =cut
 
-use Getopt::Long;
-use File::Spec;
 
 sub run
 {
@@ -81,7 +90,7 @@ sub run
         push @more_params, (rss_self_link => "$master_url$rss_base");
     }
 
-    my $recent_ids_struct = $syndicator->get_most_recent_ids(
+    my $recent_ids_struct = $syndicator->calc_feeds(
            {
                 yaml_persistence_file => $yaml_data_file,
                 yaml_persistence_file_out => $yaml_data_file,

@@ -23,6 +23,8 @@ use Heap::Elem::Ref (qw(RefElem));
 use Heap::Binary;
 use XML::Feed;
 use XML::Grammar::Fortune;
+use DateTime::Format::W3CDTF;
+use XML::Grammar::Fortune::Synd::Heap::Elem;
 
 __PACKAGE__->mk_accessors(qw(
         _xml_parser
@@ -103,7 +105,15 @@ sub calc_feeds
     my $xmls_dir = $args->{xmls_dir};
 
 
-    my $persistent_data = LoadFile($scripts_hash_filename);
+    my $persistent_data;
+    if (-e $scripts_hash_filename)
+    {
+        $persistent_data = LoadFile ($scripts_hash_filename);
+    }
+    else
+    {
+        $persistent_data = +{};
+    }
 
     if (!exists($persistent_data->{'files'}))
     {
