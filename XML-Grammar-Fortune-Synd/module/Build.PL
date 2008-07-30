@@ -13,11 +13,20 @@ my $builder = Test::Run::Builder->new(
     dist_version_from   => 'lib/XML/Grammar/Fortune/Synd.pm',
     requires =>
     {
-        'YAML::Syck' => 0,
-        'Heap::Elem::Ref' => 0,
+        'base' => 0,
+        'Class::Accessor' => 0,
+        'DateTime::Format::W3CDTF' => 0,
+        'Exporter' => 0,
+        'File::Spec' => 0,
+        'Getopt::Long' => 0,
         'Heap::Binary' => 0,
+        'Heap::Elem::Ref' => 0,
+        'strict' => 0,
+        'vars' => 0,
+        'warnings' => 0,
         'XML::Feed' => 0,
         'XML::Grammar::Fortune' => 0,
+        'YAML::Syck' => 0,
     },
     build_requires => {
         'Test::More' => 0,

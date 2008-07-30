@@ -1,5 +1,7 @@
 Revision history for XML-Grammar-Fortune-Synd
 
-0.01    FILL IN
-        First version, released on an unsuspecting world.
-
+0.01    Wed Jul 30 14:06:14 IDT 2008
+        - First version, released on an unsuspecting world.
+        - Can syndicate to valid RSS and non-valid Atom.
+        - May require the XML-Feed customizations in:
+            - http://svn.berlios.de/svnroot/repos/web-cpan/XML-Feed/
