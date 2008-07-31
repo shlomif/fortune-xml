@@ -47,7 +47,7 @@ my $builder = Test::Run::Builder->new(
         'Test::More' => 0,
     },
     add_to_cleanup      => [ 'XML-Grammar-Fortune-*' ],
-    create_makefile_pl => 'traditional',
+    create_makefile_pl => 'passthrough',
     install_path =>
     {
         extradata => data_inc(),

@@ -1,3 +1,10 @@
+0.0102  Thu Jul 31 15:58:08 IDT 2008
+        - Converted create_makefile_pl from "traditional" to 
+        "passthrough" so it will run Build.PL and avoid the various
+        problems inherent in depending on the Makefile.PL generation.
+        - Hopefully it will silence CPAN Testers warnings such as:
+            - http://www.nntp.perl.org/group/perl.cpan.testers/2008/07/msg1958808.html
+
 0.0101  Fri Jul 25 17:24:08 IDT 2008
         - Added the _data_dir() to the XSLT - it was an installation
         copy-and-paste bug.
