@@ -247,7 +247,10 @@ sub run
     
     return;
 }
-=head1 FUNCTIONS
+
+=head2 open
+
+Meant to settle Pod::Coverage - introduced by Fatal. Ignore.
 
 =head1 AUTHOR
 
