@@ -1,3 +1,7 @@
+0.0103  Sat Aug  2 11:15:14 IDT 2008
+        - "documented" open in lib/XML/Grammar/Fortune.pm due to its
+        use Fatal call to settle t/pod-coverage.t.
+
 0.0102  Thu Jul 31 15:58:08 IDT 2008
         - Converted create_makefile_pl from "traditional" to 
         "passthrough" so it will run Build.PL and avoid the various
