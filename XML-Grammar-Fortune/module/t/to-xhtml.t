@@ -53,7 +53,6 @@ foreach my $fn_base (@tests)
     my $filename = "./t/data/xml/$fn_base.xml";
 
     open my $xml_in, "<", $filename;
-    binmode $xml_in, ":utf8";
     my $source = $parser->parse_fh($xml_in);
     close($xml_in);
 
