@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <xsl:stylesheet version = '1.0'
     xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
-    
+    xmlns="http://www.w3.org/1999/xhtml"
      >
 
 <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"
@@ -13,10 +13,19 @@
 
 <!-- The purpose of this function is to recursively copy elements without a
 namespace-->
-<xsl:template mode="copy-no-ns" match="*">
-    <xsl:element name="{local-name()}">
+<xsl:template mode="copy-html-ns" match="*">
+    <xsl:element xmlns="http://www.w3.org/1999/xhtml" name="{local-name()}">
         <xsl:copy-of select="@*"/>
-        <xsl:apply-templates mode="copy-no-ns"/>
+        <xsl:apply-templates mode="copy-html-ns"/>
+    </xsl:element>
+</xsl:template>
+
+<xsl:template name="copy_html_ns_by_name">
+    <xsl:element xmlns="http://www.w3.org/1999/xhtml" name="{local-name()}">
+            <xsl:copy-of select="@*" />
+            <xsl:call-template name="copy_html_ns_by_name">
+                <xsl:value-of select="./*" />
+            </xsl:call-template>
     </xsl:element>
 </xsl:template>
 
@@ -53,7 +62,7 @@ namespace-->
                 <xsl:apply-templates select="quote" />
             </xsl:when>
             <xsl:when test="screenplay">
-                <xsl:apply-templates select="screenplay" />
+                <xsl:apply-templates select="screenplay" mode="screenplay_wrapper"/>
             </xsl:when>
             
         </xsl:choose> 
@@ -135,8 +144,8 @@ namespace-->
 </xsl:template>
 
 <xsl:template match="quote">
-    <blockquote>
-        <xsl:apply-templates select="body/*" mode="copy-no-ns"/>
+    <blockquote xmlns="http://www.w3.org/1999/xhtml">
+        <xsl:apply-templates select="body/*" mode="copy-html-ns"/>
     </blockquote>
     <xsl:call-template name="render_info" select="." />
 </xsl:template>
@@ -151,13 +160,16 @@ namespace-->
     <xsl:call-template name="render_info" select="." />
 </xsl:template>
 
-<xsl:template match="screenplay">
+<xsl:template match="screenplay" mode="screenplay_wrapper">
+    <xsl:apply-templates select="." mode="screenplay_driver"/>
+</xsl:template>
+
+<xsl:template match="screenplay" mode="screenplay_driver">
     <div class="screenplay">
         <xsl:apply-templates select="body/*" mode="screenplay"/>
     </div>
     <xsl:call-template name="render_info" select="." />
 </xsl:template>
-
 
 <xsl:template match="*" name="raw_info_subs">
     <tr xmlns="http://www.w3.org/1999/xhtml" class="{name(.)}">

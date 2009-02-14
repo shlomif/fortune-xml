@@ -1,3 +1,6 @@
+        - avoided creating an xmlns="" attribute in the output of several
+        elements which caused the XHTML to be invalid.
+
 0.0104  Thu Aug 21 17:39:45 IDT 2008
         - Removed a binmode ":utf8" call from t/to-xhtml.t to settle
         XML-LibXML on Mandriva Cooker and elsewhere.
