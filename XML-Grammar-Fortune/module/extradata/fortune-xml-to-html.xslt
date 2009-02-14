@@ -30,7 +30,7 @@ namespace-->
 </xsl:template>
 
 <xsl:template match="/collection">
-    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US">
+    <html xml:lang="en-US">
         <head>
             <title>Fortunes</title>
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -49,7 +49,7 @@ namespace-->
 </xsl:template>
 
 <xsl:template match="fortune">
-    <div xmlns="http://www.w3.org/1999/xhtml" class="fortune">
+    <div class="fortune">
         <h3 id="{@id}"><xsl:call-template name="get_header" /></h3>
         <xsl:choose>
             <xsl:when test="irc">
@@ -74,7 +74,7 @@ namespace-->
 </xsl:template>
 
 <xsl:template match="saying|me_is|joins|leaves">
-    <tr xmlns="http://www.w3.org/1999/xhtml">
+    <tr>
         <xsl:attribute name="class">
             <xsl:value-of select="name(.)" />
         </xsl:attribute>
@@ -128,7 +128,7 @@ namespace-->
 
 <xsl:template name="render_info">
     <xsl:if test="info/*">
-        <table xmlns="http://www.w3.org/1999/xhtml" class="info">
+        <table class="info">
             <tbody>
                 <xsl:apply-templates select="info/*" name="raw_info_subs"/>
             </tbody>
@@ -137,14 +137,14 @@ namespace-->
 </xsl:template>
 
 <xsl:template match="raw">
-    <pre xmlns="http://www.w3.org/1999/xhtml" class="raw">
+    <pre class="raw">
         <xsl:value-of select="body/text"/>
     </pre>
     <xsl:call-template name="render_info" select="." />
 </xsl:template>
 
 <xsl:template match="quote">
-    <blockquote xmlns="http://www.w3.org/1999/xhtml">
+    <blockquote>
         <xsl:apply-templates select="body/*" mode="copy-html-ns"/>
     </blockquote>
     <xsl:call-template name="render_info" select="." />
@@ -152,7 +152,7 @@ namespace-->
 
 
 <xsl:template match="irc">
-    <table xmlns="http://www.w3.org/1999/xhtml" class="irc-conversation">
+    <table class="irc-conversation">
         <tbody>
             <xsl:apply-templates select="body"/>
         </tbody>
@@ -172,7 +172,7 @@ namespace-->
 </xsl:template>
 
 <xsl:template match="*" name="raw_info_subs">
-    <tr xmlns="http://www.w3.org/1999/xhtml" class="{name(.)}">
+    <tr class="{name(.)}">
         <td class="field">
             <b>
                 <xsl:choose>
