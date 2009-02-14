@@ -1,3 +1,4 @@
+0.0105 Sat Feb 14 21:18:05 IST 2009
         - avoided creating an xmlns="" attribute in the output of several
         elements which caused the XHTML to be invalid.
 
