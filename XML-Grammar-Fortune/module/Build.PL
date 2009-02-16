@@ -34,6 +34,7 @@ my $builder = Test::Run::Builder->new(
     requires => {
         'Class::Accessor' => 0,
         'File::Spec' => 0,
+        'perl' => "5.008",
         'Text::Format' => 0,
         'vars' => 0,
         'warnings' => 0,
