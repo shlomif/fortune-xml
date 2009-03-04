@@ -7,6 +7,7 @@ use base 'Test::Run::Builder';
 
 use File::Find;
 
+our $VERSION = '0.0101';
 
 sub new
 {
@@ -29,16 +30,10 @@ sub new
  
     find({ wanted => $filter_files_cb, no_chdir => 1}, "extradata");
 
-    my $get_dest_extradata_cb = sub {
-        my $fn = shift;
-        $fn =~ s{^extradata}{data};
-        return "lib/$module_name/$fn";
-    };
-
     my $builder = $package->SUPER::new(
         extradata_files =>
         {
-            (map { $_ => $get_dest_extradata_cb->($_) } @extradata_files)
+            (map { $_ => $_ } @extradata_files)
         },
         @_
     );
@@ -60,5 +55,23 @@ sub new
 
     return $builder;
 }
+
+
+=begin excluded
+
+    my $get_dest_extradata_cb = sub {
+        my $fn = shift;
+
+        # Trying if this makes it work.
+        # TODO : Either remove this line or the rest of the lines.
+        return $fn;
+
+        $fn =~ s{^extradata}{data};
+        return "lib/$module_name/$fn";
+    };
+
+=end excluded
+
+=cut
 
 1;
