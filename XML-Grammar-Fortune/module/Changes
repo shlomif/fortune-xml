@@ -1,3 +1,6 @@
+0.0108  Wed Mar  4 22:10:25 IST 2009
+        - Sorted out the installation of the extradata elements.
+
 0.0107  Tue Mar  3 19:58:34 IST 2009
         - converted Build.PL to inc/XML/Grammar/Builder.pm .
 
