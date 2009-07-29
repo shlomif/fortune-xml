@@ -218,6 +218,12 @@
                 <element name="em">
                     <text />
                 </element>
+                <element name="a">
+                    <attribute name="href">
+                        <text/>
+                    </attribute>
+                    <text />
+                </element>
             </choice>
         </zeroOrMore>
     </define>
