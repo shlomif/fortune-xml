@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 22;
+use Test::More tests => 24;
 use Test::Differences;
 
 use File::Spec;
@@ -11,7 +11,7 @@ use Encode;
 
 use XML::Grammar::Fortune;
 
-# TEST:$num_texts=11
+# TEST:$num_texts=12
 
 my @tests = (qw(
         irc-conversation-4-several-convos
@@ -25,13 +25,15 @@ my @tests = (qw(
         quote-fort-sample-6-with-bold
         quote-fort-sample-7-with-italics
         quote-fort-sample-8-with-em-and-strong
+        quote-fort-sample-10-with-hyperlink
     ));
 
 sub read_file
 {
     my $path = shift;
 
-    open my $in, "<", $path;
+    open my $in, "<", $path
+        or die "Cannot open '$path' for reading";
     binmode $in, ":utf8";
     my $contents;
     {
