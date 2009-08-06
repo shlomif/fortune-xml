@@ -29,6 +29,15 @@ my $builder = XML::Grammar::Builder->new(
     },
     add_to_cleanup      => [ 'XML-Grammar-Fortune-*' ],
     create_makefile_pl => 'passthrough',
+    meta_merge =>
+    {
+        resources =>
+        {
+            repository => "https://svn.berlios.de/svnroot/repos/web-cpan/XML-Grammar-Fortune/",
+            homepage => "http://web-cpan.berlios.de/modules/XML-Grammar-Fortune/",
+            "Freshmeat" => "http://freshmeat.net/projects/fortune-xml",
+        },
+    },
 );
 
 $builder->create_build_script();
