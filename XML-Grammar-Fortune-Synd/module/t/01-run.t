@@ -49,11 +49,11 @@ my $item = first { $_->{'title'} =~ m{The Only Language} } @{$rss->{'items'}};
 
 # TEST
 ok ($item, "Item exists.");
-# \s*<td class="who">
+
 # TEST
 like (
     $item->{'content'}->{'encoded'},
-    qr{<table class="irc-conversation">\s*<tbody>\s*<tr class="saying">}ms,
+    qr{<table class="irc-conversation">\s*<tbody>\s*<tr class="saying">\s*<td class="who">}ms,
     "Contains the table tag."
 );
 
