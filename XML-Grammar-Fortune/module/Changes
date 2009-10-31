@@ -1,3 +1,9 @@
+        
+        - Fixed the tests if XML-LibXSLT generates indented XML.
+            - as is the case on Mandriva Cooker and other systems.
+            - http://nntp.x.perl.org/group/perl.cpan.testers/5800617
+            - was done by removing indentation from both places.
+
 0.0108  Wed Mar  4 22:10:25 IST 2009
         - Sorted out the installation of the extradata elements.
 

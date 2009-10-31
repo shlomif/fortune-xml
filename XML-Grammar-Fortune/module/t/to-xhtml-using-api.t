@@ -44,6 +44,19 @@ sub read_file
     return $contents;
 }
 
+sub normalize_xml
+{
+    my $results = shift;
+
+    my $unicode = decode("UTF-8", $results);
+
+    # Remove leading space (indentation), which seems to vary between 
+    # different versions of XML-LibXSLT and/or libxslt
+    $unicode =~ s{^[ \t]+}{}gms;
+
+    return $unicode;
+}
+
 foreach my $fn_base (@tests)
 {
     my $filename = "./t/data/xml/$fn_base.xml";
@@ -68,7 +81,7 @@ foreach my $fn_base (@tests)
 
     # TEST*$num_texts
     eq_or_diff (
-        decode("UTF-8", $results_buffer),
+        normalize_xml($results_buffer),
         read_file("./t/data/xhtml-results/$fn_base.xhtml"),
         "Testing for Good XSLTing of '$fn_base'",
     );
@@ -99,7 +112,7 @@ foreach my $fn_base (@tests)
 
         # TEST*$num_texts
         eq_or_diff (
-            decode("UTF-8", $results_buffer),
+            normalize_xml($results_buffer),
             read_file("./t/data/xhtml-results/$fn_base.xhtml"),
             "Testing for Good XSLTing of '$fn_base'",
         );
