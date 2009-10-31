@@ -1,4 +1,4 @@
-        
+0.0109 Sat Oct 31 14:44:35 IST 2009
         - Fixed the tests if XML-LibXSLT generates indented XML.
             - as is the case on Mandriva Cooker and other systems.
             - http://nntp.x.perl.org/group/perl.cpan.testers/5800617

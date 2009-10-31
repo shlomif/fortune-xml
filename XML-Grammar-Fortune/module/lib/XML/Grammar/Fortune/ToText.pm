@@ -29,11 +29,11 @@ XML::Grammar::Fortune::ToText - convert the FortunesXML grammar to plaintext.
 
 =head1 VERSION
 
-Version 0.0108
+Version 0.0109
 
 =cut
 
-our $VERSION = '0.0108';
+our $VERSION = '0.0109';
 
 
 =head1 SYNOPSIS
