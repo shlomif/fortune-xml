@@ -23,9 +23,7 @@ namespace-->
 <xsl:template name="copy_html_ns_by_name">
     <xsl:element xmlns="http://www.w3.org/1999/xhtml" name="{local-name()}">
             <xsl:copy-of select="@*" />
-            <xsl:call-template name="copy_html_ns_by_name">
-                <xsl:value-of select="./*" />
-            </xsl:call-template>
+            <xsl:call-template name="copy_html_ns_by_name" />
     </xsl:element>
 </xsl:template>
 
@@ -121,7 +119,7 @@ namespace-->
             <xsl:value-of select="meta/title" />
         </xsl:when>
         <xsl:otherwise>
-            <xsl:call-template name="get_irc_default_header" select="irc" />
+            <xsl:call-template name="get_irc_default_header" />
         </xsl:otherwise>
     </xsl:choose>
 </xsl:template>
@@ -130,7 +128,7 @@ namespace-->
     <xsl:if test="info/*">
         <table class="info">
             <tbody>
-                <xsl:apply-templates select="info/*" name="raw_info_subs"/>
+                <xsl:apply-templates select="info/*" mode="raw_info_subs"/>
             </tbody>
         </table>
     </xsl:if>
@@ -140,14 +138,14 @@ namespace-->
     <pre class="raw">
         <xsl:value-of select="body/text"/>
     </pre>
-    <xsl:call-template name="render_info" select="." />
+    <xsl:call-template name="render_info" />
 </xsl:template>
 
 <xsl:template match="quote">
     <blockquote>
         <xsl:apply-templates select="body/*" mode="copy-html-ns"/>
     </blockquote>
-    <xsl:call-template name="render_info" select="." />
+    <xsl:call-template name="render_info" />
 </xsl:template>
 
 
@@ -157,7 +155,7 @@ namespace-->
             <xsl:apply-templates select="body"/>
         </tbody>
     </table>
-    <xsl:call-template name="render_info" select="." />
+    <xsl:call-template name="render_info" />
 </xsl:template>
 
 <xsl:template match="screenplay" mode="screenplay_wrapper">
@@ -168,10 +166,10 @@ namespace-->
     <div class="screenplay">
         <xsl:apply-templates select="body/*" mode="screenplay"/>
     </div>
-    <xsl:call-template name="render_info" select="." />
+    <xsl:call-template name="render_info" />
 </xsl:template>
 
-<xsl:template match="*" name="raw_info_subs">
+<xsl:template match="*" name="raw_info_subs" mode="raw_info_subs">
     <tr class="{name(.)}">
         <td class="field">
             <b>
