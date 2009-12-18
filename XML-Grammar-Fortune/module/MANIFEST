@@ -1,5 +1,6 @@
 Build.PL
 Changes
+contrib/convert-irc-log-to-fortune-xml.pl
 extradata/fortune-xml.rng
 extradata/fortune-xml-to-html.xslt
 inc/Test/Run/Builder.pm
