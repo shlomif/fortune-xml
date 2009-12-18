@@ -450,11 +450,15 @@ sub _render_para
     }
 }
 
-sub _render_quote_ul
+sub _render_quote_list
 {
     my ($self, $ul) = @_;
 
+    my $is_bullets = ($ul->localname() eq "ul");
+
     my $items_list = $ul->findnodes("li");
+
+    my $idx = 1;
 
     while (my $li = $items_list->shift())
     {
@@ -468,10 +472,15 @@ sub _render_quote_ul
         # Convert a sequence of space to a single space.
         $node_text =~ s{\s+}{ }gms;
 
-        $self->_out("* $node_text");
+        $self->_out(
+            ($is_bullets ? "*" : "$idx.")
+            . " $node_text"
+        );
     }
     continue
     {
+        $idx++;
+
         if ($items_list->size())
         {
             $self->_out("\n\n");
@@ -493,9 +502,9 @@ sub _render_portion_paras
     {
         $self->_is_first_line(1);
 
-        if ($para->localname() eq "ul")
+        if (($para->localname() eq "ul") || ($para->localname() eq "ol"))
         {
-            $self->_render_quote_ul($para);
+            $self->_render_quote_list($para);
         }
         else
         {
@@ -523,7 +532,7 @@ sub _process_quote_node
 
     my ($body_node) = $quote_node->findnodes("body");
 
-    $self->_render_portion_paras($body_node, { para_is => "p|ul" });
+    $self->_render_portion_paras($body_node, { para_is => "p|ol|ul" });
 
     $self->_out("\n");
 
