@@ -416,6 +416,71 @@ sub _append_to_this_line
     $self->_this_line($self->_this_line() . $more_text);
 }
 
+sub _render_para
+{
+    my ($self, $para) = @_;
+
+    foreach my $node ($para->childNodes())
+    {
+        if ($node->nodeType() == XML_ELEMENT_NODE())
+        {
+            if ($node->localname() eq "br")
+            {
+                $self->_out_formatted_line();
+            }
+            else
+            {
+                $self->_append_to_this_line($node->textContent());
+            }
+        }
+        elsif ($node->nodeType() == XML_TEXT_NODE())
+        {
+            my $node_text = $node->textContent();
+
+            # Intent: format the text.
+            # Trim leading and trailing nelines.
+            $node_text =~ s{\A\n+}{}ms;
+            $node_text =~ s{\n+\z}{}ms;
+
+            # Convert a sequence of space to a single space.
+            $node_text =~ s{\s+}{ }gms;
+
+            $self->_append_to_this_line($node_text);
+        }
+    }
+}
+
+sub _render_quote_ul
+{
+    my ($self, $ul) = @_;
+
+    my $items_list = $ul->findnodes("li");
+
+    while (my $li = $items_list->shift())
+    {
+        my $node_text = $li->textContent();
+
+        # Intent: format the text.
+        # Trim leading and trailing nelines.
+        $node_text =~ s{\A\n+}{}ms;
+        $node_text =~ s{\n+\z}{}ms;
+
+        # Convert a sequence of space to a single space.
+        $node_text =~ s{\s+}{ }gms;
+
+        $self->_out("* $node_text");
+    }
+    continue
+    {
+        if ($items_list->size())
+        {
+            $self->_out("\n\n");
+        }
+    }
+
+    return;
+}
+
 sub _render_portion_paras
 {
     my ($self, $portion, $args) = @_;
@@ -428,33 +493,13 @@ sub _render_portion_paras
     {
         $self->_is_first_line(1);
 
-        foreach my $node ($para->childNodes())
+        if ($para->localname() eq "ul")
         {
-            if ($node->nodeType() == XML_ELEMENT_NODE())
-            {
-                if ($node->localname() eq "br")
-                {
-                    $self->_out_formatted_line();
-                }
-                else
-                {
-                    $self->_append_to_this_line($node->textContent());
-                }
-            }
-            elsif ($node->nodeType() == XML_TEXT_NODE())
-            {
-                my $node_text = $node->textContent();
-
-                # Intent: format the text.
-                # Trim leading and trailing nelines.
-                $node_text =~ s{\A\n+}{}ms;
-                $node_text =~ s{\n+\z}{}ms;
-
-                # Convert a sequence of space to a single space.
-                $node_text =~ s{\s+}{ }gms;
- 
-                $self->_append_to_this_line($node_text);
-            }
+            $self->_render_quote_ul($para);
+        }
+        else
+        {
+            $self->_render_para($para);
         }
 
         if ($self->_this_line() =~ m{\S})
@@ -478,7 +523,7 @@ sub _process_quote_node
 
     my ($body_node) = $quote_node->findnodes("body");
 
-    $self->_render_portion_paras($body_node, { para_is => "p" });
+    $self->_render_portion_paras($body_node, { para_is => "p|ul" });
 
     $self->_out("\n");
 
