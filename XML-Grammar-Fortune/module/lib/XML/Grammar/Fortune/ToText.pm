@@ -428,6 +428,10 @@ sub _render_para
             {
                 $self->_out_formatted_line();
             }
+            elsif ($node->localname() eq "b")
+            {
+                $self->_append_to_this_line("*" . $node->textContent() . "*");
+            }
             else
             {
                 $self->_append_to_this_line($node->textContent());
@@ -462,28 +466,21 @@ sub _render_quote_list
 
     while (my $li = $items_list->shift())
     {
-        my $node_text = $li->textContent();
-
-        # Intent: format the text.
-        # Trim leading and trailing nelines.
-        $node_text =~ s{\A\n+}{}ms;
-        $node_text =~ s{\n+\z}{}ms;
-
-        # Convert a sequence of space to a single space.
-        $node_text =~ s{\s+}{ }gms;
-
-        $self->_out(
-            ($is_bullets ? "*" : "$idx.")
-            . " $node_text"
+        $self->_append_to_this_line(
+            ($is_bullets ? "*" : "$idx.") . " "
         );
+
+        $self->_render_para($li);
     }
     continue
     {
         $idx++;
 
+        $self->_out_formatted_line();
+
         if ($items_list->size())
         {
-            $self->_out("\n\n");
+            $self->_out("\n");
         }
     }
 
