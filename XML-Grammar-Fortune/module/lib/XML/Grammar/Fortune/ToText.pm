@@ -433,6 +433,22 @@ sub _append_format_node
     return $self->_append_different_formatting_node($delim, $delim, $node);
 }
 
+sub _get_node_formatting_delim
+{
+    my ($self, $node) = @_;
+
+    my $name = $node->localname();
+
+    return
+    (
+          $name eq "b"
+        ? "*"
+        : $name eq "i"
+        ? "/"
+        : ""
+    );
+}
+
 sub _render_para
 {
     my ($self, $para) = @_;
@@ -445,17 +461,12 @@ sub _render_para
             {
                 $self->_out_formatted_line();
             }
-            elsif ($node->localname() eq "b")
-            {
-                $self->_append_format_node("*", $node);
-            }
-            elsif ($node->localname() eq "i")
-            {
-                $self->_append_format_node("/", $node);
-            }
             else
             {
-                $self->_append_format_node("", $node);
+                $self->_append_format_node(
+                    $self->_get_node_formatting_delim($node),
+                    $node,
+                );
             }
         }
         elsif ($node->nodeType() == XML_TEXT_NODE())
