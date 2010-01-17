@@ -432,6 +432,10 @@ sub _render_para
             {
                 $self->_append_to_this_line("*" . $node->textContent() . "*");
             }
+            elsif ($node->localname() eq "i")
+            {
+                $self->_append_to_this_line("/" . $node->textContent() . "/");
+            }
             else
             {
                 $self->_append_to_this_line($node->textContent());
