@@ -449,6 +449,18 @@ sub _get_node_formatting_delim
     );
 }
 
+sub _handle_format_node
+{
+    my ($self, $node) = @_;
+
+    $self->_append_format_node(
+        $self->_get_node_formatting_delim($node),
+        $node,
+    );
+
+    return;
+}
+
 sub _render_para
 {
     my ($self, $para) = @_;
@@ -463,10 +475,8 @@ sub _render_para
             }
             else
             {
-                $self->_append_format_node(
-                    $self->_get_node_formatting_delim($node),
-                    $node,
-                );
+                $self->_handle_format_node($node);
+
             }
         }
         elsif ($node->nodeType() == XML_TEXT_NODE())
