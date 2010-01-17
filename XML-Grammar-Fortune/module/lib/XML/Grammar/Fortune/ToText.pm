@@ -416,6 +416,23 @@ sub _append_to_this_line
     $self->_this_line($self->_this_line() . $more_text);
 }
 
+sub _append_different_formatting_node
+{
+    my ($self, $prefix, $suffix, $node) = @_;
+
+    return 
+        $self->_append_to_this_line(
+            $prefix . $node->textContent() . $suffix
+        );
+}
+
+sub _append_format_node
+{
+    my ($self, $delim, $node) = @_;
+
+    return $self->_append_different_formatting_node($delim, $delim, $node);
+}
+
 sub _render_para
 {
     my ($self, $para) = @_;
@@ -430,15 +447,15 @@ sub _render_para
             }
             elsif ($node->localname() eq "b")
             {
-                $self->_append_to_this_line("*" . $node->textContent() . "*");
+                $self->_append_format_node("*", $node);
             }
             elsif ($node->localname() eq "i")
             {
-                $self->_append_to_this_line("/" . $node->textContent() . "/");
+                $self->_append_format_node("/", $node);
             }
             else
             {
-                $self->_append_to_this_line($node->textContent());
+                $self->_append_format_node("", $node);
             }
         }
         elsif ($node->nodeType() == XML_TEXT_NODE())
