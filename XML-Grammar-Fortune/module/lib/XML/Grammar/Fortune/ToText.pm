@@ -433,20 +433,23 @@ sub _append_format_node
     return $self->_append_different_formatting_node($delim, $delim, $node);
 }
 
-sub _get_node_formatting_delim
 {
-    my ($self, $node) = @_;
-
-    my $name = $node->localname();
-
-    return
+    my %_formats_map =
     (
-          $name eq "b"
-        ? "*"
-        : $name eq "i"
-        ? "/"
-        : ""
+        "b" => "*",
+        "em" => "/",
+        "i" => "/",
+        "strong" => "*",
     );
+
+    sub _get_node_formatting_delim
+    {
+        my ($self, $node) = @_;
+
+        my $name = $node->localname();
+
+        return exists($_formats_map{$name}) ? $_formats_map{$name} : "";
+    }
 }
 
 sub _handle_format_node
