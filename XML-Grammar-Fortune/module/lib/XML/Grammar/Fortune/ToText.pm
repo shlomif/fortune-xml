@@ -532,6 +532,28 @@ sub _render_quote_list
     return;
 }
 
+sub _render_quote_portion_paras
+{
+    my ($self, $node) = @_;
+
+    $self->_render_portion_paras(
+        $node, { para_is => "blockquote|p|ol|ul" }
+    );
+
+    return;
+}
+
+sub _render_quote_blockquote
+{
+    my ($self, $node) = @_;
+
+    $self->_out("<<<\n\n");
+
+    $self->_render_quote_portion_paras($node);   
+
+    $self->_out("\n\n>>>");
+}
+
 sub _render_portion_paras
 {
     my ($self, $portion, $args) = @_;
@@ -547,6 +569,10 @@ sub _render_portion_paras
         if (($para->localname() eq "ul") || ($para->localname() eq "ol"))
         {
             $self->_render_quote_list($para);
+        }
+        elsif ($para->localname() eq "blockquote")
+        {
+            $self->_render_quote_blockquote($para);
         }
         else
         {
@@ -574,7 +600,7 @@ sub _process_quote_node
 
     my ($body_node) = $quote_node->findnodes("body");
 
-    $self->_render_portion_paras($body_node, { para_is => "p|ol|ul" });
+    $self->_render_quote_portion_paras($body_node);   
 
     $self->_out("\n");
 
