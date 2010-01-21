@@ -472,14 +472,23 @@ sub _render_para
     {
         if ($node->nodeType() == XML_ELEMENT_NODE())
         {
-            if ($node->localname() eq "br")
+            my $name = $node->localname();
+
+            if ($name eq "br")
             {
                 $self->_out_formatted_line();
+            }
+            elsif ($name eq "a")
+            {
+                $self->_append_different_formatting_node(
+                    "[",
+                    ("](". $node->getAttribute("href") . ")"),
+                    $node
+                );
             }
             else
             {
                 $self->_handle_format_node($node);
-
             }
         }
         elsif ($node->nodeType() == XML_TEXT_NODE())
