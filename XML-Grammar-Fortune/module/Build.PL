@@ -37,6 +37,22 @@ my $builder = XML::Grammar::Builder->new(
             homepage => "http://web-cpan.berlios.de/modules/XML-Grammar-Fortune/",
             "Freshmeat" => "http://freshmeat.net/projects/fortune-xml",
         },
+        keywords =>
+        [
+            "convert",
+            "fortune",
+            "fortunes",
+            "grammar",
+            "markup",
+            "meta-data",
+            "quotation",
+            "quotations",
+            "quote",
+            "quotes",
+            "text",
+            "unix",
+            "xml",
+        ],
     },
 );
 
