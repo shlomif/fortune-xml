@@ -21,11 +21,13 @@ my $builder = Test::Run::Builder->new(
         'Getopt::Long' => 0,
         'Heap::Binary' => 0,
         'Heap::Elem::Ref' => 0,
+        'List::Util' => 0,
         'strict' => 0,
         'vars' => 0,
         'warnings' => 0,
         'XML::Feed' => 0,
         'XML::Grammar::Fortune' => 0,
+        'XML::RSS' => "1.46",
         'YAML::Syck' => 0,
     },
     build_requires => {
