@@ -30,11 +30,11 @@ XML::Grammar::Fortune - convert the FortunesXML grammar to other formats and fro
 
 =head1 VERSION
 
-Version 0.0200
+Version 0.0300
 
 =cut
 
-our $VERSION = '0.0200';
+our $VERSION = '0.0300';
 
 
 =head1 SYNOPSIS
