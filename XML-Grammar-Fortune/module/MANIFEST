@@ -12,6 +12,7 @@ MANIFEST
 META.yml
 README
 t/00-load.t
+tag-release.pl
 t/boilerplate.t
 t/data/text-results/irc-conversation-1.txt
 t/data/text-results/irc-conversation-3-with-join-unjoin.txt
