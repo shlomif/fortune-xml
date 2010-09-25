@@ -1,3 +1,6 @@
+        - Add support for text-rendering of the Screenplay-XML <inlinedesc>
+        tag, so it will now render as '[' ... ']' inside the paragraphs.
+
 0.0200      Thu Jan 21 19:10:28 IST 2010
         - Fixed some validation errors in the XSLT stylesheet that caused
         the Firefox and Opera browser to give up with an error.

@@ -434,21 +434,27 @@ sub _append_format_node
 }
 
 {
+    my @_highlights = (['/', [qw(em i)]], ['*', [qw(b strong)]]);
+
     my %_formats_map =
     (
-        "b" => "*",
-        "em" => "/",
-        "i" => "/",
-        "strong" => "*",
+        (
+            map { my ($f, $tags) = @$_; map { $_ => [($f)x2] } @$tags } 
+            @_highlights
+        ),
+        'inlinedesc' => ['[', ']'],
     );
 
-    sub _get_node_formatting_delim
+    sub _get_node_formatting_delims
     {
         my ($self, $node) = @_;
 
         my $name = $node->localname();
 
-        return exists($_formats_map{$name}) ? $_formats_map{$name} : "";
+        return exists($_formats_map{$name})
+            ? $_formats_map{$name}
+            : [(q{}) x 2]
+            ;
     }
 }
 
@@ -456,8 +462,8 @@ sub _handle_format_node
 {
     my ($self, $node) = @_;
 
-    $self->_append_format_node(
-        $self->_get_node_formatting_delim($node),
+    $self->_append_different_formatting_node(
+        @{$self->_get_node_formatting_delims($node)},
         $node,
     );
 
