@@ -9,6 +9,7 @@ Revision history for XML-Grammar-Fortune-Synd
         However, the Atom feed is still broken, due to this bug in XML-Atom:
             - https://rt.cpan.org/Public/Bug/Display.html?id=61637
         - Test for the RSS correctness in t/01-run.t .
+        - Add the tag-release.pl script to tag release in the svn repository.
 
 0.01    Wed Jul 30 14:06:14 IDT 2008
         - First version, released on an unsuspecting world.

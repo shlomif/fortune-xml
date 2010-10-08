@@ -10,6 +10,7 @@ META.yml
 README
 t/00-load.t
 t/01-run.t
+tag-release.pl
 t/data/fortune-synd-1/irc-conversation-4-several-convos.xml
 t/data/fortune-synd-1/screenplay-fort-sample-1.xml
 t/data/out-fortune-synd-1/PLACEHOLDER
