@@ -193,14 +193,19 @@ sub calc_feeds
     }
     DumpFile($scripts_hash_fn_out, $persistent_data);
 
-    my $feed = XML::Feed->new("Atom");
+    my @feed_formats = (qw(Atom RSS));
+
+    my %feeds = (map { $_ => XML::Feed->new($_), } @feed_formats);
 
     # First set some global parameters
-    $feed->title($args->{feed_params}->{'title'});
-    $feed->link($args->{feed_params}->{'link'});
-    $feed->tagline($args->{feed_params}->{'tagline'});
-    $feed->author($args->{feed_params}->{'author'});
-    $feed->self_link($args->{feed_params}->{'atom_self_link'});
+    foreach my $feed (values(%feeds))
+    {
+        $feed->title($args->{feed_params}->{'title'});
+        $feed->link($args->{feed_params}->{'link'});
+        $feed->tagline($args->{feed_params}->{'tagline'});
+        $feed->author($args->{feed_params}->{'author'});
+        $feed->self_link($args->{feed_params}->{'atom_self_link'});
+    }
 
     # Now fill the XML-Feed object:
     {
@@ -213,14 +218,26 @@ sub calc_feeds
             my ($fortune_dom) =
                 $file_dom->findnodes("descendant::fortune[\@id='". $id_obj->id() . "']");
 
-            my $entry = XML::Feed::Entry->new(
-                "Atom"
-            );
+            my %entries = (map { $_ => XML::Feed::Entry->new($_) } @feed_formats);
 
             my $title = $fortune_dom->findnodes("meta/title")->get_node(0)->textContent();
 
-            $entry->title($title);
-            $entry->summary($title);
+            my $on_entries = sub {
+
+                my ($callback) = @_;
+
+                foreach my $entry (values(%entries))
+                {
+                    $callback->($entry);
+                }
+            };
+            
+            $on_entries->(sub {
+                my $entry = shift;
+
+                $entry->title($title);
+                $entry->summary($title);
+            });
                 
             my $url =
                 $self->url_callback()->(
@@ -230,13 +247,15 @@ sub calc_feeds
                     }
                 );
             
-            $entry->link(
-                $url
-            );
+            $on_entries->(sub {
+                my $entry = shift;
 
-            $entry->id($url);
+                $entry->link( $url );
 
-            $entry->issued($id_obj->date());
+                $entry->id($url);
+
+                $entry->issued($id_obj->date());
+            });
 
             {
                 $self->_file_processors()->{$id_obj->file()} ||=
@@ -266,33 +285,37 @@ sub calc_feeds
                 $content =~ s{\A.*?<body>}{}ms;
                 $content =~ s{</body>.*\z}{}ms;
 
-                $entry->content(
-                    XML::Feed::Content->new(
-                        {
-                            type => "text/html",
-                            body => $content,
-                        },
-                    )
-                );
+                $on_entries->(sub {
+                    my $entry = shift;
+
+                    $entry->content(
+                        XML::Feed::Content->new(
+                            {
+                                type => "text/html",
+                                body => $content,
+                            },
+                        )
+                    );
+
+                });
             }
 
-            $feed->add_entry(
-                $entry
-            );
+            foreach my $format (@feed_formats)
+            {
+                $feeds{$format}->add_entry($entries{$format});
+            }
         }
     }
 
-
-    my $rss_feed = $feed->convert("RSS");
-    $rss_feed->self_link($args->{feed_params}->{'rss_self_link'});
+    $feeds{"RSS"}->self_link($args->{feed_params}->{'rss_self_link'});
 
     return
     {
         'recent_ids' => [reverse(@recent_ids)],
         'feeds' =>
         {
-            'Atom' => $feed,
-            'rss20' => $rss_feed,
+            'Atom' => $feeds{"Atom"},
+            'rss20' => $feeds{"RSS"},
         },
     };
 }
