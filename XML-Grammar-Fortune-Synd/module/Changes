@@ -1,5 +1,15 @@
 Revision history for XML-Grammar-Fortune-Synd
 
+0.02    Fri Oct  8 22:54:53 IST 2010
+        - Add List::Util (which is core, but is still explicitly used) and
+        XML::RSS version 1.46 to the dependencies.
+        - Revamped lib/XML/Grammar/Fortune/Synd.pm - the RSS feed is now generated
+        side-by-side the Atom feed instead of converted from it. This makes sure that
+        the RSS feed is now fixed and does not contain weird base-64 encoded data.
+        However, the Atom feed is still broken, due to this bug in XML-Atom:
+            - https://rt.cpan.org/Public/Bug/Display.html?id=61637
+        - Test for the RSS correctness in t/01-run.t .
+
 0.01    Wed Jul 30 14:06:14 IDT 2008
         - First version, released on an unsuspecting world.
         - Can syndicate to valid RSS and non-valid Atom.
