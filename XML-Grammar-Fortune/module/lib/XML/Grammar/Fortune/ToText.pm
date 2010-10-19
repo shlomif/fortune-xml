@@ -376,7 +376,9 @@ sub _process_screenplay_node
     if (() = $self->_fortune()->findnodes("descendant::info/*"))
     {
         $self->_render_info();
-    }    
+    }
+
+    return;
 }
 
 sub _out_formatted_line
@@ -623,6 +625,8 @@ sub _process_quote_node
     {
         $self->_render_info();
     }
+
+    return;
 }
 
 my @info_fields_order = (qw(work author channel tagline));
@@ -656,6 +660,46 @@ sub _calc_info_field_processed_content
     return $content;
 }
 
+sub _out_info_field_node
+{
+    my ($self, $info_node, $field_node) = @_;
+
+    my $name = $field_node->localname();
+    my $value = $self->_calc_info_field_processed_content($field_node);
+
+    if ($name eq "author")
+    {
+        $self->_out((" " x 4) . "-- " . $value . "\n");
+    }
+    elsif (($name eq "work") || ($name eq "tagline"))
+    {
+        my $url = "";
+        if ($field_node->hasAttribute("href"))
+        {
+            $url = " ( " . $field_node->getAttribute("href") . " )";
+        }
+        $self->_out(
+              (" " x 4) . "-- "
+            . $value
+            . $url
+            . "\n"
+        );
+    }
+    elsif ($name eq "channel")
+    {
+        my $channel = $field_node->textContent();
+        my $network = $info_node->findnodes("network")->shift()->textContent();
+        
+        $self->_out(
+            (" " x 4) . "-- "
+            . "$channel, $network"
+            . "\n"
+        );
+    }
+
+    return;
+}
+
 sub _render_info
 {
     my ($self) = @_;
@@ -676,40 +720,10 @@ sub _render_info
         @fields)
     )
     {
-        my $name = $field_node->localname();
+        $self->_out_info_field_node($info, $field_node);
+    }
 
-        my $value = $self->_calc_info_field_processed_content($field_node);
-
-        if ($name eq "author")
-        {
-            $self->_out((" " x 4) . "-- " . $value . "\n");
-        }
-        elsif (($name eq "work") || ($name eq "tagline"))
-        {
-            my $url = "";
-            if ($field_node->hasAttribute("href"))
-            {
-                $url = " ( " . $field_node->getAttribute("href") . " )";
-            }
-            $self->_out(
-                  (" " x 4) . "-- "
-                . $value
-                . $url
-                . "\n"
-            );
-        }
-        elsif ($name eq "channel")
-        {
-            my $channel = $field_node->textContent();
-            my $network = $info->findnodes("network")->shift()->textContent();
-            
-            $self->_out(
-                (" " x 4) . "-- "
-                . "$channel, $network"
-                . "\n"
-            );
-        }
-    }   
+    return;
 }
 
 1;
