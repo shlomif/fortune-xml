@@ -638,6 +638,24 @@ sub _info_field_value
     return $info_fields_order_map{$field->localname()} || (-1);
 }
 
+sub _calc_info_field_processed_content
+{
+    my $self = shift;
+    my $field_node = shift;
+
+    my $content = $field_node->textContent();
+
+    # Squash whitespace including newlines into a single space.
+    $content =~ s{\s+}{ }g;
+
+    # Remove leading and trailing space - it is not desirable here
+    # because we want it formatted consistently.
+    $content =~ s{\A\s+}{};
+    $content =~ s{\s+\z}{};
+
+    return $content;
+}
+
 sub _render_info
 {
     my ($self) = @_;
@@ -660,15 +678,7 @@ sub _render_info
     {
         my $name = $field_node->localname();
 
-        my $value = $field_node->textContent();
-
-        # Squash whitespace including newlines into a single space.
-        $value =~ s{\s+}{ }g;
-        
-        # Remove leading and trailing space - it is not desirable here
-        # because we want it formatted consistently.
-        $value =~ s{\A\s+}{};
-        $value =~ s{\s+\z}{};
+        my $value = $self->_calc_info_field_processed_content($field_node);
 
         if ($name eq "author")
         {
