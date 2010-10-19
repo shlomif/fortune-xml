@@ -660,9 +660,19 @@ sub _render_info
     {
         my $name = $field_node->localname();
 
+        my $value = $field_node->textContent();
+
+        # Squash whitespace including newlines into a single space.
+        $value =~ s{\s+}{ }g;
+        
+        # Remove leading and trailing space - it is not desirable here
+        # because we want it formatted consistently.
+        $value =~ s{\A\s+}{};
+        $value =~ s{\s+\z}{};
+
         if ($name eq "author")
         {
-            $self->_out((" " x 4) . "-- " . $field_node->textContent() . "\n");
+            $self->_out((" " x 4) . "-- " . $value . "\n");
         }
         elsif (($name eq "work") || ($name eq "tagline"))
         {
@@ -673,7 +683,7 @@ sub _render_info
             }
             $self->_out(
                   (" " x 4) . "-- "
-                . $field_node->textContent()
+                . $value
                 . $url
                 . "\n"
             );

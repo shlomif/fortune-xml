@@ -17,6 +17,7 @@ t/boilerplate.t
 t/data/text-results/irc-conversation-1.txt
 t/data/text-results/irc-conversation-3-with-join-unjoin.txt
 t/data/text-results/quote-fort-sample-10-with-hyperlink.txt
+t/data/text-results/quote-fort-sample-11-with-work-elem-spanning-several-lines.txt
 t/data/text-results/quote-fort-sample-2-with-brs.txt
 t/data/text-results/quote-fort-sample-3-more-than-one-para.txt
 t/data/text-results/quote-fort-sample-4-ul.txt
@@ -48,6 +49,7 @@ t/data/xml/irc-conversation-3-with-join-unjoin.xml
 t/data/xml/irc-conversation-4-several-convos.xml
 t/data/xml/irc-convos-and-raw-fortunes-1.xml
 t/data/xml/quote-fort-sample-10-with-hyperlink.xml
+t/data/xml/quote-fort-sample-11-with-work-elem-spanning-several-lines.xml
 t/data/xml/quote-fort-sample-1.xml
 t/data/xml/quote-fort-sample-2-with-brs.xml
 t/data/xml/quote-fort-sample-3-more-than-one-para.xml
