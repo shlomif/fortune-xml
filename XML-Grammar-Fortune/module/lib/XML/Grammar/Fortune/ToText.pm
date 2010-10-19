@@ -660,6 +660,13 @@ sub _calc_info_field_processed_content
     return $content;
 }
 
+sub _output_info_value
+{
+    my ($self, $string) = @_;
+
+    return $self->_out((' ' x 4) . '-- ' . $string . "\n");
+}
+
 sub _out_info_field_node
 {
     my ($self, $info_node, $field_node) = @_;
@@ -669,32 +676,25 @@ sub _out_info_field_node
 
     if ($name eq "author")
     {
-        $self->_out((" " x 4) . "-- " . $value . "\n");
+        $self->_output_info_value($value);
     }
     elsif (($name eq "work") || ($name eq "tagline"))
     {
         my $url = "";
+
         if ($field_node->hasAttribute("href"))
         {
             $url = " ( " . $field_node->getAttribute("href") . " )";
         }
-        $self->_out(
-              (" " x 4) . "-- "
-            . $value
-            . $url
-            . "\n"
-        );
+
+        $self->_output_info_value($value.$url);
     }
     elsif ($name eq "channel")
     {
         my $channel = $field_node->textContent();
         my $network = $info_node->findnodes("network")->shift()->textContent();
         
-        $self->_out(
-            (" " x 4) . "-- "
-            . "$channel, $network"
-            . "\n"
-        );
+        $self->_output_info_value( "$channel, $network" );
     }
 
     return;
