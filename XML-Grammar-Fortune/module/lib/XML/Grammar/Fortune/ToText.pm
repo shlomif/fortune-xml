@@ -380,23 +380,37 @@ sub _render_screenplay_paras
     return $self->_render_portion_paras($portion, {para_is => "para"});
 }
 
+sub _is_portion_desc
+{
+    my ($self, $portion) = @_;
+
+    return ($portion->localname() eq "description");
+}
+
+sub _get_screenplay_portion_opening
+{
+    my ($self, $portion) = @_;
+
+    return $self->_is_portion_desc($portion)
+        ? "["
+        # A saying.
+        : ($portion->getAttribute("character") . ": ")
+        ;
+}
+
 sub _handle_screenplay_portion
 {
     my ($self, $portion) = @_;
 
-    if ($portion->localname() eq "description")
+    $self->_this_line(
+        $self->_get_screenplay_portion_opening($portion)
+    );
+
+    $self->_render_screenplay_paras($portion);
+
+    if ($self->_is_portion_desc($portion))
     {
-        $self->_this_line("[");
-
-        $self->_render_screenplay_paras($portion);
-
         $self->_out("]");
-    }
-    else # localname() is "saying"
-    {
-        $self->_this_line($portion->getAttribute("character") . ": ");
-
-        $self->_render_screenplay_paras($portion);
     }
 
     $self->_start_new_line;
