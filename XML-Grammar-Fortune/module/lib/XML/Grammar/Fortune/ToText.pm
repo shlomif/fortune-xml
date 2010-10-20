@@ -120,6 +120,33 @@ sub _output_next_fortune_delim
     return $self->_out("%\n");
 }
 
+sub _do_nothing {}
+
+sub _iter_over_elems_list
+{
+    my ($self, $list, $args) = @_;
+    
+    my $process_cb = $args->{'process'};
+    my $if_remainaing_meth = $args->{'if_more'};
+    my $continue_cb = ($args->{'cont'} || \&_do_nothing);
+
+    while (my $elem = $list->shift())
+    {
+        $process_cb->($elem);
+    }
+    continue
+    {
+        $continue_cb->();
+
+        if ($list->size())
+        {
+            $self->$if_remainaing_meth();
+        }
+    }
+
+    return;
+}
+
 =head2 $self->run()
 
 Runs the processor. If $mode is "validate", validates the document.
@@ -134,18 +161,17 @@ sub run
 
     $self->_fortunes_list(scalar($xml->findnodes("//fortune")));
 
-    while ($self->_fortune($self->_fortunes_list->shift()))
-    {
-        $self->_render_single_fortune_cookie();
-    }
-    continue
-    {
-        # If there are more fortunes - output a separator.
-        if ($self->_fortunes_list->size())
+    $self->_iter_over_elems_list(
+        $self->_fortunes_list(),
         {
-            $self->_output_next_fortune_delim;
+            process => sub {
+                $self->_fortune(shift);
+                $self->_render_single_fortune_cookie(); 
+                return;
+            },
+            if_more => '_output_next_fortune_delim',
         }
-    }
+    );
 
     $self->_fortunes_list(undef);
 
@@ -359,32 +385,34 @@ sub _process_screenplay_node
 
     my $portions_list = $body_node->findnodes("description|saying");
 
-    while (my $portion = $portions_list->shift())
-    {
-        if ($portion->localname() eq "description")
+    $self->_iter_over_elems_list(
+        $portions_list,
         {
-            $self->_this_line("[");
+            process => sub {
+                # TODO : extract to a method.
+                my $portion = shift;
 
-            $self->_render_screenplay_paras($portion);
+                if ($portion->localname() eq "description")
+                {
+                    $self->_this_line("[");
 
-            $self->_out("]\n");
+                    $self->_render_screenplay_paras($portion);
+
+                    $self->_out("]\n");
+                }
+                else # localname() is "saying"
+                {
+                    $self->_this_line($portion->getAttribute("character") . ": ");
+
+                    $self->_render_screenplay_paras($portion);
+
+                    $self->_start_new_line;
+                }
+                return;
+            },
+            if_more => '_start_new_line',
         }
-        else # localname() is "saying"
-        {
-            $self->_this_line($portion->getAttribute("character") . ": ");
-
-            $self->_render_screenplay_paras($portion);
-
-            $self->_start_new_line;
-        }
-    }
-    continue
-    {
-        if ($portions_list->size())
-        {
-            $self->_start_new_line;
-        }
-    }
+    );
 
     return;
 }
@@ -534,25 +562,29 @@ sub _render_quote_list
 
     my $idx = 1;
 
-    while (my $li = $items_list->shift())
-    {
-        $self->_append_to_this_line(
-            ($is_bullets ? "*" : "$idx.") . " "
-        );
-
-        $self->_render_para($li);
-    }
-    continue
-    {
-        $idx++;
-
-        $self->_out_formatted_line();
-
-        if ($items_list->size())
+    $self->_iter_over_elems_list(
+        $items_list,
         {
-            $self->_start_new_line;
+            process => sub {
+                my $li = shift;
+                $self->_append_to_this_line(
+                    ($is_bullets ? "*" : "$idx.") . " "
+                );
+
+                $self->_render_para($li);
+
+                return;
+            },
+            cont => sub {
+                $idx++;
+
+                $self->_out_formatted_line();
+
+                return;
+            },
+            if_more => '_start_new_line',
         }
-    }
+    );
 
     return;
 }
@@ -594,36 +626,38 @@ sub _render_portion_paras
 
     my $paragraphs = $portion->findnodes($para_name);
 
-    while (my $para = $paragraphs->shift())
-    {
-        $self->_is_first_line(1);
+    $self->_iter_over_elems_list(
+        $paragraphs,
+        {
+            process => sub {
+                my $para = shift;
 
-        if (($para->localname() eq "ul") || ($para->localname() eq "ol"))
-        {
-            $self->_render_quote_list($para);
-        }
-        elsif ($para->localname() eq "blockquote")
-        {
-            $self->_render_quote_blockquote($para);
-        }
-        else
-        {
-            $self->_render_para($para);
-        }
+                $self->_is_first_line(1);
 
-        if ($self->_this_line() =~ m{\S})
-        {
-            $self->_out_formatted_line();
-            $self->_this_line("");
+                if (($para->localname() eq "ul") || ($para->localname() eq "ol"))
+                {
+                    $self->_render_quote_list($para);
+                }
+                elsif ($para->localname() eq "blockquote")
+                {
+                    $self->_render_quote_blockquote($para);
+                }
+                else
+                {
+                    $self->_render_para($para);
+                }
+
+                if ($self->_this_line() =~ m{\S})
+                {
+                    $self->_out_formatted_line();
+                    $self->_this_line("");
+                }
+            },
+            if_more => '_start_new_para',
         }
-    }
-    continue
-    {
-        if ($paragraphs->size())
-        {
-            $self->_start_new_para;
-        }
-    }
+    );
+
+    return;
 }
 
 sub _process_quote_node
