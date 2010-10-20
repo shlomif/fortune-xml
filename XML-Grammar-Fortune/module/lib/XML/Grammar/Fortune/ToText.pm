@@ -390,16 +390,16 @@ sub _handle_screenplay_portion
 
         $self->_render_screenplay_paras($portion);
 
-        $self->_out("]\n");
+        $self->_out("]");
     }
     else # localname() is "saying"
     {
         $self->_this_line($portion->getAttribute("character") . ": ");
 
         $self->_render_screenplay_paras($portion);
-
-        $self->_start_new_line;
     }
+
+    $self->_start_new_line;
 
     return;
 }
