@@ -17,7 +17,6 @@ __PACKAGE__->mk_accessors(qw(
     _mode
     _input
     _output
-    _fortunes_list
     _fortune
     _this_line
     ));
@@ -159,10 +158,8 @@ sub run
 
     my $xml = XML::LibXML->new->parse_file($self->_input());
 
-    $self->_fortunes_list(scalar($xml->findnodes("//fortune")));
-
     $self->_iter_over_elems_list(
-        $self->_fortunes_list(),
+        scalar($xml->findnodes("//fortune")),
         {
             process => sub {
                 $self->_fortune(shift);
@@ -172,8 +169,6 @@ sub run
             if_more => '_output_next_fortune_delim',
         }
     );
-
-    $self->_fortunes_list(undef);
 
     return;
 }
@@ -383,10 +378,8 @@ sub _process_screenplay_node
 
     my ($body_node) = $play_node->findnodes("body");
 
-    my $portions_list = $body_node->findnodes("description|saying");
-
     $self->_iter_over_elems_list(
-        $portions_list,
+        scalar( $body_node->findnodes("description|saying") ),
         {
             process => sub {
                 # TODO : extract to a method.
@@ -558,12 +551,10 @@ sub _render_quote_list
 
     my $is_bullets = ($ul->localname() eq "ul");
 
-    my $items_list = $ul->findnodes("li");
-
     my $idx = 1;
 
     $self->_iter_over_elems_list(
-        $items_list,
+        scalar($ul->findnodes("li")),
         {
             process => sub {
                 my $li = shift;
@@ -624,10 +615,8 @@ sub _render_portion_paras
 
     my $para_name = $args->{para_is};
 
-    my $paragraphs = $portion->findnodes($para_name);
-
     $self->_iter_over_elems_list(
-        $paragraphs,
+        scalar( $portion->findnodes($para_name) ),
         {
             process => sub {
                 my $para = shift;
