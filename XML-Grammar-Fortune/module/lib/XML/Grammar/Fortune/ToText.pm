@@ -524,6 +524,24 @@ sub _handle_format_node
     return;
 }
 
+sub _get_formatted_node_text
+{
+    my $self = shift;
+    my $node = shift;
+
+    my $text = $node->textContent();
+
+    # Intent: format the text.
+    # Trim leading and trailing nelines.
+    $text =~ s{\A\n+}{}ms;
+    $text =~ s{\n+\z}{}ms;
+
+    # Convert a sequence of spaces to a single space.
+    $text =~ s{\s+}{ }gms;
+
+    return $text;
+}
+
 sub _render_para
 {
     my ($self, $para) = @_;
@@ -553,17 +571,9 @@ sub _render_para
         }
         elsif ($node->nodeType() == XML_TEXT_NODE())
         {
-            my $node_text = $node->textContent();
-
-            # Intent: format the text.
-            # Trim leading and trailing nelines.
-            $node_text =~ s{\A\n+}{}ms;
-            $node_text =~ s{\n+\z}{}ms;
-
-            # Convert a sequence of space to a single space.
-            $node_text =~ s{\s+}{ }gms;
-
-            $self->_append_to_this_line($node_text);
+            $self->_append_to_this_line(
+                $self->_get_formatted_node_text($node)
+            );
         }
     }
 }
