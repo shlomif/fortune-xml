@@ -147,6 +147,18 @@ sub run
     return;
 }
 
+sub _render_info_if_exists
+{
+    my ($self) = @_;
+
+    if (() = $self->_fortune()->findnodes("descendant::info/*"))
+    {
+        $self->_render_info_node();
+    }
+
+    return;
+}
+
 sub _process_raw_node
 {
     my ($self, $raw_node) = @_;
@@ -172,10 +184,7 @@ sub _process_raw_node
     $value =~ s{\n+\z}{}g;
     $self->_out("$value\n");
 
-    if (() = $self->_fortune()->findnodes("descendant::info/*"))
-    {
-        $self->_render_info_node();
-    }
+    $self->_render_info_if_exists();
 
     return;
 }
@@ -330,10 +339,7 @@ sub _process_irc_node
         }
     }
 
-    if (() = $self->_fortune()->findnodes("descendant::info/*"))
-    {
-        $self->_render_info_node();
-    }
+    $self->_render_info_if_exists();
 
     return;
 }
@@ -380,10 +386,7 @@ sub _process_screenplay_node
         }
     }
 
-    if (() = $self->_fortune()->findnodes("descendant::info/*"))
-    {
-        $self->_render_info_node();
-    }
+    $self->_render_info_if_exists();
 
     return;
 }
@@ -635,10 +638,7 @@ sub _process_quote_node
 
     $self->_start_new_line;
 
-    if (() = $self->_fortune()->findnodes("descendant::info/*"))
-    {
-        $self->_render_info_node();
-    }
+    $self->_render_info_if_exists();
 
     return;
 }
