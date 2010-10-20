@@ -98,6 +98,21 @@ sub _start_new_line
     return $self->_out("\n");
 }
 
+sub _render_single_fortune_cookie
+{
+    my ($self) = @_;
+
+    my ($node) = $self->_fortune()->findnodes("raw|irc|screenplay|quote");
+
+    my $method = sprintf("_process_%s_node", $node->localname());
+
+    $self->$method($node);
+
+    $self->_render_info_if_exists();
+
+    return;
+}
+
 =head2 $self->run()
 
 Runs the processor. If $mode is "validate", validates the document.
@@ -114,13 +129,7 @@ sub run
 
     while ($self->_fortune($self->_fortunes_list->shift()))
     {
-        my ($node) = $self->_fortune()->findnodes("raw|irc|screenplay|quote");
-
-        my $method = sprintf("_process_%s_node", $node->localname());
-
-        $self->$method($node);
-
-        $self->_render_info_if_exists();
+        $self->_render_single_fortune_cookie();
     }
     continue
     {
