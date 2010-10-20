@@ -116,22 +116,9 @@ sub run
     {
         my ($raw_node) = $self->_fortune()->findnodes("raw|irc|screenplay|quote");
 
-        if ($raw_node->localname() eq "raw")
-        {
-            $self->_process_raw_node($raw_node);
-        }
-        elsif ($raw_node->localname() eq "irc")
-        {
-            $self->_process_irc_node($raw_node);
-        }
-        elsif ($raw_node->localname() eq "screenplay")
-        {
-            $self->_process_screenplay_node($raw_node);
-        }
-        elsif ($raw_node->localname() eq "quote")
-        {
-            $self->_process_quote_node($raw_node);
-        }
+        my $method = sprintf("_process_%s_node", $raw_node->localname());
+
+        $self->$method($raw_node);
     }
     continue
     {
