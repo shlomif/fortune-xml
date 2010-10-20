@@ -119,6 +119,8 @@ sub run
         my $method = sprintf("_process_%s_node", $node->localname());
 
         $self->$method($node);
+
+        $self->_render_info_if_exists();
     }
     continue
     {
@@ -170,8 +172,6 @@ sub _process_raw_node
 
     $value =~ s{\n+\z}{}g;
     $self->_out("$value\n");
-
-    $self->_render_info_if_exists();
 
     return;
 }
@@ -326,8 +326,6 @@ sub _process_irc_node
         }
     }
 
-    $self->_render_info_if_exists();
-
     return;
 }
 
@@ -372,8 +370,6 @@ sub _process_screenplay_node
             $self->_start_new_line;
         }
     }
-
-    $self->_render_info_if_exists();
 
     return;
 }
@@ -624,8 +620,6 @@ sub _process_quote_node
     $self->_render_quote_portion_paras($body_node);   
 
     $self->_start_new_line;
-
-    $self->_render_info_if_exists();
 
     return;
 }
