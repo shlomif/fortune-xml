@@ -10,7 +10,7 @@ use File::Spec;
 use XML::LibXML;
 use XML::LibXSLT;
 
-use XML::Grammar::Fortune::ConfigData;
+use File::ShareDir ':ALL';
 
 use base 'Class::Accessor';
 
@@ -167,8 +167,7 @@ sub _init
 
     $self->_output_mode($args->{output_mode} || "filename");
 
-    my $data_dir = $args->{'data_dir'} ||
-        XML::Grammar::Fortune::ConfigData->config('extradata_install_path')->[0];
+    my $data_dir = $args->{'data_dir'} || dist_dir( 'XML-Grammar-Fortune' );
 
     $self->_data_dir($data_dir);
 
