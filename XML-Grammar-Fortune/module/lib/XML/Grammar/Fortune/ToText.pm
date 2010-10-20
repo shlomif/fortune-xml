@@ -17,7 +17,6 @@ __PACKAGE__->mk_accessors(qw(
     _mode
     _input
     _output
-    _fortune
     _this_line
     ));
 
@@ -101,15 +100,13 @@ sub _render_single_fortune_cookie
 {
     my ($self, $fortune_node) = @_;
 
-    $self->_fortune($fortune_node);
-
-    my ($node) = $self->_fortune()->findnodes("raw|irc|screenplay|quote");
+    my ($node) = $fortune_node->findnodes("raw|irc|screenplay|quote");
 
     my $method = sprintf("_process_%s_node", $node->localname());
 
     $self->$method($node);
 
-    $self->_render_info_if_exists();
+    $self->_render_info_if_exists($fortune_node);
 
     return;
 }
@@ -183,11 +180,11 @@ sub run
 
 sub _render_info_if_exists
 {
-    my ($self) = @_;
+    my ($self, $fortune_node) = @_;
 
-    if (() = $self->_fortune()->findnodes("descendant::info/*"))
+    if (() = $fortune_node->findnodes("descendant::info/*"))
     {
-        $self->_render_info_node();
+        $self->_render_info_node($fortune_node);
     }
 
     return;
@@ -784,13 +781,11 @@ sub _get_info_node_fields
 
 sub _render_info_node
 {
-    my ($self) = @_;
-
-    my $fortune = $self->_fortune();
+    my ($self, $fortune_node) = @_;
 
     $self->_start_new_line;
 
-    my ($info_node) = $fortune->findnodes("descendant::info");
+    my ($info_node) = $fortune_node->findnodes("descendant::info");
 
     foreach my $field_node ($self->_get_info_node_fields($info_node))
     {
