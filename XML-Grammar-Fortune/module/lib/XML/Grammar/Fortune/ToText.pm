@@ -91,6 +91,13 @@ sub _out
     return;
 }
 
+sub _start_new_line
+{
+    my ($self) = @_;
+
+    return $self->_out("\n");
+}
+
 =head2 $self->run()
 
 Runs the processor. If $mode is "validate", validates the document.
@@ -362,14 +369,14 @@ sub _process_screenplay_node
 
             $self->_render_screenplay_paras($portion);
 
-            $self->_out("\n");
+            $self->_start_new_line;
         }
     }
     continue
     {
         if ($portions_list->size())
         {
-            $self->_out("\n");
+            $self->_start_new_line;
         }
     }
 
@@ -396,7 +403,7 @@ sub _out_formatted_line
     }
     else
     {
-        $self->_out("\n");
+        $self->_start_new_line;
     }
 
     my $output_string = $self->_formatter->format($text);
@@ -542,7 +549,7 @@ sub _render_quote_list
 
         if ($items_list->size())
         {
-            $self->_out("\n");
+            $self->_start_new_line;
         }
     }
 
@@ -569,6 +576,13 @@ sub _render_quote_blockquote
     $self->_render_quote_portion_paras($node);   
 
     $self->_out("\n\n>>>");
+}
+
+sub _start_new_para
+{
+    my ($self) = @_;
+
+    return $self->_out("\n\n");
 }
 
 sub _render_portion_paras
@@ -606,7 +620,7 @@ sub _render_portion_paras
     {
         if ($paragraphs->size())
         {
-            $self->_out("\n\n");
+            $self->_start_new_para;
         }
     }
 }
@@ -619,7 +633,7 @@ sub _process_quote_node
 
     $self->_render_quote_portion_paras($body_node);   
 
-    $self->_out("\n");
+    $self->_start_new_line;
 
     if (() = $self->_fortune()->findnodes("descendant::info/*"))
     {
@@ -706,7 +720,7 @@ sub _render_info
 
     my $fortune = $self->_fortune();
 
-    $self->_out("\n");
+    $self->_start_new_line;
 
     my ($info) = $fortune->findnodes("descendant::info");
     
