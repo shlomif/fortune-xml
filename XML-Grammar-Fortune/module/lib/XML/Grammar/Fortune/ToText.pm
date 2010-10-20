@@ -480,13 +480,6 @@ sub _append_different_formatting_node
         );
 }
 
-sub _append_format_node
-{
-    my ($self, $delim, $node) = @_;
-
-    return $self->_append_different_formatting_node($delim, $delim, $node);
-}
-
 {
     my @_highlights = (['/', [qw(em i)]], ['*', [qw(b strong)]]);
 

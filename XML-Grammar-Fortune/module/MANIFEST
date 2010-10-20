@@ -11,6 +11,7 @@ Makefile.PL
 MANIFEST
 META.yml
 README
+rejects/ToText.pm
 t/00-load.t
 tag-release.pl
 t/boilerplate.t
