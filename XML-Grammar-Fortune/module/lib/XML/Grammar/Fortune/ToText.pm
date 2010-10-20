@@ -121,13 +121,15 @@ sub _output_next_fortune_delim
 
 sub _do_nothing {}
 
-sub _iter_over_elems_list
+sub _iterate_on_child_elems
 {
-    my ($self, $list, $args) = @_;
+    my ($self, $top_elem, $xpath, $args) = @_;
     
     my $process_cb = $args->{'process'};
     my $if_remainaing_meth = $args->{'if_more'};
     my $continue_cb = ($args->{'cont'} || \&_do_nothing);
+
+    my $list = $top_elem->findnodes($xpath);
 
     while (my $elem = $list->shift())
     {
@@ -158,8 +160,9 @@ sub run
 
     my $xml = XML::LibXML->new->parse_file($self->_input());
 
-    $self->_iter_over_elems_list(
-        scalar($xml->findnodes("//fortune")),
+    $self->_iterate_on_child_elems(
+        $xml, 
+        "//fortune",
         {
             process => sub {
                 $self->_fortune(shift);
@@ -378,8 +381,9 @@ sub _process_screenplay_node
 
     my ($body_node) = $play_node->findnodes("body");
 
-    $self->_iter_over_elems_list(
-        scalar( $body_node->findnodes("description|saying") ),
+    $self->_iterate_on_child_elems(
+        $body_node,
+        "description|saying",
         {
             process => sub {
                 # TODO : extract to a method.
@@ -553,8 +557,9 @@ sub _render_quote_list
 
     my $idx = 1;
 
-    $self->_iter_over_elems_list(
-        scalar($ul->findnodes("li")),
+    $self->_iterate_on_child_elems(
+        $ul,
+        "li",
         {
             process => sub {
                 my $li = shift;
@@ -615,8 +620,9 @@ sub _render_portion_paras
 
     my $para_name = $args->{para_is};
 
-    $self->_iter_over_elems_list(
-        scalar( $portion->findnodes($para_name) ),
+    $self->_iterate_on_child_elems(
+        $portion,
+        $para_name,
         {
             process => sub {
                 my $para = shift;
