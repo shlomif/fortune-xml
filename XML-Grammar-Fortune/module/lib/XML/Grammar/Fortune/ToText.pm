@@ -714,6 +714,20 @@ sub _out_info_field_node
     return;
 }
 
+sub _get_info_node_fields
+{
+    my ($self, $info_node) = @_;
+
+    return
+        reverse
+        sort {
+            $self->_info_field_value($a) <=> $self->_info_field_value($b)
+        }
+        $info_node->findnodes("*")
+    ;
+
+}
+
 sub _render_info
 {
     my ($self) = @_;
@@ -723,16 +737,8 @@ sub _render_info
     $self->_start_new_line;
 
     my ($info) = $fortune->findnodes("descendant::info");
-    
-    my @fields = $info->findnodes("*");
 
-    foreach my $field_node (
-        reverse(
-        sort { 
-            $self->_info_field_value($a) <=> $self->_info_field_value($b)
-        }
-        @fields)
-    )
+    foreach my $field_node ($self->_get_info_node_fields($info))
     {
         $self->_out_info_field_node($info, $field_node);
     }
