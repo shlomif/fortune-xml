@@ -113,6 +113,13 @@ sub _render_single_fortune_cookie
     return;
 }
 
+sub _output_next_fortune_delim
+{
+    my $self = shift;
+
+    return $self->_out("%\n");
+}
+
 =head2 $self->run()
 
 Runs the processor. If $mode is "validate", validates the document.
@@ -136,7 +143,7 @@ sub run
         # If there are more fortunes - output a separator.
         if ($self->_fortunes_list->size())
         {
-            $self->_out("%\n");
+            $self->_output_next_fortune_delim;
         }
     }
 
@@ -352,7 +359,6 @@ sub _process_screenplay_node
 
     my $portions_list = $body_node->findnodes("description|saying");
 
-    
     while (my $portion = $portions_list->shift())
     {
         if ($portion->localname() eq "description")
