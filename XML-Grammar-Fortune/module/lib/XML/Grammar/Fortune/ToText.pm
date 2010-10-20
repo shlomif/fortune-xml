@@ -174,7 +174,7 @@ sub _process_raw_node
 
     if (() = $self->_fortune()->findnodes("descendant::info/*"))
     {
-        $self->_render_info();
+        $self->_render_info_node();
     }
 
     return;
@@ -332,7 +332,7 @@ sub _process_irc_node
 
     if (() = $self->_fortune()->findnodes("descendant::info/*"))
     {
-        $self->_render_info();
+        $self->_render_info_node();
     }
 
     return;
@@ -382,7 +382,7 @@ sub _process_screenplay_node
 
     if (() = $self->_fortune()->findnodes("descendant::info/*"))
     {
-        $self->_render_info();
+        $self->_render_info_node();
     }
 
     return;
@@ -637,7 +637,7 @@ sub _process_quote_node
 
     if (() = $self->_fortune()->findnodes("descendant::info/*"))
     {
-        $self->_render_info();
+        $self->_render_info_node();
     }
 
     return;
@@ -728,7 +728,7 @@ sub _get_info_node_fields
 
 }
 
-sub _render_info
+sub _render_info_node
 {
     my ($self) = @_;
 
@@ -736,11 +736,11 @@ sub _render_info
 
     $self->_start_new_line;
 
-    my ($info) = $fortune->findnodes("descendant::info");
+    my ($info_node) = $fortune->findnodes("descendant::info");
 
-    foreach my $field_node ($self->_get_info_node_fields($info))
+    foreach my $field_node ($self->_get_info_node_fields($info_node))
     {
-        $self->_out_info_field_node($info, $field_node);
+        $self->_out_info_field_node($info_node, $field_node);
     }
 
     return;
