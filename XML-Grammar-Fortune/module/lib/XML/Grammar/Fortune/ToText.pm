@@ -114,11 +114,11 @@ sub run
 
     while ($self->_fortune($self->_fortunes_list->shift()))
     {
-        my ($raw_node) = $self->_fortune()->findnodes("raw|irc|screenplay|quote");
+        my ($node) = $self->_fortune()->findnodes("raw|irc|screenplay|quote");
 
-        my $method = sprintf("_process_%s_node", $raw_node->localname());
+        my $method = sprintf("_process_%s_node", $node->localname());
 
-        $self->$method($raw_node);
+        $self->$method($node);
     }
     continue
     {
