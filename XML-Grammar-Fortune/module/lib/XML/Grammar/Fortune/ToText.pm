@@ -127,9 +127,16 @@ sub _iterate_on_child_elems
 {
     my ($self, $top_elem, $xpath, $args) = @_;
     
-    my $process_cb = $args->{'process'};
+    my $process = $args->{'process'};
     my $if_remainaing_meth = $args->{'if_more'};
     my $continue_cb = ($args->{'cont'} || \&_do_nothing);
+
+    my $process_cb = 
+    (
+        (ref($process) eq "CODE")
+        ? $process
+        : sub { return $self->$process(shift); }
+    );
 
     my $list = $top_elem->findnodes($xpath);
 
@@ -166,9 +173,7 @@ sub run
         $xml, 
         "//fortune",
         {
-            process => sub {
-                return $self->_render_single_fortune_cookie(shift); 
-            },
+            process => '_render_single_fortune_cookie',
             if_more => '_output_next_fortune_delim',
         }
     );
@@ -409,9 +414,7 @@ sub _process_screenplay_node
         $body_node,
         "description|saying",
         {
-            process => sub {
-                return $self->_handle_screenplay_portion(shift);
-            },
+            process => '_handle_screenplay_portion',
             if_more => '_start_new_line',
         }
     );
@@ -659,9 +662,7 @@ sub _render_portion_paras
         $portion,
         $para_name,
         {
-            process => sub {
-                return $self->_handle_portion_paragraph(shift);
-            },
+            process => '_handle_portion_paragraph',
             if_more => '_start_new_para',
         }
     );
