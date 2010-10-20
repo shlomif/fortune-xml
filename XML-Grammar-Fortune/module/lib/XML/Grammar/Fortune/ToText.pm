@@ -375,6 +375,30 @@ sub _render_screenplay_paras
     return $self->_render_portion_paras($portion, {para_is => "para"});
 }
 
+sub _handle_screenplay_portion
+{
+    my ($self, $portion) = @_;
+
+    if ($portion->localname() eq "description")
+    {
+        $self->_this_line("[");
+
+        $self->_render_screenplay_paras($portion);
+
+        $self->_out("]\n");
+    }
+    else # localname() is "saying"
+    {
+        $self->_this_line($portion->getAttribute("character") . ": ");
+
+        $self->_render_screenplay_paras($portion);
+
+        $self->_start_new_line;
+    }
+
+    return;
+}
+
 sub _process_screenplay_node
 {
     my ($self, $play_node) = @_;
@@ -386,26 +410,7 @@ sub _process_screenplay_node
         "description|saying",
         {
             process => sub {
-                # TODO : extract to a method.
-                my $portion = shift;
-
-                if ($portion->localname() eq "description")
-                {
-                    $self->_this_line("[");
-
-                    $self->_render_screenplay_paras($portion);
-
-                    $self->_out("]\n");
-                }
-                else # localname() is "saying"
-                {
-                    $self->_this_line($portion->getAttribute("character") . ": ");
-
-                    $self->_render_screenplay_paras($portion);
-
-                    $self->_start_new_line;
-                }
-                return;
+                return $self->_handle_screenplay_portion(shift);
             },
             if_more => '_start_new_line',
         }
@@ -563,6 +568,7 @@ sub _render_quote_list
         {
             process => sub {
                 my $li = shift;
+
                 $self->_append_to_this_line(
                     ($is_bullets ? "*" : "$idx.") . " "
                 );
@@ -614,6 +620,35 @@ sub _start_new_para
     return $self->_out("\n\n");
 }
 
+sub _handle_portion_paragraph
+{
+    my $self = shift;
+    my $para = shift;
+
+    $self->_is_first_line(1);
+
+    if (($para->localname() eq "ul") || ($para->localname() eq "ol"))
+    {
+        $self->_render_quote_list($para);
+    }
+    elsif ($para->localname() eq "blockquote")
+    {
+        $self->_render_quote_blockquote($para);
+    }
+    else
+    {
+        $self->_render_para($para);
+    }
+
+    if ($self->_this_line() =~ m{\S})
+    {
+        $self->_out_formatted_line();
+        $self->_this_line("");
+    }
+
+    return;
+}
+
 sub _render_portion_paras
 {
     my ($self, $portion, $args) = @_;
@@ -625,28 +660,7 @@ sub _render_portion_paras
         $para_name,
         {
             process => sub {
-                my $para = shift;
-
-                $self->_is_first_line(1);
-
-                if (($para->localname() eq "ul") || ($para->localname() eq "ol"))
-                {
-                    $self->_render_quote_list($para);
-                }
-                elsif ($para->localname() eq "blockquote")
-                {
-                    $self->_render_quote_blockquote($para);
-                }
-                else
-                {
-                    $self->_render_para($para);
-                }
-
-                if ($self->_this_line() =~ m{\S})
-                {
-                    $self->_out_formatted_line();
-                    $self->_this_line("");
-                }
+                return $self->_handle_portion_paragraph(shift);
             },
             if_more => '_start_new_para',
         }
