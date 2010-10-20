@@ -182,9 +182,9 @@ sub _render_info_if_exists
 {
     my ($self, $fortune_node) = @_;
 
-    if (() = $fortune_node->findnodes("descendant::info/*"))
+    if (my ($info_node) = $fortune_node->findnodes("descendant::info"))
     {
-        $self->_render_info_node($fortune_node);
+        $self->_render_info_node($info_node);
     }
 
     return;
@@ -781,15 +781,16 @@ sub _get_info_node_fields
 
 sub _render_info_node
 {
-    my ($self, $fortune_node) = @_;
+    my ($self, $info_node) = @_;
 
-    $self->_start_new_line;
-
-    my ($info_node) = $fortune_node->findnodes("descendant::info");
-
-    foreach my $field_node ($self->_get_info_node_fields($info_node))
+    if (my @f = $self->_get_info_node_fields($info_node))
     {
-        $self->_out_info_field_node($info_node, $field_node);
+        $self->_start_new_line;
+
+        foreach my $field_node (@f)
+        {
+            $self->_out_info_field_node($info_node, $field_node);
+        }
     }
 
     return;
