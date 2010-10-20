@@ -99,7 +99,9 @@ sub _start_new_line
 
 sub _render_single_fortune_cookie
 {
-    my ($self) = @_;
+    my ($self, $fortune_node) = @_;
+
+    $self->_fortune($fortune_node);
 
     my ($node) = $self->_fortune()->findnodes("raw|irc|screenplay|quote");
 
@@ -165,9 +167,7 @@ sub run
         "//fortune",
         {
             process => sub {
-                $self->_fortune(shift);
-                $self->_render_single_fortune_cookie(); 
-                return;
+                return $self->_render_single_fortune_cookie(shift); 
             },
             if_more => '_output_next_fortune_delim',
         }
