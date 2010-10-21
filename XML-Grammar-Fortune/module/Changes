@@ -1,3 +1,12 @@
+0.0400
+        - Squash spaces in the text output of the <info /> fields like 
+        <work /> , <author />, etc. This was a bug that caused that such tags
+        with newlines would render improperly in fortunes.
+        - Converted to use File::ShareDir for the extradata directory.
+        This was done per the advice given here:
+            - http://www.nntp.perl.org/group/perl.module.build/2010/10/msg2765.html .
+        - Many refactorings in lib/XML/Grammar/Fortune/ToText.pm .
+
 0.0300      Sat Sep 25 20:05:32 IST 2010
         - Add support for text-rendering of the Screenplay-XML <inlinedesc>
         tag, so it will now render as '[' ... ']' inside the paragraphs.
