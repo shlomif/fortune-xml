@@ -1,5 +1,5 @@
 0.0400      Thu Oct 21 19:44:19 IST 2010
-        - Squash spaces in the text output of the <info /> fields like 
+        - Squash spaces in the text output of the <info /> fields like
         <work /> , <author />, etc. This was a bug that caused that such tags
         with newlines would render improperly in fortunes.
         - Converted to use File::ShareDir for the extradata directory.
@@ -23,7 +23,7 @@
         - Now the conversion-to-text supports more tags and elements
         that were previously mis-handled (with tests).
         - Add keywords to the META.yml.
-        
+
 0.0109 Sat Oct 31 14:44:35 IST 2009
         - Fixed the tests if XML-LibXSLT generates indented XML.
             - as is the case on Mandriva Cooker and other systems.
@@ -56,7 +56,7 @@
         use Fatal call to settle t/pod-coverage.t.
 
 0.0102  Thu Jul 31 15:58:08 IDT 2008
-        - Converted create_makefile_pl from "traditional" to 
+        - Converted create_makefile_pl from "traditional" to
         "passthrough" so it will run Build.PL and avoid the various
         problems inherent in depending on the Makefile.PL generation.
         - Hopefully it will silence CPAN Testers warnings such as:
