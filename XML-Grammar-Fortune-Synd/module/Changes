@@ -1,5 +1,13 @@
 Revision history for XML-Grammar-Fortune-Synd
 
+0.0201  Tue Oct 26 22:22:09 IST 2010
+        - Reformat "Changes" (this file) - it had some long lines.
+        - Added MANIFEST.SKIP to the distribution. It's not functional yet,
+        but it keep getting auto-generated (we maintain the MANIFEST manually).
+        - Added a dependency on XML-Grammar-Fortune-0.0400 which was converted
+        to File-ShareDir, and so this module will now hopefully not fail the
+        tests.
+
 0.02    Fri Oct  8 22:54:53 IST 2010
         - Add List::Util (which is core, but is still explicitly used) and
         XML::RSS version 1.46 to the dependencies.

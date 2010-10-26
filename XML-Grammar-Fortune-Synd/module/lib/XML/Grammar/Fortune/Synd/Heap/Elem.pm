@@ -10,7 +10,7 @@ XML::Grammar::Fortune::Synd. For internal use.
 
 =head1 VERSION
 
-Version 0.02
+Version 0.0201
 
 =cut
 
