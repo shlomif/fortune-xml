@@ -6,6 +6,7 @@ lib/XML/Grammar/Fortune/Synd/Heap/Elem.pm
 lib/XML/Grammar/Fortune/Synd.pm
 Makefile.PL
 MANIFEST
+MANIFEST.SKIP
 META.yml
 README
 t/00-load.t
