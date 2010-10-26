@@ -3,10 +3,11 @@ Revision history for XML-Grammar-Fortune-Synd
 0.02    Fri Oct  8 22:54:53 IST 2010
         - Add List::Util (which is core, but is still explicitly used) and
         XML::RSS version 1.46 to the dependencies.
-        - Revamped lib/XML/Grammar/Fortune/Synd.pm - the RSS feed is now generated
-        side-by-side the Atom feed instead of converted from it. This makes sure that
-        the RSS feed is now fixed and does not contain weird base-64 encoded data.
-        However, the Atom feed is still broken, due to this bug in XML-Atom:
+        - Revamped lib/XML/Grammar/Fortune/Synd.pm - the RSS feed is now
+        generated side-by-side with the Atom feed instead of converted from
+        it. This makes sure that the RSS feed is now fixed and does not
+        contain weird base-64 encoded data. However, the Atom feed is still
+        broken, due to this bug in XML-Atom:
             - https://rt.cpan.org/Public/Bug/Display.html?id=61637
         - Test for the RSS correctness in t/01-run.t .
         - Add the tag-release.pl script to tag release in the svn repository.
