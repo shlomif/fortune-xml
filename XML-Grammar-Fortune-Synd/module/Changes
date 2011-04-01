@@ -1,5 +1,6 @@
 Revision history for XML-Grammar-Fortune-Synd
 
+0.0202  Sat Apr  2 01:29:45 IDT 2011
         - Eliminate old IDs in the YAML file if the fortune cookies were moved
         or deleted.
             - see t/02-eliminate-old-ids.t .
