@@ -142,6 +142,21 @@ sub calc_feeds
 
         my $id_count = 1;
 
+        # Get rid of IDs in the hash refs that don't exist in the file,
+        # so we won't have globally duplicate IDs.
+        {
+            my $hash_ref = $scripts_hash->{$file}; 
+            my %ids_map = (map { $_ => 1 } @ids);
+
+            foreach my $id (keys(%$hash_ref))
+            {
+                if (! exists($ids_map{$id}))
+                {
+                    delete ($hash_ref->{$id});
+                }
+            }
+        }
+
         IDS_LOOP:
         foreach my $id (@ids)
         {
