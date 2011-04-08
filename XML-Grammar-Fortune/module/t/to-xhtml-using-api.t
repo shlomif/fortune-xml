@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 24;
+use Test::More tests => 26;
 use Test::Differences;
 
 use File::Spec;
@@ -11,7 +11,7 @@ use Encode;
 
 use XML::Grammar::Fortune;
 
-# TEST:$num_texts=12
+# TEST:$num_texts=13
 
 my @tests = (qw(
         irc-conversation-4-several-convos
@@ -20,6 +20,7 @@ my @tests = (qw(
         quote-fort-sample-1
         quote-fort-sample-2-with-brs
         screenplay-fort-sample-1
+        screenplay-fort-sample-2-with-italics
         quote-fort-sample-4-ul
         quote-fort-sample-5-ol
         quote-fort-sample-6-with-bold

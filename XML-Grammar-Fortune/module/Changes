@@ -1,3 +1,5 @@
+        - Add support for the <italics> tag to the screenplay.
+
 0.0400      Thu Oct 21 19:44:19 IST 2010
         - Squash spaces in the text output of the <info /> fields like
         <work /> , <author />, etc. This was a bug that caused that such tags

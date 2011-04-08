@@ -255,6 +255,12 @@ namespace-->
     </strong>
 </xsl:template>
 
+<xsl:template match="italics" mode="screenplay">
+    <em class="italics">
+        <xsl:apply-templates  mode="screenplay"/>
+    </em>
+</xsl:template>
+
 <xsl:template match="inlinedesc" mode="screenplay">
     <span class="inlinedesc">[<xsl:apply-templates mode="screenplay"/>]</span>
 </xsl:template>

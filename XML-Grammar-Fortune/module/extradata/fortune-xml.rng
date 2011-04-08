@@ -179,6 +179,11 @@
             <text />
         </element>
     </define>
+    <define name="italics">
+        <element name="italics">
+            <text />
+        </element>
+    </define>
     <define name="ulink">
         <element name="ulink">
                 <attribute name="url">
@@ -188,6 +193,7 @@
                     <choice>
                         <text />
                         <ref name="bold"/>
+                        <ref name="italics"/>
                     </choice>
             </zeroOrMore>
         </element>
@@ -197,6 +203,7 @@
             <text/>
             <ref name="ulink"/>
             <ref name="bold"/>
+            <ref name="italics"/>
         </choice>
     </define>
     <define name="inside_para_text">
