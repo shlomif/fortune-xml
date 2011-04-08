@@ -1,11 +1,11 @@
 use strict;
 use warnings;
 
-use Test::More tests => 15;                      # last test to print
+use Test::More tests => 16;                      # last test to print
 
 use XML::LibXML;
 
-# TEST:$num_tests=15
+# TEST:$num_tests=16
 my @inputs = (qw(
         irc-conversation-1
         irc-conversation-2-with-slash-me
@@ -15,6 +15,7 @@ my @inputs = (qw(
         quote-fort-sample-1
         quote-fort-sample-2-with-brs
         screenplay-fort-sample-1
+        screenplay-fort-sample-2-with-italics
         quote-fort-sample-4-ul
         quote-fort-sample-5-ol
         quote-fort-sample-6-with-bold

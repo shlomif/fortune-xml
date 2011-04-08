@@ -1,4 +1,6 @@
         - Add support for the <italics> tag to the screenplay.
+        - Fix the rendering of <bold> and <italics> inside a <screenplay>
+        fortune as text.
 
 0.0400      Thu Oct 21 19:44:19 IST 2010
         - Squash spaces in the text output of the <info /> fields like

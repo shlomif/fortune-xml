@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 17;
+use Test::More tests => 18;
 use Test::Differences;
 
 use File::Spec;
@@ -14,7 +14,7 @@ use XML::LibXSLT;
 
 use XML::Grammar::Fortune::ToText;
 
-# TEST:$num_texts=17
+# TEST:$num_texts=18
 
 my @tests = (qw(
         raw-fort-empty-info-1
@@ -32,6 +32,7 @@ my @tests = (qw(
         quote-fort-sample-10-with-hyperlink
         quote-fort-sample-11-with-work-elem-spanning-several-lines
         screenplay-fort-sample-1
+        screenplay-fort-sample-2-with-italics
         screenplay-fort-sample-2-long-line
         screenplay-fort-sample-3-with-inlinedesc
     ));

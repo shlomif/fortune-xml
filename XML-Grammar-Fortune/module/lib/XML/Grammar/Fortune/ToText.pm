@@ -481,7 +481,7 @@ sub _append_different_formatting_node
 }
 
 {
-    my @_highlights = (['/', [qw(em i)]], ['*', [qw(b strong)]]);
+    my @_highlights = (['/', [qw(em i italics)]], ['*', [qw(b bold strong)]]);
 
     my %_formats_map =
     (
