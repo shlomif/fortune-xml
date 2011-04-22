@@ -11,6 +11,10 @@ my $builder = XML::Grammar::Builder->new(
     license             => 'mit',
     dist_author         => 'Shlomi Fish <shlomif@iglu.org.il>',
     dist_version_from   => 'lib/XML/Grammar/Fortune.pm',
+    configure_requires =>
+    {
+        'Module::Build' => '0.36',
+    },
     requires => {
         'Class::Accessor' => 0,
         'File::Spec' => 0,
