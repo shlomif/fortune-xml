@@ -25,6 +25,6 @@ my @cmd = (
     "$mini_repos_base/tags/releases/cpan/$version",
 );
 
-print join(" ", @cmd), "\n";
+print join(" ", map { /\s/ ? qq{"$_"} : $_ } @cmd), "\n";
 exec(@cmd);
 
