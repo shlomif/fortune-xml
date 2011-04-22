@@ -3,6 +3,7 @@
         fortune as text.
         - Clarified the license and POD of XML::Grammar::Fortune::ToText .
         and XML::Grammar::Fortune .
+        - Add a more meaningful synposis to XML::Grammar::Fortune::ToText.
 
 0.0400      Thu Oct 21 19:44:19 IST 2010
         - Squash spaces in the text output of the <info /> fields like

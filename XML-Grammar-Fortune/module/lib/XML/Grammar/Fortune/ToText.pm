@@ -36,7 +36,20 @@ our $VERSION = '0.0400';
 
 =head1 SYNOPSIS
 
-TODO : Fill in.
+    use XML::Grammar::Fortune::ToText;
+
+    open my $out_fh, '>', 'my-fortunes.txt'
+        or die "Cannot open 'my-fortunes.txt' for writing - $!";
+    my $converter = XML::Grammar::Fortune::ToText->new(
+        {
+            'input' => "my-fortunes.fortune-xml.xml",
+            'output' => $out_fh,
+        }
+    );
+
+    $converter->run();
+
+    close($out_fh);
 
 =head1 FUNCTIONS
 
