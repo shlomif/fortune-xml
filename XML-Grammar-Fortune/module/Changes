@@ -1,3 +1,4 @@
+0.0500      Fri Apr 22 15:40:06 IDT 2011
         - Add support for the <italics> tag to the screenplay.
         - Fix the rendering of <bold> and <italics> inside a <screenplay>
         fortune as text.
