@@ -89,24 +89,45 @@ sub new
     return $self;
 }
 
+sub _calc_rng_schema
+{
+    my $self = shift;
+
+    return
+        XML::LibXML::RelaxNG->new(
+            location =>
+            File::Spec->catfile(
+                $self->_data_dir(), 
+                "fortune-xml.rng",
+            ),
+        );
+}
+
 sub _get_rng_schema
 {
     my $self = shift;
 
     if (!defined($self->_rng_schema()))
     {
-        $self->_rng_schema(
-            XML::LibXML::RelaxNG->new(
-                location =>
-                File::Spec->catfile(
-                    $self->_data_dir(), 
-                    "fortune-xml.rng",
-                ),
-            )
-        );
+        $self->_rng_schema($self->_calc_rng_schema);
     }
 
     return $self->_rng_schema();
+}
+
+sub _calc_xslt_stylesheet
+{
+    my $self = shift;
+
+    return 
+        $self->_get_xslt_obj->parse_stylesheet(
+            $self->_get_xml_parser()->parse_file(
+                File::Spec->catfile(
+                    $self->_data_dir(),
+                    "fortune-xml-to-html.xslt",
+                )
+            )
+        );
 }
 
 sub _get_xslt_stylesheet
@@ -115,16 +136,7 @@ sub _get_xslt_stylesheet
 
     if (! $self->_xslt_stylesheet())
     {
-        my $style_doc = $self->_get_xml_parser()->parse_file(
-            File::Spec->catfile(
-                $self->_data_dir(),
-                "fortune-xml-to-html.xslt",
-            )
-        );
-
-        my $stylesheet = $self->_get_xslt_obj()->parse_stylesheet($style_doc);
-
-        $self->_xslt_stylesheet($stylesheet);
+        $self->_xslt_stylesheet($self->_calc_xslt_stylesheet());
     }
 
     return $self->_xslt_stylesheet();
