@@ -650,25 +650,27 @@ sub _start_new_para
     return $self->_out("\n\n");
 }
 
+sub _render_generalized_para
+{
+    my ($self, $para) = @_;
+
+    return 
+    (
+          (($para->localname() eq "ul") || ($para->localname() eq "ol"))
+        ? $self->_render_quote_list($para)
+        : ($para->localname() eq "blockquote")
+        ? $self->_render_quote_blockquote($para)
+        : $self->_render_para($para)
+    );
+}
+
 sub _handle_portion_paragraph
 {
-    my $self = shift;
-    my $para = shift;
+    my ($self, $para) = @_;
 
     $self->_is_first_line(1);
 
-    if (($para->localname() eq "ul") || ($para->localname() eq "ol"))
-    {
-        $self->_render_quote_list($para);
-    }
-    elsif ($para->localname() eq "blockquote")
-    {
-        $self->_render_quote_blockquote($para);
-    }
-    else
-    {
-        $self->_render_para($para);
-    }
+    $self->_render_generalized_para($para);
 
     if ($self->_this_line() =~ m{\S})
     {
