@@ -664,6 +664,19 @@ sub _render_generalized_para
     );
 }
 
+sub _move_to_next_line
+{
+    my $self = shift;
+
+    if ($self->_this_line() =~ m{\S})
+    {
+        $self->_out_formatted_line();
+        $self->_this_line("");
+    }
+
+    return;
+}
+
 sub _handle_portion_paragraph
 {
     my ($self, $para) = @_;
@@ -672,11 +685,7 @@ sub _handle_portion_paragraph
 
     $self->_render_generalized_para($para);
 
-    if ($self->_this_line() =~ m{\S})
-    {
-        $self->_out_formatted_line();
-        $self->_this_line("");
-    }
+    $self->_move_to_next_line;
 
     return;
 }
