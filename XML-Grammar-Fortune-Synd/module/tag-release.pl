@@ -25,6 +25,6 @@ my @cmd = (
     "$mini_repos_base/tags/releases/XML-Grammar-Fortune-Synd/cpan/$version",
 );
 
-print join(" ", @cmd), "\n";
+print join(" ", map { /\s/ ? qq{"$_"} : $_ } @cmd), "\n";
 exec(@cmd);
 
