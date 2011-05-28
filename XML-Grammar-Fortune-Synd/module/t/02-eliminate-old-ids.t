@@ -5,12 +5,16 @@ use warnings;
 
 use Test::More tests => 2;
 
+use File::Temp qw( tempdir );
+
 use XML::RSS;
 use File::Copy;
 
 use List::Util qw(first);
 
-my $yaml_data_fn = "t/data/out-fortune-synd-eliminate-old-ids-1/fort.yaml";
+my $temp_dir = tempdir( CLEANUP => 1 );
+
+my $yaml_data_fn = "$temp_dir/fort.yaml";
 
 copy("t/data/fortune-synd-eliminate-old-ids-1/fort.yaml", $yaml_data_fn);
 
@@ -26,8 +30,8 @@ my @cmd_line = (
         --xml-file screenplay-fort-sample-1.xml
     ),
     "--yaml-data" => $yaml_data_fn,
-    "--atom-output" => "t/data/out-fortune-synd-eliminate-old-ids-1/fort.atom",
-    "--rss-output" => "t/data/out-fortune-synd-eliminate-old-ids-1/fort.rss",
+    "--atom-output" => "$temp_dir/fort.atom",
+    "--rss-output" => "$temp_dir/fort.rss",
     "--master-url" => "http://www.fortunes.tld/My-Fortunes/",
     "--title" => "My Fortune Feeds",
     "--tagline" => "My Fortune Feeds",

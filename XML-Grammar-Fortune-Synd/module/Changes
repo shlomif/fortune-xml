@@ -1,5 +1,10 @@
 Revision history for XML-Grammar-Fortune-Synd
 
+0.0203  Sat May 28 11:22:13 IDT 2011
+        - Convert the write-to directories in t/*.t to File::Temp's tempdir() ,
+        in order to get rid of Win32 (and other) test failures:
+            - http://www.cpantesters.org/cpan/report/2fabe6f4-9252-1014-9a4c-e9e71382d405
+
 0.0202  Sat Apr  2 01:29:45 IDT 2011
         - Eliminate old IDs in the YAML file if the fortune cookies were moved
         or deleted.

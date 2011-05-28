@@ -5,9 +5,13 @@ use warnings;
 
 use Test::More tests => 3;
 
+use File::Temp qw( tempdir );
+
 use XML::RSS;
 
 use List::Util qw(first);
+
+my $temp_dir = tempdir( CLEANUP => 1 );
 
 my @cmd_line = (
     $^X,
@@ -20,9 +24,9 @@ my @cmd_line = (
         --xml-file irc-conversation-4-several-convos.xml
         --xml-file screenplay-fort-sample-1.xml
     ),
-    "--yaml-data" => "t/data/out-fortune-synd-1/fort.yaml",
-    "--atom-output" => "t/data/out-fortune-synd-1/fort.atom",
-    "--rss-output" => "t/data/out-fortune-synd-1/fort.rss",
+    "--yaml-data" => "$temp_dir/fort.yaml",
+    "--atom-output" => "$temp_dir/fort.atom",
+    "--rss-output" => "$temp_dir/fort.rss",
     "--master-url" => "http://www.fortunes.tld/My-Fortunes/",
     "--title" => "My Fortune Feeds",
     "--tagline" => "My Fortune Feeds",
@@ -43,7 +47,7 @@ ok (!system(@cmd_line));
 
 my $rss = XML::RSS->new(version => "2.0");
 
-$rss->parsefile("t/data/out-fortune-synd-1/fort.rss");
+$rss->parsefile("$temp_dir/fort.rss");
 
 my $item = first { $_->{'title'} =~ m{The Only Language} } @{$rss->{'items'}};
 
