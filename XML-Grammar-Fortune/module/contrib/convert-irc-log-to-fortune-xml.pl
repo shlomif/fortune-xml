@@ -14,7 +14,12 @@ Fortune-XML (see L<XML::Grammar::Fortune> ). It reads stuff on ARGV.
 use strict;
 use warnings;
 
+use open IO => ':encoding(utf8)';
+
 use CGI qw();
+
+binmode STDOUT, ':encoding(utf8)';
+binmode STDIN, ':encoding(utf8)';
 
 my @messages;
 while(<>)
