@@ -5,6 +5,9 @@ Pressing:
 
 ================================
 
+Non-pressing:
+-------------
+
 * Make sure the RELAX NG validation reports line numbers for the problems
 it sees (is this a limitation of XML::LibXML or libxml2 ?).
 
@@ -21,4 +24,12 @@ it sees (is this a limitation of XML::LibXML or libxml2 ?).
 
 * Render the information in the <info> element in a better way using the
 stylesheet.
+
+* Convert to XML-GrammarBase.
+
+* Implement HTML-like <link />s (like follow-up on quote, sequels, etc.)
+
+* Implement tags and categories.
+
+* Convert to xml:id, xml:lang, xlink, etc.
 
