@@ -16,9 +16,9 @@ it sees (is this a limitation of XML::LibXML or libxml2 ?).
 * Document the grammar.
 
 * Add more tags:
-    - XHTML tags: a, b, i, strong, em, 
+    - XHTML tags: a, b, i, strong, em,
     - <url> tag for self-enclosing URL.
 
-* Render the information in the <info> element in a better way using the 
+* Render the information in the <info> element in a better way using the
 stylesheet.
 
