@@ -24,6 +24,8 @@ my $builder = XML::Grammar::Builder->new(
         'warnings' => 0,
         'XML::LibXML' => 0,
         'XML::LibXSLT' => 0,
+        'XML::GrammarBase::Role::RelaxNG' => 0,
+        'MooX::late' => 0,
     },
     build_requires =>
     {

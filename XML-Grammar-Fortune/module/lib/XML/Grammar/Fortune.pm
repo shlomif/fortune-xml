@@ -7,22 +7,32 @@ use Fatal (qw(open));
 
 use File::Spec;
 
-use XML::LibXML;
+use MooX qw/late/;
+
+with ('XML::GrammarBase::Role::RelaxNG');
+
+has '+module_base' => (default => 'XML::Grammar::Fortune');
+has '+rng_schema_basename' => (default => 'fortune-xml.rng');
+
 use XML::LibXSLT;
 
 use File::ShareDir ':ALL';
 
-use base 'Class::Accessor';
+has '_mode' => (is => 'rw', init_arg => 'mode');
+has '_output_mode' => (is => 'rw');
 
-__PACKAGE__->mk_accessors(qw(
-    _data_dir
-    _mode
-    _output_mode
-    _rng_schema
+has
+[qw(
     _xslt_stylesheet
     _xslt_obj
-    _xml_parser
-    ));
+    _fortune_xml_parser
+)] => (is => 'rw');
+
+sub _data_dir
+{
+    my $self = shift;
+    return $self->data_dir(@_);
+}
 
 =head1 NAME
 
@@ -78,43 +88,6 @@ Creates a new processor with mode $mode, and input and output files.
 
 =cut
 
-sub new
-{
-    my $class = shift;
-    my $self = {};
-    bless $self, $class;
-
-    $self->_init(@_);
-
-    return $self;
-}
-
-sub _calc_rng_schema
-{
-    my $self = shift;
-
-    return
-        XML::LibXML::RelaxNG->new(
-            location =>
-            File::Spec->catfile(
-                $self->_data_dir(),
-                "fortune-xml.rng",
-            ),
-        );
-}
-
-sub _get_rng_schema
-{
-    my $self = shift;
-
-    if (!defined($self->_rng_schema()))
-    {
-        $self->_rng_schema($self->_calc_rng_schema);
-    }
-
-    return $self->_rng_schema();
-}
-
 sub _calc_xslt_stylesheet
 {
     my $self = shift;
@@ -146,14 +119,14 @@ sub _get_xml_parser
 {
     my $self = shift;
 
-    if (! $self->_xml_parser())
+    if (! $self->_fortune_xml_parser())
     {
-        $self->_xml_parser(
+        $self->_fortune_xml_parser(
             XML::LibXML->new()
         );
     }
 
-    return $self->_xml_parser();
+    return $self->_fortune_xml_parser();
 }
 
 sub _get_xslt_obj
@@ -168,22 +141,6 @@ sub _get_xslt_obj
     }
 
     return $self->_xslt_obj();
-}
-
-sub _init
-{
-    my $self = shift;
-    my $args = shift;
-
-    $self->_mode($args->{mode});
-
-    $self->_output_mode($args->{output_mode} || "filename");
-
-    my $data_dir = $args->{'data_dir'} || dist_dir( 'XML-Grammar-Fortune' );
-
-    $self->_data_dir($data_dir);
-
-    return 0;
 }
 
 =head2 $self->run({ %args})
@@ -224,17 +181,7 @@ sub run
 
     if ($mode eq "validate")
     {
-        my $doc = $self->_get_xml_parser->parse_file($input);
-
-        my $code;
-        $code = $self->_get_rng_schema()->validate($doc);
-
-        if ($code)
-        {
-            die "Invalid file!";
-        }
-
-        return $code;
+        return $self->rng_validate_file($input);
     }
     elsif ($mode eq "convert_to_html")
     {
@@ -244,7 +191,7 @@ sub run
 
         if ($self->_output_mode() eq "string")
         {
-            $$output .= $self->_get_xslt_stylesheet()->output_string($results);
+            $$output .= $self->_get_xslt_stylesheet()->output_as_bytes($results);
         }
         else
         {

@@ -51,7 +51,7 @@ sub normalize_xml
 
     my $unicode = decode("UTF-8", $results);
 
-    # Remove leading space (indentation), which seems to vary between 
+    # Remove leading space (indentation), which seems to vary between
     # different versions of XML-LibXSLT and/or libxslt
     $unicode =~ s{^[ \t]+}{}gms;
 
