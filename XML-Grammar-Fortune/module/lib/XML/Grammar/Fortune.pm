@@ -43,7 +43,7 @@ our $VERSION = '0.0500';
 
     # Validate files.
 
-    my $validator = 
+    my $validator =
         XML::Grammar::Fortune->new(
             {
                 mode => "validate"
@@ -54,7 +54,7 @@ our $VERSION = '0.0500';
     exit($validator->run({input => "my-fortune-file.xml"}));
 
     # Convert files to XHTML.
-    
+
     my $converter =
         XML::Grammar::Fortune->new(
             {
@@ -62,7 +62,7 @@ our $VERSION = '0.0500';
                 output_mode => "filename"
             }
         )
-    
+
     $converter->run(
         {
             input => "my-fortune-file.xml",
@@ -97,7 +97,7 @@ sub _calc_rng_schema
         XML::LibXML::RelaxNG->new(
             location =>
             File::Spec->catfile(
-                $self->_data_dir(), 
+                $self->_data_dir(),
                 "fortune-xml.rng",
             ),
         );
@@ -119,7 +119,7 @@ sub _calc_xslt_stylesheet
 {
     my $self = shift;
 
-    return 
+    return
         $self->_get_xslt_obj->parse_stylesheet(
             $self->_get_xml_parser()->parse_file(
                 File::Spec->catfile(
@@ -255,7 +255,7 @@ sub run
             close($xhtml_out_fh);
         }
     }
-    
+
     return;
 }
 
@@ -265,7 +265,7 @@ __END__
 
 =head2 open
 
-This function is introduced by Fatal. It is mentioned here, in order to settle 
+This function is introduced by Fatal. It is mentioned here, in order to settle
 L<Pod::Coverage> . Ignore.
 
 =head1 AUTHOR
