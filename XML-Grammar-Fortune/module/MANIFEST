@@ -75,3 +75,4 @@ t/to-text.t
 t/to-xhtml.t
 t/to-xhtml-using-api.t
 t/xml-validate.t
+META.json

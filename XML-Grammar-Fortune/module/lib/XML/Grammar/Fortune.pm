@@ -9,30 +9,21 @@ use File::Spec;
 
 use MooX qw/late/;
 
+use XML::GrammarBase::Role::RelaxNG;
+use XML::GrammarBase::Role::XSLT;
+
 with ('XML::GrammarBase::Role::RelaxNG');
+with XSLT(output_format => 'html');
 
 has '+module_base' => (default => 'XML::Grammar::Fortune');
 has '+rng_schema_basename' => (default => 'fortune-xml.rng');
 
-use XML::LibXSLT;
 
-use File::ShareDir ':ALL';
+has '+to_html_xslt_transform_basename' =>
+    (default => 'fortune-xml-to-html.xslt');
 
 has '_mode' => (is => 'rw', init_arg => 'mode');
 has '_output_mode' => (is => 'rw');
-
-has
-[qw(
-    _xslt_stylesheet
-    _xslt_obj
-    _fortune_xml_parser
-)] => (is => 'rw');
-
-sub _data_dir
-{
-    my $self = shift;
-    return $self->data_dir(@_);
-}
 
 =head1 NAME
 
@@ -71,77 +62,20 @@ our $VERSION = '0.0500';
                 mode => "convert_to_html",
                 output_mode => "filename"
             }
-        )
+        );
 
     $converter->run(
         {
             input => "my-fortune-file.xml",
             output => "resultant-file.xhtml",
         }
-    )
+    );
 
 =head1 FUNCTIONS
 
 =head2 my $processor = XML::Grammar::Fortune->new({mode => $mode, input => $in, output => $out});
 
 Creates a new processor with mode $mode, and input and output files.
-
-=cut
-
-sub _calc_xslt_stylesheet
-{
-    my $self = shift;
-
-    return
-        $self->_get_xslt_obj->parse_stylesheet(
-            $self->_get_xml_parser()->parse_file(
-                File::Spec->catfile(
-                    $self->_data_dir(),
-                    "fortune-xml-to-html.xslt",
-                )
-            )
-        );
-}
-
-sub _get_xslt_stylesheet
-{
-    my $self = shift;
-
-    if (! $self->_xslt_stylesheet())
-    {
-        $self->_xslt_stylesheet($self->_calc_xslt_stylesheet());
-    }
-
-    return $self->_xslt_stylesheet();
-}
-
-sub _get_xml_parser
-{
-    my $self = shift;
-
-    if (! $self->_fortune_xml_parser())
-    {
-        $self->_fortune_xml_parser(
-            XML::LibXML->new()
-        );
-    }
-
-    return $self->_fortune_xml_parser();
-}
-
-sub _get_xslt_obj
-{
-    my $self = shift;
-
-    if (! $self->_xslt_obj())
-    {
-        $self->_xslt_obj(
-            XML::LibXSLT->new()
-        );
-    }
-
-    return $self->_xslt_obj();
-}
 
 =head2 $self->run({ %args})
 
@@ -185,21 +119,24 @@ sub run
     }
     elsif ($mode eq "convert_to_html")
     {
-        my $source = $self->_get_xml_parser->parse_file($input);
+        my $translate = sub {
+            my ($medium) = @_;
 
-        my $results = $self->_get_xslt_stylesheet()->transform($source, %$xslt_params);
-
+            return $self->perform_xslt_translation(
+                {
+                    output_format => 'html',
+                    source => {file => $input},
+                    output => $medium,
+                }
+            );
+        };
         if ($self->_output_mode() eq "string")
         {
-            $$output .= $self->_get_xslt_stylesheet()->output_as_bytes($results);
+            $$output = $translate->('dom')->toString;
         }
         else
         {
-            open my $xhtml_out_fh, ">", $output;
-            binmode ($xhtml_out_fh, ":utf8");
-            print {$xhtml_out_fh}
-                $self->_get_xslt_stylesheet()->output_string($results);
-            close($xhtml_out_fh);
+            $translate->({file => $output});
         }
     }
 

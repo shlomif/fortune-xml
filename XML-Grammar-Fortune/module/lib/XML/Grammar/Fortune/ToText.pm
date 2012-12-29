@@ -136,12 +136,12 @@ sub _do_nothing {}
 sub _iterate_on_child_elems
 {
     my ($self, $top_elem, $xpath, $args) = @_;
-    
+
     my $process = $args->{'process'};
     my $if_remainaing_meth = $args->{'if_more'};
     my $continue_cb = ($args->{'cont'} || \&_do_nothing);
 
-    my $process_cb = 
+    my $process_cb =
     (
         (ref($process) eq "CODE")
         ? $process
@@ -180,7 +180,7 @@ sub run
     my $xml = XML::LibXML->new->parse_file($self->_input());
 
     $self->_iterate_on_child_elems(
-        $xml, 
+        $xml,
         "//fortune",
         {
             process => '_render_single_fortune_cookie',
@@ -238,7 +238,7 @@ sub _process_irc_node
     my ($body_node) = $irc_node->findnodes("body");
 
     my @lines_list = $body_node->findnodes("saying|me_is|joins|leaves");
-    
+
     use List::Util qw(max);
 
     my $longest_nick_len = 0;
@@ -266,7 +266,7 @@ sub _process_irc_node
                     nick => $nick,
                     msg => $line->textContent(),
                 };
-            
+
             $longest_nick_len = max($longest_nick_len, length("*"));
         }
         elsif ($line->localname() eq "joins")
@@ -278,7 +278,7 @@ sub _process_irc_node
                     nick => $nick,
                     msg => $line->textContent(),
                 };
-            
+
             $longest_nick_len = max($longest_nick_len, length("<--"));
         }
         elsif ($line->localname() eq "leaves")
@@ -290,7 +290,7 @@ sub _process_irc_node
                     nick => $nick,
                     msg => $line->textContent(),
                 };
-            
+
             $longest_nick_len = max($longest_nick_len, length("-->"));
         }
         else
@@ -307,7 +307,7 @@ sub _process_irc_node
         elsif (m{^[^\-]* ---\t(\S+) is now known as (\S+)})
         {
             my ($old_nick, $new_nick) = ($1, $2);
-            push @messages, 
+            push @messages,
                 {'type' => "change_nick", 'old' => $old_nick, 'new' => $new_nick};
             $longest_nick_len =
                 max($longest_nick_len, length($old_nick), length($new_nick));
@@ -322,7 +322,7 @@ sub _process_irc_node
 
 =cut
 
-    my $formatter = 
+    my $formatter =
         Text::Format->new(
             {
                 columns => 72-1-2-$longest_nick_len,
@@ -347,10 +347,10 @@ sub _process_irc_node
         if ($m->{'type'} eq "say")
         {
             my @lines = ($formatter->format([$m->{'msg'}]));
-            $self->_out(" " . sprintf("%${nick_len_with_delim}s", "<" . $m->{'nick'} . ">") . 
+            $self->_out(" " . sprintf("%${nick_len_with_delim}s", "<" . $m->{'nick'} . ">") .
                 "  " . $lines[0]);
             $self->_out(join("",
-                    map { (" " x $line_starts_at) . $_ } 
+                    map { (" " x $line_starts_at) . $_ }
                     @lines[1..$#lines]
                 )
             );
@@ -370,11 +370,11 @@ sub _process_irc_node
                     [$m->{'nick'} . " " . $m->{'msg'}]
             );
 
-            $self->_out(" " . sprintf("%${nick_len_with_delim}s", 
+            $self->_out(" " . sprintf("%${nick_len_with_delim}s",
                     $cmds{$m->{'type'}}) . "  " . $lines[0]);
 
             $self->_out(join("",
-                    map { (" " x $line_starts_at) . $_ } 
+                    map { (" " x $line_starts_at) . $_ }
                     @lines[1..$#lines]
                 )
             );
@@ -487,7 +487,7 @@ sub _append_different_formatting_node
 {
     my ($self, $prefix, $suffix, $node) = @_;
 
-    return 
+    return
         $self->_append_to_this_line(
             $prefix . $node->textContent() . $suffix
         );
@@ -499,7 +499,7 @@ sub _append_different_formatting_node
     my %_formats_map =
     (
         (
-            map { my ($f, $tags) = @$_; map { $_ => [($f)x2] } @$tags } 
+            map { my ($f, $tags) = @$_; map { $_ => [($f)x2] } @$tags }
             @_highlights
         ),
         'inlinedesc' => ['[', ']'],
@@ -638,7 +638,7 @@ sub _render_quote_blockquote
 
     $self->_out("<<<\n\n");
 
-    $self->_render_quote_portion_paras($node);   
+    $self->_render_quote_portion_paras($node);
 
     $self->_out("\n\n>>>");
 }
@@ -654,7 +654,7 @@ sub _render_generalized_para
 {
     my ($self, $para) = @_;
 
-    return 
+    return
     (
           (($para->localname() eq "ul") || ($para->localname() eq "ol"))
         ? $self->_render_quote_list($para)
@@ -714,7 +714,7 @@ sub _process_quote_node
 
     my ($body_node) = $quote_node->findnodes("body");
 
-    $self->_render_quote_portion_paras($body_node);   
+    $self->_render_quote_portion_paras($body_node);
 
     $self->_start_new_line;
 
@@ -785,7 +785,7 @@ sub _out_info_field_node
     {
         my $channel = $field_node->textContent();
         my $network = $info_node->findnodes("network")->shift()->textContent();
-        
+
         $self->_output_info_value( "$channel, $network" );
     }
 

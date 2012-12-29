@@ -5,6 +5,7 @@ use warnings;
 
 use Test::More tests => 26;
 use Test::Differences;
+use Test::XML::Ordered qw(is_xml_ordered);
 
 use File::Spec;
 use Encode;
@@ -81,9 +82,9 @@ foreach my $fn_base (@tests)
     );
 
     # TEST*$num_texts
-    eq_or_diff (
-        normalize_xml($results_buffer),
-        read_file("./t/data/xhtml-results/$fn_base.xhtml"),
+    is_xml_ordered (
+        [ string => normalize_xml($results_buffer), ],
+        [ location => "./t/data/xhtml-results/$fn_base.xhtml", ],
         "Testing for Good XSLTing of '$fn_base'",
     );
 }
@@ -112,9 +113,9 @@ foreach my $fn_base (@tests)
         );
 
         # TEST*$num_texts
-        eq_or_diff (
-            normalize_xml($results_buffer),
-            read_file("./t/data/xhtml-results/$fn_base.xhtml"),
+        is_xml_ordered(
+            [ string => normalize_xml($results_buffer), ],
+            [ location => "./t/data/xhtml-results/$fn_base.xhtml", ],
             "Testing for Good XSLTing of '$fn_base'",
         );
     }
