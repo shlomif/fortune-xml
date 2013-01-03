@@ -31,11 +31,11 @@ XML::Grammar::Fortune - convert the FortunesXML grammar to other formats and fro
 
 =head1 VERSION
 
-Version 0.0500
+Version 0.0501
 
 =cut
 
-our $VERSION = '0.0500';
+our $VERSION = '0.0501';
 
 
 =head1 SYNOPSIS
@@ -120,23 +120,24 @@ sub run
     elsif ($mode eq "convert_to_html")
     {
         my $translate = sub {
-            my ($medium) = @_;
+            my ($medium, $encoding) = @_;
 
             return $self->perform_xslt_translation(
                 {
                     output_format => 'html',
                     source => {file => $input},
                     output => $medium,
+                    encoding => $encoding,
                 }
             );
         };
         if ($self->_output_mode() eq "string")
         {
-            $$output = $translate->('dom')->toString;
+            $$output .= $translate->('string', 'bytes');
         }
         else
         {
-            $translate->({file => $output});
+            $translate->({file => $output}, 'utf8');
         }
     }
 
