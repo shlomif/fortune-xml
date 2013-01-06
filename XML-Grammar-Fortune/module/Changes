@@ -1,3 +1,7 @@
+0.0502      Sun  6 Jan 11:29:29 IST 2013
+        - Add t/00basic.t (for libxml2 diagnosis) and set the minimum
+        XML::LibXML version to 2.0014, to avoid test failures.
+
 0.0501      Thu  3 Jan 13:54:36 IST 2013
         - Convert lib/XML/Grammar/Fortune.pm to XML::GrammarBase .
 
