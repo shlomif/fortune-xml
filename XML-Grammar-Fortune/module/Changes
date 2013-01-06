@@ -1,5 +1,7 @@
         - Convert lib/XML/Grammar/Fortune/ToText.pm to
         <<use MooX 'late'>> .
+        - Removed bin/web-feed-synicate.pl - it was superseded by
+        http://metacpan.org/module/XML::Grammar::Fortune::Synd::App .
 
 0.0502      Sun  6 Jan 11:29:29 IST 2013
         - Add t/00basic.t (for libxml2 diagnosis) and set the minimum
