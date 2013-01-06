@@ -15,6 +15,7 @@ lib/XML/Grammar/Fortune.pm
 lib/XML/Grammar/Fortune/ToText.pm
 rejects/ToText.pm
 scripts/tag-release.pl
+t/00basic.t
 t/00-load.t
 t/boilerplate.t
 t/data/text-results/irc-conversation-1.txt
