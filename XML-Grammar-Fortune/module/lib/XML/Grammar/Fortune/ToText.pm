@@ -9,17 +9,23 @@ use List::Util (qw(max));
 
 use Carp ();
 
-use base 'Class::Accessor';
+use MooX qw/late/;
 
-__PACKAGE__->mk_accessors(qw(
-    _formatter
-    _is_first_line
-    _mode
-    _input
-    _output
-    _this_line
-    ));
-
+has '_formatter' => (isa => "Text::Format", is => 'rw',
+    default => sub {
+        return Text::Format->new(
+            {
+                columns => 78,
+                firstIndent => 0,
+                leftMargin => 0,
+            }
+        );
+    },
+);
+has '_is_first_line' => (isa => "Bool", is => 'rw');
+has '_input' => (is => 'rw', init_arg => 'input', required => 1,);
+has '_output' => (is => 'rw', init_arg => 'output', required => 1,);
+has '_this_line' => (isa => 'Str', is => 'rw', default => '', );
 
 =head1 NAME
 
@@ -55,43 +61,9 @@ our $VERSION = '0.0502';
 
 =head2 my $processor = XML::Grammar::Fortune::ToText->new({input => "path/to/file.xml", output => \*STDOUT,});
 
-Creates a new processor with mode $mode, and input and output files.
+Creates a new processor with input and output files.
 
 =cut
-
-sub new
-{
-    my $class = shift;
-    my $self = {};
-    bless $self, $class;
-
-    $self->_init(@_);
-
-    return $self;
-}
-
-sub _init
-{
-    my $self = shift;
-    my $args = shift;
-
-    $self->_input($args->{input});
-    $self->_output($args->{output});
-
-    $self->_formatter(
-        Text::Format->new(
-            {
-                columns => 78,
-                firstIndent => 0,
-                leftMargin => 0,
-            }
-        )
-    );
-
-    $self->_this_line("");
-
-    return 0;
-}
 
 sub _out
 {
@@ -169,7 +141,7 @@ sub _iterate_on_child_elems
 
 =head2 $self->run()
 
-Runs the processor. If $mode is "validate", validates the document.
+Runs the processor.
 
 =cut
 

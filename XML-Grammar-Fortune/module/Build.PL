@@ -16,7 +16,6 @@ my $builder = XML::Grammar::Builder->new(
         'Module::Build' => '0.36',
     },
     requires => {
-        'Class::Accessor' => 0,
         'File::Spec' => 0,
         'perl' => "5.008",
         'Text::Format' => 0,
@@ -25,6 +24,7 @@ my $builder = XML::Grammar::Builder->new(
         'XML::LibXML' => '2.0014',
         'XML::LibXSLT' => 0,
         'XML::GrammarBase::Role::RelaxNG' => 0,
+        'MooX' => 0,
         'MooX::late' => 0,
     },
     build_requires =>
