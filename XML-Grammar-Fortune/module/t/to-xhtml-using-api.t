@@ -30,6 +30,8 @@ my @tests = (qw(
         quote-fort-sample-10-with-hyperlink
     ));
 
+my @common = (validation => 0, load_ext_dtd => 0, no_network => 1);
+
 sub read_file
 {
     my $path = shift;
@@ -83,8 +85,8 @@ foreach my $fn_base (@tests)
 
     # TEST*$num_texts
     is_xml_ordered (
-        [ string => normalize_xml($results_buffer), ],
-        [ location => "./t/data/xhtml-results/$fn_base.xhtml", ],
+        [ string => normalize_xml($results_buffer), @common, ],
+        [ location => "./t/data/xhtml-results/$fn_base.xhtml", @common, ],
         "Testing for Good XSLTing of '$fn_base'",
     );
 }
@@ -114,8 +116,8 @@ foreach my $fn_base (@tests)
 
         # TEST*$num_texts
         is_xml_ordered(
-            [ string => normalize_xml($results_buffer), ],
-            [ location => "./t/data/xhtml-results/$fn_base.xhtml", ],
+            [ string => normalize_xml($results_buffer), @common, ],
+            [ location => "./t/data/xhtml-results/$fn_base.xhtml", @common, ],
             "Testing for Good XSLTing of '$fn_base'",
         );
     }

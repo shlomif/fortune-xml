@@ -1,3 +1,9 @@
+0.0504      Sun  6 Jan 14:15:20 IST 2013
+        - Fix https://rt.cpan.org/Public/Bug/Display.html?id=82510
+            - Test suite takes forever to run due to loading DTDs from
+            the W3C site, which is throttled.
+            - Thanks to SREZIC for the report and analysis.
+
 0.0503      Sun  6 Jan 11:59:39 IST 2013
         - Convert lib/XML/Grammar/Fortune/ToText.pm to
         <<use MooX 'late'>> .
