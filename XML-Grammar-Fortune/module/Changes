@@ -1,3 +1,8 @@
+0.0505      Sun 13 Jan 23:37:36 IST 2013
+        - Fix the output_mode parameter and better document it.
+            - Fix some test failures.
+            - Thanks to Anreas Koenig for some debugging assitance.
+
 0.0504      Sun  6 Jan 14:15:20 IST 2013
         - Fix https://rt.cpan.org/Public/Bug/Display.html?id=82510
             - Test suite takes forever to run due to loading DTDs from

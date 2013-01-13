@@ -70,7 +70,7 @@ foreach my $fn_base (@tests)
             {
                 data_dir => "./extradata/",
                 mode => "convert_to_html",
-                _output_mode => "string",
+                output_mode => "string",
             }
         );
 
@@ -96,7 +96,7 @@ foreach my $fn_base (@tests)
         XML::Grammar::Fortune->new(
             {
                 mode => "convert_to_html",
-                _output_mode => "string",
+                output_mode => "string",
                 data_dir => "./extradata/",
             }
         );

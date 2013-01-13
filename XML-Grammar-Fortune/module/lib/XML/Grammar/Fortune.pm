@@ -23,7 +23,7 @@ has '+to_html_xslt_transform_basename' =>
     (default => 'fortune-xml-to-html.xslt');
 
 has '_mode' => (is => 'rw', init_arg => 'mode');
-has '_output_mode' => (is => 'rw');
+has '_output_mode' => (is => 'rw', init_arg => 'output_mode',);
 
 =head1 NAME
 
@@ -73,9 +73,9 @@ our $VERSION = '0.0504';
 
 =head1 FUNCTIONS
 
-=head2 my $processor = XML::Grammar::Fortune->new({mode => $mode, input => $in, output => $out});
+=head2 my $processor = XML::Grammar::Fortune->new({mode => $mode, input => $in, output => $out, output_mode => "string",});
 
-Creates a new processor with mode $mode, and input and output files.
+Creates a new processor with mode $mode, output_mode "string", and input and output files.
 
 =head2 $self->run({ %args})
 
