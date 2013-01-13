@@ -1,3 +1,6 @@
+        - Fix the << has '+module_base' >> to be a dist name (with -s)
+        instead of a module name (with ::).
+
 0.0505      Sun 13 Jan 23:37:36 IST 2013
         - Fix the output_mode parameter and better document it.
             - Fix some test failures.

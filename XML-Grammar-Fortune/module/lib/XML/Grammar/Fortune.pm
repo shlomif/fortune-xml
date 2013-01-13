@@ -15,7 +15,7 @@ use XML::GrammarBase::Role::XSLT;
 with ('XML::GrammarBase::Role::RelaxNG');
 with XSLT(output_format => 'html');
 
-has '+module_base' => (default => 'XML::Grammar::Fortune');
+has '+module_base' => (default => 'XML-Grammar-Fortune');
 has '+rng_schema_basename' => (default => 'fortune-xml.rng');
 
 
