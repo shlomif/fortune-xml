@@ -1,3 +1,4 @@
+syntax:glob
 XML-Grammar-Fortune/module/Build
 XML-Grammar-Fortune/module/META.json
 XML-Grammar-Fortune/module/META.yml
@@ -6,3 +7,11 @@ XML-Grammar-Fortune/module/MYMETA.yml
 XML-Grammar-Fortune/module/Makefile.PL
 XML-Grammar-Fortune/module/_build
 XML-Grammar-Fortune/module/blib
+XML-Grammar-Fortune-Synd/module/blib
+XML-Grammar-Fortune-Synd/module/_build
+XML-Grammar-Fortune-Synd/module/Build
+XML-Grammar-Fortune-Synd/module/Makefile.PL
+XML-Grammar-Fortune-Synd/module/META.json
+XML-Grammar-Fortune-Synd/module/META.yml
+XML-Grammar-Fortune-Synd/module/MYMETA.json
+XML-Grammar-Fortune-Synd/module/MYMETA.yml
