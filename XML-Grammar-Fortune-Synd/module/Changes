@@ -1,5 +1,10 @@
 Revision history for XML-Grammar-Fortune-Synd
 
+        - Bump minimal dependency of XML::Grammar::Fortune to 0.0506.
+            - Required for passing tests.
+            - Thanks to Andreas Koenig for some help in diagnosing the
+            problem.
+
 0.0203  Sat May 28 11:22:13 IDT 2011
         - Convert the write-to directories in t/*.t to File::Temp's tempdir() ,
         in order to get rid of Win32 (and other) test failures:

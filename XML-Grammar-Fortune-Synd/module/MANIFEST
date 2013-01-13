@@ -22,3 +22,4 @@ t/data/out-fortune-synd-1/PLACEHOLDER
 t/data/out-fortune-synd-eliminate-old-ids-1/PLACEHOLDER
 t/pod-coverage.t
 t/pod.t
+META.json
