@@ -7,6 +7,8 @@ use base 'Exporter';
 
 use vars qw(@EXPORT);
 
+our $VERSION = '0.0204';
+
 @EXPORT=('run');
 
 use Getopt::Long;

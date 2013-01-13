@@ -10,11 +10,11 @@ XML-Grammar-Fortune files.
 
 =head1 VERSION
 
-Version 0.0203
+Version 0.0204
 
 =cut
 
-our $VERSION = '0.0203';
+our $VERSION = '0.0204';
 
 use base 'Class::Accessor';
 
