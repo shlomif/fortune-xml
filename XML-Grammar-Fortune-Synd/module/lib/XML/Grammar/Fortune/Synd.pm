@@ -5,7 +5,7 @@ use strict;
 
 =head1 NAME
 
-XML::Grammar::Fortune::Synd - Provides syndication for a set of 
+XML::Grammar::Fortune::Synd - Provides syndication for a set of
 XML-Grammar-Fortune files.
 
 =head1 VERSION
@@ -145,7 +145,7 @@ sub calc_feeds
         # Get rid of IDs in the hash refs that don't exist in the file,
         # so we won't have globally duplicate IDs.
         {
-            my $hash_ref = $scripts_hash->{$file}; 
+            my $hash_ref = $scripts_hash->{$file};
             my %ids_map = (map { $_ => 1 } @ids);
 
             foreach my $id (keys(%$hash_ref))
@@ -246,22 +246,22 @@ sub calc_feeds
                     $callback->($entry);
                 }
             };
-            
+
             $on_entries->(sub {
                 my $entry = shift;
 
                 $entry->title($title);
                 $entry->summary($title);
             });
-                
+
             my $url =
                 $self->url_callback()->(
-                    $self, 
+                    $self,
                     {
                         id_obj => $id_obj,
                     }
                 );
-            
+
             $on_entries->(sub {
                 my $entry = shift;
 
