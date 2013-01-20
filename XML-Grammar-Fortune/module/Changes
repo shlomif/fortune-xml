@@ -1,3 +1,7 @@
+0.0507
+        - Pass the xslt_params to the translation (and require
+        XML::GrammarBase v0.2.0).
+
 0.0506      Sun 13 Jan 23:49:50 IST 2013
         - Fix the << has '+module_base' >> to be a dist name (with -s)
         instead of a module name (with ::).
