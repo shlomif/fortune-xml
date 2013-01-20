@@ -1,5 +1,8 @@
 Revision history for XML-Grammar-Fortune-Synd
 
+0.0205
+        - Add tests and an assert for maximal number of feed entries.
+
 0.0204  Sun 13 Jan 23:57:20 IST 2013
         - Bump minimal dependency of XML::Grammar::Fortune to 0.0506.
             - Required for passing tests.

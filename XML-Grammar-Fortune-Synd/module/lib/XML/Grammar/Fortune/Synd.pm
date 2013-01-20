@@ -324,6 +324,14 @@ sub calc_feeds
 
     $feeds{"RSS"}->self_link($args->{feed_params}->{'rss_self_link'});
 
+    {
+        my $num_entries = scalar (() = $feeds{'RSS'}->entries());
+        if ($num_entries > $ids_limit)
+        {
+            die "Assert failed. $num_entries rather than the $ids_limit limit.";
+        }
+    }
+
     return
     {
         'recent_ids' => [reverse(@recent_ids)],
