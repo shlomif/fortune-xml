@@ -10,7 +10,7 @@ use File::Spec;
 use MooX qw/late/;
 
 use XML::GrammarBase::Role::RelaxNG;
-use XML::GrammarBase::Role::XSLT;
+use XML::GrammarBase::Role::XSLT v0.2.0;
 
 with ('XML::GrammarBase::Role::RelaxNG');
 with XSLT(output_format => 'html');
@@ -128,6 +128,7 @@ sub run
                     source => {file => $input},
                     output => $medium,
                     encoding => $encoding,
+                    xslt_params => $xslt_params,
                 }
             );
         };
