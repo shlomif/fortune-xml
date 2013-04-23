@@ -41,7 +41,7 @@ my $builder = XML::Grammar::Builder->new(
     {
         resources =>
         {
-            repository => "https://svn.berlios.de/svnroot/repos/web-cpan/XML-Grammar-Fortune/",
+            repository => "https://bitbucket.org/shlomif/fortune-xml",
             homepage => "http://web-cpan.berlios.de/modules/XML-Grammar-Fortune/",
             "Freshmeat" => "http://freshmeat.net/projects/fortune-xml",
         },
