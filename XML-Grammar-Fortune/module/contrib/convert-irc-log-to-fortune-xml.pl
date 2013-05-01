@@ -6,7 +6,7 @@
 
 =head1 DESCRIPTION
 
-This is a script to convert an XChat conversation to part of the 
+This is a script to convert an XChat conversation to part of the
 Fortune-XML (see L<XML::Grammar::Fortune> ). It reads stuff on ARGV.
 
 =cut
@@ -42,14 +42,14 @@ while(<>)
         else
         {
             my ($real_nick) = ($nick =~ m{<([^>]+)>});
-            push @messages, 
+            push @messages,
                 {'type' => "say", 'nick' => $real_nick, 'msg' => $msg};
         }
     }
     elsif (m{^[^\-]* ---\t(\S+) is now known as (\S+)})
     {
         my ($old_nick, $new_nick) = ($1, $2);
-        push @messages, 
+        push @messages,
             {'type' => "change_nick", 'old' => $old_nick, 'new' => $new_nick};
     }
     else
@@ -67,7 +67,7 @@ for my $m (@messages)
 {
     if ($m->{'type'} eq "say")
     {
-        print qq{<saying who="} . $m->{nick} . qq{">} . 
+        print qq{<saying who="} . $m->{nick} . qq{">} .
             esc($m->{msg}) . qq{</saying>\n};
     }
     elsif ($m->{'type'} eq "raw")

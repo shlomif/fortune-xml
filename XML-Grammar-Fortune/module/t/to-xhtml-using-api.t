@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 26;
+use Test::More tests => 39;
 use Test::Differences;
 use Test::XML::Ordered qw(is_xml_ordered);
 
@@ -115,11 +115,18 @@ foreach my $fn_base (@tests)
         );
 
         # TEST*$num_texts
+        unlike (
+            $results_buffer, qr/[ \t]$/ms, "No trailing space for '$fn_base'",
+        );
+
+        # TEST*$num_texts
         is_xml_ordered(
             [ string => normalize_xml($results_buffer), @common, ],
             [ location => "./t/data/xhtml-results/$fn_base.xhtml", @common, ],
             "Testing for Good XSLTing of '$fn_base'",
         );
+
+
     }
 
 }

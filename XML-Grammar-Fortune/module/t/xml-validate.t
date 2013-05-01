@@ -26,8 +26,8 @@ my @inputs = (qw(
     ));
 
 my $rngschema = XML::LibXML::RelaxNG->new(
-        location => "./extradata/fortune-xml.rng" 
-    );
+    location => "./extradata/fortune-xml.rng"
+);
 
 
 

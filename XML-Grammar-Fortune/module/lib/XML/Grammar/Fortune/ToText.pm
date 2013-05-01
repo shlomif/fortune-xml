@@ -26,6 +26,8 @@ has '_is_first_line' => (isa => "Bool", is => 'rw');
 has '_input' => (is => 'rw', init_arg => 'input', required => 1,);
 has '_output' => (is => 'rw', init_arg => 'output', required => 1,);
 has '_this_line' => (isa => 'Str', is => 'rw', default => '', );
+has '_buf' => (isa => 'ScalarRef[Str]', is => 'rw',
+    default => sub { my $s = ''; return \$s; });
 
 =head1 NAME
 
@@ -69,7 +71,7 @@ sub _out
 {
     my $self = shift;
 
-    print {$self->_output()} @_;
+    ${$self->_buf()} .= join('', @_);
 
     return;
 }
@@ -159,6 +161,12 @@ sub run
             if_more => '_output_next_fortune_delim',
         }
     );
+
+    my $buf = ${$self->_buf()};
+
+    $buf =~ s/[ \t]+$//gms;
+
+    print { $self->_output() } $buf;
 
     return;
 }
@@ -511,8 +519,8 @@ sub _get_formatted_node_text
 
     # Intent: format the text.
     # Trim leading and trailing nelines.
-    $text =~ s{\A\n+}{}ms;
-    $text =~ s{\n+\z}{}ms;
+    # $text =~ s{\A\n+}{}ms;
+    # $text =~ s{\n+\z}{}ms;
 
     # Convert a sequence of spaces to a single space.
     $text =~ s{\s+}{ }gms;
@@ -523,6 +531,8 @@ sub _get_formatted_node_text
 sub _render_para
 {
     my ($self, $para) = @_;
+
+    my $first_text = 1;
 
     foreach my $node ($para->childNodes())
     {
@@ -549,10 +559,19 @@ sub _render_para
         }
         elsif ($node->nodeType() == XML_TEXT_NODE())
         {
-            $self->_append_to_this_line(
-                $self->_get_formatted_node_text($node)
-            );
+            my $text = $self->_get_formatted_node_text($node);
+
+            if ($first_text)
+            {
+                $text =~ s/\A\s+//;
+            }
+
+            $self->_append_to_this_line( $text );
         }
+    }
+    continue
+    {
+        $first_text = 0;
     }
 }
 

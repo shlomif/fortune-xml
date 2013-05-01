@@ -1,3 +1,6 @@
+0.0509      Wed  1 May 18:57:14 IDT 2013
+        - Got rid of trailing space in the output.
+
 0.0508      Tue 23 Apr 14:52:43 IDT 2013
         - Change the repository URL to the new bitbucket one.
 
