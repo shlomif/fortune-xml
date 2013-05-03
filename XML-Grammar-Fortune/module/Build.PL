@@ -1,6 +1,8 @@
 use strict;
 use warnings;
 
+use 5.014;
+
 use File::Spec;
 use lib File::Spec->catdir(File::Spec->curdir(), "inc");
 
@@ -15,9 +17,10 @@ my $builder = XML::Grammar::Builder->new(
     {
         'Module::Build' => '0.36',
     },
-    requires => {
+    requires =>
+    {
         'File::Spec' => 0,
-        'perl' => "5.008",
+        'perl' => "5.014",
         'Text::Format' => 0,
         'vars' => 0,
         'warnings' => 0,
