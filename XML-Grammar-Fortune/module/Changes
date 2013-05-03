@@ -1,3 +1,4 @@
+0.0510      Fri  3 May 20:05:47 IDT 2013
         - Made the minimum version of perl as 5.014 due to test
         failures:
             - http://www.cpantesters.org/cpan/report/9be091a6-b278-11e2-97df-5468c1508286
