@@ -1,5 +1,8 @@
 Revision history for XML-Grammar-Fortune-Synd
 
+        - Add the <id /> element to the Atom feed.
+            - Feed did not validate due to this.
+
 0.0205
         - Add tests and an assert for maximal number of feed entries.
 

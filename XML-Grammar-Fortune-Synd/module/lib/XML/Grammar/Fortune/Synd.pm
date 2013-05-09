@@ -219,7 +219,10 @@ sub calc_feeds
         $feed->link($args->{feed_params}->{'link'});
         $feed->tagline($args->{feed_params}->{'tagline'});
         $feed->author($args->{feed_params}->{'author'});
-        $feed->self_link($args->{feed_params}->{'atom_self_link'});
+
+        my $self_link = $args->{feed_params}->{'atom_self_link'};
+        $feed->self_link($self_link);
+        $feed->id($self_link);
     }
 
     # Now fill the XML-Feed object:

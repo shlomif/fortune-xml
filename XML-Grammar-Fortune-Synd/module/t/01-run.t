@@ -3,18 +3,28 @@
 use strict;
 use warnings;
 
-use Test::More tests => 5;
+use Test::More tests => 6;
 
 use File::Temp qw( tempdir );
 
 use XML::RSS;
+use XML::LibXML;
 
 use List::Util qw(first);
+
+my @cmd_line;
+
+sub print_cmd_line
+{
+    open my $out_fh, ">", "file.bash";
+    print {$out_fh} join(" ", map { qq{"$_"} } @cmd_line);
+    close($out_fh);
+}
 
 {
     my $temp_dir = tempdir( CLEANUP => 1 );
 
-    my @cmd_line = (
+    @cmd_line = (
         $^X,
         "-MXML::Grammar::Fortune::Synd::App",
         "-e",
@@ -34,12 +44,6 @@ use List::Util qw(first);
         "--author" => "shlomif\@iglu.org.il (Shlomi Fish)",
     );
 
-    sub print_cmd_line
-    {
-        open my $out_fh, ">", "file.bash";
-        print {$out_fh} join(" ", map { qq{"$_"} } @cmd_line);
-        close($out_fh);
-    }
 
     # print_cmd_line();
 
@@ -67,7 +71,10 @@ use List::Util qw(first);
 
 {
     my $temp_dir = tempdir( CLEANUP => 1 );
-    my @cmd_line = (
+
+    my $atom_fn = "$temp_dir/fort.atom";
+    my $rss_fn = "$temp_dir/fort.rss";
+    @cmd_line = (
         $^X,
         "-MXML::Grammar::Fortune::Synd::App",
         "-e",
@@ -78,23 +85,37 @@ use List::Util qw(first);
         --xml-file sharp-perl.xml
         ),
         "--yaml-data" => "$temp_dir/fort.yaml",
-        "--atom-output" => "$temp_dir/fort.atom",
-        "--rss-output" => "$temp_dir/fort.rss",
+        "--atom-output" => $atom_fn,
+        "--rss-output" => $rss_fn,
         "--master-url" => "http://www.fortunes.tld/My-Fortunes/",
         "--title" => "My Fortune Feeds",
         "--tagline" => "My Fortune Feeds",
         "--author" => "shlomif\@iglu.org.il (Shlomi Fish)",
     );
 
+    # print_cmd_line();
+
     # TEST
     ok (!system(@cmd_line));
 
     my $rss = XML::RSS->new(version => "2.0");
 
-    $rss->parsefile("$temp_dir/fort.rss");
+    $rss->parsefile($rss_fn);
 
     my $count = @{$rss->{'items'}};
 
     # TEST
     is ($count, 20, "There are exactly 20 items.");
+
+    my $dom = XML::LibXML->load_xml(location => $atom_fn);
+    my $xpc = XML::LibXML::XPathContext->new($dom);
+
+    $xpc->registerNs('atom',"http://www.w3.org/2005/Atom");
+
+    # TEST
+    is (
+        $xpc->findvalue('//atom:feed/atom:id'),
+        "http://www.fortunes.tld/My-Fortunes/fort.atom",
+        "Feed ID is OK.",
+    );
 }
