@@ -18,7 +18,7 @@ use XML::Grammar::Fortune::Synd;
 
 =head1 NAME
 
-XML::Grammar::Fortune::Synd::App - module implementing a command line 
+XML::Grammar::Fortune::Synd::App - module implementing a command line
 application to syndicate FortuneXML as Atom/RSS.
 
 =head1 SYNOPSIS
@@ -58,7 +58,7 @@ sub run
         'author=s' => \$feed_author,
     );
 
-    
+
     my $url_callback = sub {
         my ($self, $args) = @_;
 
@@ -72,7 +72,7 @@ sub run
     };
 
     my $syndicator = XML::Grammar::Fortune::Synd->new(
-        { 
+        {
             xml_files => \@xml_files,
             url_callback => $url_callback,
         }
