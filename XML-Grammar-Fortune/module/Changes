@@ -1,3 +1,6 @@
+0.0511
+        - Convert to XML::GrammarBase::Role::XSLT .
+
 0.0510      Fri  3 May 20:05:47 IDT 2013
         - Made the minimum version of perl as 5.014 due to test
         failures:

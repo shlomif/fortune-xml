@@ -9,8 +9,8 @@ use File::Spec;
 
 use MooX qw/late/;
 
-use XML::GrammarBase::Role::RelaxNG;
-use XML::GrammarBase::Role::XSLT v0.2.0;
+use XML::GrammarBase::Role::RelaxNG v0.2.2;
+use XML::GrammarBase::Role::XSLT v0.2.2;
 
 with ('XML::GrammarBase::Role::RelaxNG');
 with XSLT(output_format => 'html');
