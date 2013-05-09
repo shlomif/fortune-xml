@@ -14,6 +14,7 @@ inc/XML/Grammar/Builder.pm
 lib/XML/Grammar/Fortune.pm
 lib/XML/Grammar/Fortune/ToText.pm
 rejects/ToText.pm
+scripts/bump-version-number.pl
 scripts/tag-release.pl
 t/00basic.t
 t/00-load.t
