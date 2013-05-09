@@ -5,7 +5,7 @@ use warnings;
 
 =head1 NAME
 
-XML::Grammar::Fortune::Synd::Heap::Elem - heap element class for 
+XML::Grammar::Fortune::Synd::Heap::Elem - heap element class for
 XML::Grammar::Fortune::Synd. For internal use.
 
 =head1 VERSION
@@ -25,7 +25,7 @@ __PACKAGE__->mk_accessors(qw(
     file
     ));
 
-# "All problems in computer science can be solved by 
+# "All problems in computer science can be solved by
 # adding another level of indirection;"
 # -- http://en.wikipedia.org/wiki/Abstraction_layer
 sub cmp

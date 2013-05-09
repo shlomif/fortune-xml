@@ -1,6 +1,6 @@
 XML-Grammar-Fortune-Synd
 
-XML-Grammar-Fortune is a module that implements an XML grammar for Unix-like 
+XML-Grammar-Fortune is a module that implements an XML grammar for Unix-like
 fortune cookies. XML-Grammar-Fortune-Synd allows one to syndicate
 the newest fortunes using Atom and/or RSS feeds.
 

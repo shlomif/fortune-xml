@@ -70,7 +70,7 @@ sub _slurp
     my $content = _slurp($yaml_data_fn);
 
     my @matches = ($content =~ m{let-me-wikipedia-it}g);
-    
+
     # TEST
     is (scalar(@matches), 1, "ID exists only in one place.");
 }
