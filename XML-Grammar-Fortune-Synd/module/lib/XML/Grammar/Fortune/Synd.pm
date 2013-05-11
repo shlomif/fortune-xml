@@ -18,7 +18,7 @@ our $VERSION = '0.0204';
 
 use base 'Class::Accessor';
 
-use YAML::Syck;
+use YAML::XS (qw( DumpFile LoadFile ));
 use Heap::Elem::Ref (qw(RefElem));
 use Heap::Binary;
 use XML::Feed;

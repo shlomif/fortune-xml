@@ -1,7 +1,12 @@
 Revision history for XML-Grammar-Fortune-Synd
 
+0.0206  Sat 11 May 17:58:46 IDT 2013
         - Add the <id /> element to the Atom feed.
             - Feed did not validate due to this.
+        - Convert from YAML::Syck to YAML::XS .
+            - YAML::Syck fails tests on perl-5.18.x, and seems
+            undermaintained.
+            - YAML::XS is in general better.
 
 0.0205
         - Add tests and an assert for maximal number of feed entries.

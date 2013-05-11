@@ -28,7 +28,7 @@ my $builder = Test::Run::Builder->new(
         'XML::Feed' => 0,
         'XML::Grammar::Fortune' => '0.0506',
         'XML::RSS' => "1.46",
-        'YAML::Syck' => 0,
+        'YAML::XS' => 0,
     },
     build_requires => {
         'Test::More' => 0,
