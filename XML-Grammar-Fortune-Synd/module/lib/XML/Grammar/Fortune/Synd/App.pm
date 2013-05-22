@@ -7,7 +7,7 @@ use base 'Exporter';
 
 use vars qw(@EXPORT);
 
-our $VERSION = '0.0206';
+our $VERSION = '0.0207';
 
 @EXPORT=('run');
 
