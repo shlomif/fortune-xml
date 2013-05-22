@@ -74,6 +74,7 @@ t/data/xml/screenplay-fort-sample-2-with-italics.xml
 t/data/xml/screenplay-fort-sample-3-with-inlinedesc.xml
 t/pod-coverage.t
 t/pod.t
+t/style-trailing-space.t
 t/to-text.t
 t/to-xhtml-using-api.t
 t/to-xhtml.t

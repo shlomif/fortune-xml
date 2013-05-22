@@ -1,3 +1,6 @@
+0.0512      Wed 22 May 11:34:19 IDT 2013
+        - Add t/style-trailing-space.t .
+
 0.0511      Thu  9 May 12:12:54 IDT 2013
         - Convert to XML::GrammarBase::Role::XSLT .
         - Add scripts/bump-version-number.pl .
