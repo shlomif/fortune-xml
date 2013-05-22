@@ -15,3 +15,7 @@ XML-Grammar-Fortune-Synd/module/META.json
 XML-Grammar-Fortune-Synd/module/META.yml
 XML-Grammar-Fortune-Synd/module/MYMETA.json
 XML-Grammar-Fortune-Synd/module/MYMETA.yml
+
+syntax: regexp
+
+^XML-Grammar-Fortune/module/XML-Grammar-Fortune-\d+\.\d+(?:/|\.tar\.gz$)
