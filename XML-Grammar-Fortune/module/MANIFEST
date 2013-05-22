@@ -18,6 +18,7 @@ scripts/tag-release.pl
 t/00basic.t
 t/00-load.t
 t/boilerplate.t
+t/cpan-changes.t
 t/data/text-results/irc-conversation-1.txt
 t/data/text-results/irc-conversation-3-with-join-unjoin.txt
 t/data/text-results/quote-fort-sample-10-with-hyperlink.txt
