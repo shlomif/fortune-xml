@@ -39,7 +39,6 @@ my $builder = XML::Grammar::Builder->new(
         'Test::XML::Ordered' => 0,
     },
     add_to_cleanup      => [ 'XML-Grammar-Fortune-*' ],
-    create_makefile_pl => 'passthrough',
     meta_merge =>
     {
         resources =>

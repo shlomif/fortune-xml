@@ -4,7 +4,6 @@ XML-Grammar-Fortune/module/META.json
 XML-Grammar-Fortune/module/META.yml
 XML-Grammar-Fortune/module/MYMETA.json
 XML-Grammar-Fortune/module/MYMETA.yml
-XML-Grammar-Fortune/module/Makefile.PL
 XML-Grammar-Fortune/module/_build
 XML-Grammar-Fortune/module/blib
 XML-Grammar-Fortune-Synd/module/blib
