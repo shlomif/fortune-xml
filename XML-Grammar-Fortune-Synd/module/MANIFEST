@@ -14,6 +14,7 @@ scripts/tag-release.pl
 t/00-load.t
 t/01-run.t
 t/02-eliminate-old-ids.t
+t/cpan-changes.t
 t/data/fortune-synd-1/irc-conversation-4-several-convos.xml
 t/data/fortune-synd-1/screenplay-fort-sample-1.xml
 t/data/fortune-synd-eliminate-old-ids-1/fort.yaml

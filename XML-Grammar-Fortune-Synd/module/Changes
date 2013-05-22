@@ -1,33 +1,34 @@
 Revision history for XML-Grammar-Fortune-Synd
 
-0.0206  Sat 11 May 17:58:46 IDT 2013
+0.0207  2013-05-22
+        - Add t/cpan-changes.t .
+
+0.0206  2013-05-11
         - Add the <id /> element to the Atom feed.
             - Feed did not validate due to this.
         - Convert from YAML::Syck to YAML::XS .
             - YAML::Syck fails tests on perl-5.18.x, and seems
             undermaintained.
             - YAML::XS is in general better.
-
-0.0205
         - Add tests and an assert for maximal number of feed entries.
 
-0.0204  Sun 13 Jan 23:57:20 IST 2013
+0.0204  2013-01-13
         - Bump minimal dependency of XML::Grammar::Fortune to 0.0506.
             - Required for passing tests.
             - Thanks to Andreas Koenig for some help in diagnosing the
             problem.
 
-0.0203  Sat May 28 11:22:13 IDT 2011
+0.0203  2011-05-28
         - Convert the write-to directories in t/*.t to File::Temp's tempdir() ,
         in order to get rid of Win32 (and other) test failures:
             - http://www.cpantesters.org/cpan/report/2fabe6f4-9252-1014-9a4c-e9e71382d405
 
-0.0202  Sat Apr  2 01:29:45 IDT 2011
+0.0202  2011-04-02
         - Eliminate old IDs in the YAML file if the fortune cookies were moved
         or deleted.
             - see t/02-eliminate-old-ids.t .
 
-0.0201  Tue Oct 26 22:22:09 IST 2010
+0.0201  2010-10-26
         - Reformat "Changes" (this file) - it had some long lines.
         - Added MANIFEST.SKIP to the distribution. It's not functional yet,
         but it keep getting auto-generated (we maintain the MANIFEST manually).
@@ -35,7 +36,7 @@ Revision history for XML-Grammar-Fortune-Synd
         to File-ShareDir, and so this module will now hopefully not fail the
         tests.
 
-0.02    Fri Oct  8 22:54:53 IST 2010
+0.02    2010-10-08
         - Add List::Util (which is core, but is still explicitly used) and
         XML::RSS version 1.46 to the dependencies.
         - Revamped lib/XML/Grammar/Fortune/Synd.pm - the RSS feed is now
@@ -47,7 +48,7 @@ Revision history for XML-Grammar-Fortune-Synd
         - Test for the RSS correctness in t/01-run.t .
         - Add the tag-release.pl script to tag release in the svn repository.
 
-0.01    Wed Jul 30 14:06:14 IDT 2008
+0.01    2008-07-30
         - First version, released on an unsuspecting world.
         - Can syndicate to valid RSS and non-valid Atom.
         - May require the XML-Feed customizations in:
