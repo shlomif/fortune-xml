@@ -1,5 +1,8 @@
 Revision history for XML-Grammar-Fortune-Synd
 
+0.0208  2013-05-22
+        - Fix scripts/tag-release.pl for the Mercurial repository.
+
 0.0207  2013-05-22
         - Add t/cpan-changes.t .
         - Add scripts/bump-version-number.pl .
