@@ -11,6 +11,10 @@ my $builder = Test::Run::Builder->new(
     license             => 'mit',
     dist_author         => 'Shlomi Fish <shlomif@cpan.org>',
     dist_version_from   => 'lib/XML/Grammar/Fortune/Synd.pm',
+    configure_requires =>
+    {
+        'Module::Build' => '0.36',
+    },
     requires =>
     {
         'base' => 0,
