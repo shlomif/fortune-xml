@@ -45,7 +45,7 @@ sub print_cmd_line
     close($out_fh);
 }
 
-print_cmd_line();
+# print_cmd_line();
 
 # TEST
 ok (!system(@cmd_line));
