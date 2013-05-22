@@ -3,6 +3,7 @@ Revision history for XML-Grammar-Fortune-Synd
 0.0207  2013-05-22
         - Add t/cpan-changes.t .
         - Add scripts/bump-version-number.pl .
+        - Remove Makefile.PL - use Build.PL from now on.
 
 0.0206  2013-05-11
         - Add the <id /> element to the Atom feed.
