@@ -9,14 +9,21 @@ use File::Temp qw( tempdir );
 
 use XML::RSS;
 use File::Copy;
+use File::Spec;
 
 use List::Util qw(first);
 
-my $temp_dir = tempdir( CLEANUP => 1 );
+use lib './t/lib';
 
-my $yaml_data_fn = "$temp_dir/fort.yaml";
+use SyndTempWrap (qw(cur_fn dir $temp_dir common_fns atom_fn rss_fn yaml_fn));
 
-copy("t/data/fortune-synd-eliminate-old-ids-1/fort.yaml", $yaml_data_fn);
+$temp_dir = tempdir( CLEANUP => 1 );
+
+copy(
+    cur_fn("t/data/fortune-synd-eliminate-old-ids-1/fort.yaml"),
+    yaml_fn(),
+);
+
 
 my @cmd_line = (
     $^X,
@@ -24,14 +31,12 @@ my @cmd_line = (
     "-e",
     "run()",
     "--",
-    "--dir" => "t/data/fortune-synd-eliminate-old-ids-1/",
+    "--dir" => dir( "t/data/fortune-synd-eliminate-old-ids-1"),
     qw(
         --xml-file irc-conversation-4-several-convos.xml
         --xml-file screenplay-fort-sample-1.xml
     ),
-    "--yaml-data" => $yaml_data_fn,
-    "--atom-output" => "$temp_dir/fort.atom",
-    "--rss-output" => "$temp_dir/fort.rss",
+    @{common_fns()},
     "--master-url" => "http://www.fortunes.tld/My-Fortunes/",
     "--title" => "My Fortune Feeds",
     "--tagline" => "My Fortune Feeds",
@@ -67,7 +72,7 @@ sub _slurp
 
 # TODO : use a YAML parser etc., but I'm lazy.
 {
-    my $content = _slurp($yaml_data_fn);
+    my $content = _slurp(yaml_fn());
 
     my @matches = ($content =~ m{let-me-wikipedia-it}g);
 

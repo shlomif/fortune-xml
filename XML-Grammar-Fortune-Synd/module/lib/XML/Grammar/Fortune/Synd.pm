@@ -26,6 +26,8 @@ use XML::Grammar::Fortune;
 use DateTime::Format::W3CDTF;
 use XML::Grammar::Fortune::Synd::Heap::Elem;
 
+use File::Spec;
+
 __PACKAGE__->mk_accessors(qw(
         _xml_parser
         _file_doms
@@ -131,7 +133,7 @@ sub calc_feeds
     foreach my $file (@{$self->xml_files()})
     {
         my $xml = $self->_xml_parser->parse_file(
-            "$xmls_dir/$file",
+            File::Spec->catfile($xmls_dir, $file)
         );
 
         $self->_file_doms->{$file} = $xml;
@@ -296,7 +298,7 @@ sub calc_feeds
                             'fortune.id' => "'" . $id_obj->id() . "'",
                         },
                         output => \$content,
-                        input => "$xmls_dir/".$id_obj->file(),
+                        input => File::Spec->catfile($xmls_dir, $id_obj->file()),
                     }
                 );
 

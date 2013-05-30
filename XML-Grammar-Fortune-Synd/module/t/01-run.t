@@ -6,11 +6,16 @@ use warnings;
 use Test::More tests => 6;
 
 use File::Temp qw( tempdir );
+use File::Spec;
 
 use XML::RSS;
 use XML::LibXML;
 
 use List::Util qw(first);
+
+use lib './t/lib';
+
+use SyndTempWrap (qw(dir $temp_dir common_fns atom_fn rss_fn));
 
 my @cmd_line;
 
@@ -21,23 +26,21 @@ sub print_cmd_line
     close($out_fh);
 }
 
-{
-    my $temp_dir = tempdir( CLEANUP => 1 );
 
+{
+    $temp_dir = tempdir( CLEANUP => 1 );
     @cmd_line = (
         $^X,
         "-MXML::Grammar::Fortune::Synd::App",
         "-e",
         "run()",
         "--",
-        "--dir" => "t/data/fortune-synd-1",
+        "--dir" => dir("t/data/fortune-synd-1"),
         qw(
         --xml-file irc-conversation-4-several-convos.xml
         --xml-file screenplay-fort-sample-1.xml
         ),
-        "--yaml-data" => "$temp_dir/fort.yaml",
-        "--atom-output" => "$temp_dir/fort.atom",
-        "--rss-output" => "$temp_dir/fort.rss",
+        @{common_fns()},
         "--master-url" => "http://www.fortunes.tld/My-Fortunes/",
         "--title" => "My Fortune Feeds",
         "--tagline" => "My Fortune Feeds",
@@ -52,7 +55,7 @@ sub print_cmd_line
 
     my $rss = XML::RSS->new(version => "2.0");
 
-    $rss->parsefile("$temp_dir/fort.rss");
+    $rss->parsefile(rss_fn());
 
     my $item = first { $_->{'title'} =~ m{The Only Language} } @{$rss->{'items'}};
 
@@ -70,23 +73,21 @@ sub print_cmd_line
 }
 
 {
-    my $temp_dir = tempdir( CLEANUP => 1 );
+    $temp_dir = tempdir( CLEANUP => 1 );
 
-    my $atom_fn = "$temp_dir/fort.atom";
-    my $rss_fn = "$temp_dir/fort.rss";
+    my $rss_fn = rss_fn();
+
     @cmd_line = (
         $^X,
         "-MXML::Grammar::Fortune::Synd::App",
         "-e",
         "run()",
         "--",
-        "--dir" => "t/data/fortune-synd-many-fortunes",
+        "--dir" => dir("t/data/fortune-synd-many-fortunes"),
         qw(
         --xml-file sharp-perl.xml
         ),
-        "--yaml-data" => "$temp_dir/fort.yaml",
-        "--atom-output" => $atom_fn,
-        "--rss-output" => $rss_fn,
+        @{common_fns()},
         "--master-url" => "http://www.fortunes.tld/My-Fortunes/",
         "--title" => "My Fortune Feeds",
         "--tagline" => "My Fortune Feeds",
@@ -107,7 +108,7 @@ sub print_cmd_line
     # TEST
     is ($count, 20, "There are exactly 20 items.");
 
-    my $dom = XML::LibXML->load_xml(location => $atom_fn);
+    my $dom = XML::LibXML->load_xml(location => atom_fn());
     my $xpc = XML::LibXML::XPathContext->new($dom);
 
     $xpc->registerNs('atom',"http://www.w3.org/2005/Atom");
