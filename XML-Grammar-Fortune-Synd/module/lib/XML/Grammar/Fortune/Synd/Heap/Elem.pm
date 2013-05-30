@@ -10,13 +10,13 @@ XML::Grammar::Fortune::Synd. For internal use.
 
 =head1 VERSION
 
-Version 0.0208
+Version 0.0209
 
 =cut
 
 use base 'Class::Accessor';
 
-our $VERSION = '0.0208';
+our $VERSION = '0.0209';
 
 __PACKAGE__->mk_accessors(qw(
     date
