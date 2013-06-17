@@ -35,6 +35,7 @@ my $builder = Test::Run::Builder->new(
         'YAML::XS' => 0,
     },
     build_requires => {
+        'autodie' => 0,
         'Test::More' => 0,
     },
     add_to_cleanup      => [ 'XML-Grammar-Fortune-Synd-*' ],

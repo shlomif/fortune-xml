@@ -1,5 +1,11 @@
 Revision history for XML-Grammar-Fortune-Synd
 
+0.0210  2013-06-17
+        - Fix test failures on some Windows machines.
+            - They were caused by File::Copy preserving the file's read-only
+            status.
+            - t/02-eliminate-old-ids.t
+
 0.0209  2013-05-31
         - Made sure to make use of File::Spec instead of concatenating
         pathnames with /s where appropriate - hopefully it will fix the

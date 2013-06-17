@@ -3,12 +3,13 @@
 use strict;
 use warnings;
 
+use autodie;
+
 use Test::More tests => 2;
 
 use File::Temp qw( tempdir );
 
 use XML::RSS;
-use File::Copy;
 use File::Spec;
 
 use List::Util qw(first);
@@ -19,11 +20,22 @@ use SyndTempWrap (qw(cur_fn dir $temp_dir common_fns atom_fn rss_fn yaml_fn));
 
 $temp_dir = tempdir( CLEANUP => 1 );
 
-copy(
-    cur_fn("t/data/fortune-synd-eliminate-old-ids-1/fort.yaml"),
-    yaml_fn(),
-);
+sub _my_copy
+{
+    my ($src, $dest) = @_;
 
+    open my $out_fh, '>', $dest;
+    print {$out_fh} _slurp($src);
+    close($out_fh);
+
+    return;
+}
+
+# We cannot use File::Copy::copy() here because it preserves the file's
+# read-only status on some versions of Windows, which makes the file
+# unwritable later on, which prevents it from being updated and causes
+# the tests to fail.
+_my_copy(cur_fn("t/data/fortune-synd-eliminate-old-ids-1/fort.yaml"), yaml_fn());
 
 my @cmd_line = (
     $^X,
