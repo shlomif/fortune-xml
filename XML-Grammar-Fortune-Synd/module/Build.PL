@@ -39,6 +39,13 @@ my $builder = Test::Run::Builder->new(
         'autodie' => 0,
         'Test::More' => 0,
     },
+    meta_merge =>
+    {
+        resources =>
+        {
+            repository => "https://bitbucket.org/shlomif/fortune-xml",
+        },
+    },
     add_to_cleanup      => [ 'XML-Grammar-Fortune-Synd-*' ],
     create_makefile_pl => 'traditional',
 );

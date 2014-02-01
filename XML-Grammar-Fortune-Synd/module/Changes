@@ -3,6 +3,7 @@ Revision history for XML-Grammar-Fortune-Synd
 0.0211  2014-02-01
         - Add separate "LICENSE" file (CPANTS).
         - Minimum version of perl in META.yml/etc. (CPANTS).
+        - Add a link to the version control repository to META.yml (CPANTS).
 
 0.0210  2013-06-17
         - Fix test failures on some Windows machines.
