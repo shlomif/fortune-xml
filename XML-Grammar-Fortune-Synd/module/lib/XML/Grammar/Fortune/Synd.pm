@@ -3,6 +3,8 @@ package XML::Grammar::Fortune::Synd;
 use warnings;
 use strict;
 
+use 5.008;
+
 =head1 NAME
 
 XML::Grammar::Fortune::Synd - Provides syndication for a set of

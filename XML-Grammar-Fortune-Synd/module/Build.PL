@@ -26,6 +26,7 @@ my $builder = Test::Run::Builder->new(
         'Heap::Binary' => 0,
         'Heap::Elem::Ref' => 0,
         'List::Util' => 0,
+        'perl' => '5.008',
         'strict' => 0,
         'vars' => 0,
         'warnings' => 0,
