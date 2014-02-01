@@ -1,5 +1,8 @@
 Revision history for XML-Grammar-Fortune-Synd
 
+0.0211  2014-02-01
+        - Add separate "LICENSE" file (CPANTS).
+
 0.0210  2013-06-17
         - Fix test failures on some Windows machines.
             - They were caused by File::Copy preserving the file's read-only
