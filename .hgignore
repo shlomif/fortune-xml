@@ -1,5 +1,6 @@
 syntax:glob
 XML-Grammar-Fortune/module/Build
+XML-Grammar-Fortune/module/MANIFEST.bak
 XML-Grammar-Fortune/module/META.json
 XML-Grammar-Fortune/module/META.yml
 XML-Grammar-Fortune/module/MYMETA.json
