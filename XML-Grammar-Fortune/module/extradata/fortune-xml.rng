@@ -4,17 +4,52 @@
     datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
     >
     <start>
-        <element name="collection">
-            <element name="head">
-                <empty/>
+        <choice>
+            <element name="collection">
+                <ref name="head"/>
+                <element name="list">
+                    <oneOrMore>
+                        <ref name="fortune" />
+                    </oneOrMore>
+                </element>
             </element>
-            <element name="list">
-                <oneOrMore>
-                    <ref name="fortune" />
-                </oneOrMore>
+            <element name="facts">
+                <ref name="head"/>
+                <element name="list">
+                    <attribute name="xml:id">
+                        <data type="ID"/>
+                    </attribute>
+                    <attribute name="title">
+                        <text/>
+                    </attribute>
+                    <oneOrMore>
+                        <element name="f">
+                            <attribute name="xml:id">
+                                <data type="ID"/>
+                            </attribute>
+                            <element name="l">
+                                <attribute name="xml:lang">
+                                    <text />
+                                </attribute>
+                                <ref name="quote_body"/>
+                                <ref name="common_info" />
+                            </element>
+                        </element>
+                    </oneOrMore>
+                </element>
             </element>
-        </element>
+        </choice>
     </start>
+    <define name="quote_body">
+        <element name="body">
+            <ref name="regular_html_text" />
+        </element>
+    </define>
+    <define name="head">
+        <element name="head">
+            <empty/>
+        </element>
+    </define>
     <define name="fortune">
         <element name="fortune">
             <attribute name="id">
@@ -89,9 +124,7 @@
                     <ref name="common_info" />
                 </element>
                 <element name="quote">
-                    <element name="body">
-                        <ref name="regular_html_text" />
-                    </element>
+                    <ref name="quote_body"/>
                     <ref name="common_info" />
                 </element>
                 <element name="screenplay">

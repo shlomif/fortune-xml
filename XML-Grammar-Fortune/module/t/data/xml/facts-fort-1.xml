@@ -1,26 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<collection>
+<facts>
     <head />
-    <list>
-        <fortune id="the-american-lottery">
-            <meta>
-                <title>The American Lottery</title>
-            </meta>
-            <quote>
+    <list xml:id="chuck" title="Chuck Norris">
+        <f xml:id="fact1">
+            <l xml:lang="en-US">
                 <body>
-                    <p>The <a href="http://www.usa.tld/">American</a> Lottery.</p>
-<ul>
-<li>It's best <a href="http://www.shlomifish.org/">SFed</a> out.</li>
-<li>It's so good.</li>
-<li>It's a mess.</li>
-</ul>
+                    <p>Chuck Norris helps the Gods that help themselves.</p>
                 </body>
-            <info>
-                <author>Nobody</author>
-                <work href="http://www.shlomifish.org/">Shlomi
-                Fish's Works</work>
-            </info>
-            </quote>
-        </fortune>
+                <info>
+                    <author>Shlomi Fish</author>
+                    <work href="http://www.shlomifish.org/humour/bits/facts/Chuck-Norris/">Chuck Norris
+                        facts by Shlomi Fish and friends</work>
+                </info>
+            </l>
+        </f>
     </list>
-</collection>
+</facts>

@@ -1,12 +1,13 @@
 use strict;
 use warnings;
 
-use Test::More tests => 16;                      # last test to print
+use Test::More tests => 17;                      # last test to print
 
 use XML::LibXML;
 
-# TEST:$num_tests=16
+# TEST:$num_tests=17
 my @inputs = (qw(
+        facts-fort-1
         irc-conversation-1
         irc-conversation-2-with-slash-me
         irc-conversation-3-with-join-unjoin
