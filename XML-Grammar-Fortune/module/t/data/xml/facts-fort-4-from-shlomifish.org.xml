@@ -253,8 +253,6 @@
     <f>
       <l xml:lang="en-US">
         <body>
-          <ul>
-            <li>
               <p>
                             Chuck Norris is the ghost author of the entire Debian GNU/Linux distribution.
                             And he wrote it in 24 hours, while taking snack breaks.
@@ -267,8 +265,6 @@
                                 </p>
                 </li>
               </ul>
-            </li>
-          </ul>
         </body>
       </l>
       <l xml:lang="he-IL">
@@ -753,10 +749,10 @@
                     </p>
           <ul>
             <li>
-              <p>
-                <a href="http://nadavvin.com/">
-                  <b>Nadav Vinik</b>
-                </a>
+                <p>
+                    /usr/bin/perl consults Chuck Norris about how to parse
+                    Perl.( <a href="http://nadavvin.com/"> <b>Nadav Vinik</b>
+                    </a>)
               </p>
             </li>
           </ul>
@@ -1437,9 +1433,11 @@
                     </p>
           <ul>
             <li>
-              <p>
-                <b>never</b>
-                <b>ZadYree</b>
+                <p>
+                    If Chuck Norris had dropped his toasts, they would have
+                    fallen on the dry side, so they would have stayed on his
+                    good side. But Chuck Norris <b>never</b> drops toasts.
+                    (<b>ZadYree</b> and Shlomi Fish).
               </p>
             </li>
           </ul>
@@ -2363,7 +2361,381 @@
                     </p>
         </body>
       </l>
+      <l xml:lang="he-IL">
+        <body>
+          <p>
+                        לארי וול יכול להבין את קוד הפרל שכתב שנה שעברה.
+                    </p>
+        </body>
+      </l>
     </f>
+    <f>
+      <l xml:lang="en-US">
+        <body>
+          <p>
+                        Larry Wall gets the colon.
+                    </p>
+        </body>
+      </l>
+    </f>
+    <f>
+      <l xml:lang="en-US">
+        <body>
+          <p>
+                        There are at least 137 Larry Walls in the U.S., but only one that matters.
+                    </p>
+        </body>
+      </l>
+      <l xml:lang="he-IL">
+        <body>
+          <p>
+                        יש לפחות 137 לארי וולים בארצות הברית, אבל רק אחד שמשנה בכלל.
+                    </p>
+        </body>
+      </l>
+    </f>
+    <f>
+      <l xml:lang="en-US">
+        <body>
+          <p>
+                        Larry Wall applies a patch manually quicker than GNU patch.
+                    </p>
+        </body>
+      </l>
+      <l xml:lang="he-IL">
+        <body>
+          <p>
+                        לארי וול משלב טלאי באופן ידני מהר יותר מ-GNU patch.
+                    </p>
+        </body>
+      </l>
+    </f>
+    <f>
+      <l xml:lang="en-US">
+        <body>
+          <p>
+                        Larry Wall dreams in Perl.
+                    </p>
+        </body>
+      </l>
+      <l xml:lang="he-IL">
+        <body>
+          <p>
+                        לארי וול חולם בפרל.
+                    </p>
+        </body>
+      </l>
+    </f>
+    <f>
+      <l xml:lang="en-US">
+        <body>
+          <p>
+                        Larry Wall can program in his sleep.
+                    </p>
+        </body>
+      </l>
+      <l xml:lang="he-IL">
+        <body>
+          <p>
+                        לארי וול יכול לתכנת בשנתו.
+                    </p>
+        </body>
+      </l>
+    </f>
+    <f>
+      <l xml:lang="en-US">
+        <body>
+          <p>
+                        Larry Wall is lazy, impatient, and full of hubris.
+                    </p>
+        </body>
+      </l>
+      <l xml:lang="he-IL">
+        <body>
+          <p>
+                        לארי וול הוא עצלן, חסר-סבלנות, ומלא היבריס.
+                    </p>
+        </body>
+      </l>
+    </f>
+    <f>
+      <l xml:lang="en-US">
+        <body>
+          <p>
+                        Larry Wall has more dollars in the bank than in his Perl code.
+                    </p>
+        </body>
+      </l>
+      <l xml:lang="he-IL">
+        <body>
+          <p>
+                        ללארי וול יש יותר דולרים בבנק מאשר בקוד הפרל שלו.
+                    </p>
+        </body>
+      </l>
+    </f>
+    <f>
+      <l xml:lang="en-US">
+        <body>
+          <p>
+                        Larry Wall <b>does</b> know all of Perl. However, he pretends to be wrong
+                        or misinformed, so people will think he’s not as awesome as he really is.
+                    </p>
+        </body>
+      </l>
+      <l xml:lang="he-IL">
+        <body>
+          <p>
+                        לארי וול <b>כן</b> יודע את כל שפת פרל. אולם, הוא מעמיד פנים שהוא טועה או
+                        בור, כדי שאנשים יחשבו שהוא לא מדהים כמו שהוא באמת.
+                    </p>
+        </body>
+      </l>
+    </f>
+    <f>
+      <l xml:lang="en-US">
+        <body>
+          <p>
+                        Larry Wall’s pure-Perl code is faster than Assembly.
+                    </p>
+        </body>
+      </l>
+      <l xml:lang="he-IL">
+        <body>
+          <p>
+                        קוד הפרל הטהור של לארי וול יותר מהיר מקוד אסמבלי.
+                    </p>
+        </body>
+      </l>
+    </f>
+    <f>
+      <l xml:lang="en-US">
+        <body>
+          <p>
+                        Larry Wall has been changing the world. By modifying its very source code.
+                    </p>
+        </body>
+      </l>
+      <l xml:lang="he-IL">
+        <body>
+          <p>
+                        לארי וול משנה את העולם. באמצעות שינוי קוד המקור שלו.
+                    </p>
+        </body>
+      </l>
+    </f>
+    <f>
+      <l xml:lang="en-US">
+        <body>
+          <p>
+                        Larry Wall can make shit up, and the computer will understand what he means.
+                    </p>
+        </body>
+      </l>
+      <l xml:lang="he-IL">
+        <body>
+          <p>
+                        לארי וול יכול להקריץ חרא, והמחשב יבין למה הוא מתכוון.
+                    </p>
+        </body>
+      </l>
+    </f>
+  </list>
+  <list xml:id="nsa_facts" title="NSA Facts">
+
+      <f>
+          <l xml:lang="en-US">
+              <body>
+                  <p>
+                      The NSA don’t publish. They perish.
+
+                  </p>
+              </body>
+          </l>
+      </f>
+
+      <f>
+          <l xml:lang="en-US">
+              <body>
+                  <p>
+                      The NSA employs the largest number of mathematicians with Ph.Ds. And the most
+                      stupid and incompetent ones.
+
+                  </p>
+              </body>
+          </l>
+      </f>
+
+      <f>
+          <l xml:lang="en-US">
+              <body>
+                  <p>
+                      The NSA has a patent for an efficient process for collecting a lot of
+                      information and doing nothing with it.
+
+                  </p>
+              </body>
+          </l>
+      </f>
+
+      <f>
+          <l xml:lang="en-US">
+              <body>
+                  <p>
+                      The Bajoran scholars have positively identified Benjamin Sisko as
+                      The Emissary. They also positively identified the NSA headquarters
+                      as The Dungeon.
+
+                  </p>
+              </body>
+          </l>
+      </f>
+
+      <f>
+          <l xml:lang="en-US">
+              <body>
+                  <p>
+                      One of <i>Buffy the Vampire Slayer</i>’s episodes took place in the NSA
+                      headquarters, but had to be destroyed, because all of the test audience had
+                      uncontrollable panic attacks.
+
+                  </p>
+              </body>
+          </l>
+      </f>
+
+      <f>
+          <l xml:lang="en-US">
+              <body>
+                  <p>
+                      The NSA knows what you did last summer. But no one, in the NSA or outside it,
+                      knows why they should.
+
+                  </p>
+              </body>
+          </l>
+      </f>
+
+      <f>
+          <l xml:lang="en-US">
+              <body>
+                  <p>
+                      The more the NSA think, the less they want to be able to think.
+                      So they think less and less.
+
+                  </p>
+              </body>
+          </l>
+      </f>
+
+      <f>
+          <l xml:lang="en-US">
+              <body>
+                  <p>
+                      With the NSA’s budget you would expect evil to be extinct by now. (<b>Kika</b>)
+
+                  </p>
+              </body>
+          </l>
+      </f>
+
+      <f>
+          <l xml:lang="en-US">
+              <body>
+                  <p>
+                      Think of the most incompetent organisation possible. The NSA would be more
+                      even more incompetent than that.
+
+                  </p>
+              </body>
+          </l>
+      </f>
+
+      <f>
+          <l xml:lang="en-US">
+              <body>
+                  <p>
+                      The NSA headquarters are the unhappiest place on Earth.
+
+                  </p>
+              </body>
+          </l>
+      </f>
+
+      <f>
+          <l xml:lang="en-US">
+              <body>
+                  <p>
+                      <b>Yogurt:</b> “Never overestimate the power of the NSA.”
+
+                  </p>
+              </body>
+          </l>
+      </f>
+
+      <f>
+          <l xml:lang="en-US">
+              <body>
+                  <p>
+                      First the NSA ignores “silly” Internet memes, then they laugh at them,
+                      then they are unable to fight them, and then they lose.
+
+                  </p>
+              </body>
+          </l>
+      </f>
+
+      <f>
+          <l xml:lang="en-US">
+              <body>
+                  <p>
+                      The NSA is an intelligence agency which thinks it can use
+                      Artificial Ultra-Stupidity (AUS) to wade through tons of irrelevant
+                      information and reach genuine understanding.
+
+                  </p>
+              </body>
+          </l>
+      </f>
+
+      <f>
+          <l xml:lang="en-US">
+              <body>
+                  <p>
+                      Your next job after one in
+                      <a href="http://twitter.com/NSACareers">@NSACareers</a>, will be as a dead
+                      corpse in a coffin, 6 feet underground, or as a patient in a psychiatric
+                      ward.
+
+                  </p>
+              </body>
+          </l>
+      </f>
+
+      <f>
+          <l xml:lang="en-US">
+              <body>
+                  <p>
+                      Hackers bend the rules, so the NSA hates them. Instead, the NSA accumulates
+                      rules, observes them, and accepts their fate: death.
+
+                  </p>
+              </body>
+          </l>
+      </f>
+
+      <f>
+          <l xml:lang="en-US">
+              <body>
+                  <p>
+                      No one in their right mind will want to work for the NSA. Fortunately for
+                      the NSA, and unfortunately for us, some people are not in their right mind.
+
+                  </p>
+              </body>
+          </l>
+      </f>
+
   </list>
   <list xml:id="summer_glau_facts" title="Summer Glau Facts">
     <f>
@@ -2609,6 +2981,70 @@
         </body>
       </l>
     </f>
+  </list>
+  <list xml:id="xena_facts" title="Xena (the Warrior Princess) Facts">
+
+      <f>
+          <l xml:lang="en-US">
+              <body>
+                  <p>
+                      Xena can meet King David for breakfast and Julius Caesar for lunch. Without
+                      time travel.
+
+                  </p>
+              </body>
+          </l>
+      </f>
+
+      <f>
+          <l xml:lang="en-US">
+              <body>
+                  <p>
+                      Xena beat a Goliath that was taller, and more agile than the one in the Bible.
+                      It’s not only Hollywood exaggeration.
+
+                  </p>
+              </body>
+          </l>
+      </f>
+
+      <f>
+          <l xml:lang="en-US">
+              <body>
+                  <p>
+                      No one calls Xena the warrior princess “Zeena” to her face and survives.
+                      Luckily for you she hasn’t visited modern-day U.S. yet.
+
+                  </p>
+              </body>
+          </l>
+      </f>
+
+      <f>
+          <l xml:lang="en-US">
+              <body>
+                  <p>
+                      Xena can throw a boomerang-like weapon thingy in the opposite direction and
+                      it will still hit the mark while neutralising 10 of her enemies.
+
+                  </p>
+              </body>
+          </l>
+      </f>
+
+      <f>
+          <l xml:lang="en-US">
+              <body>
+                  <p>
+                      Xena the Warrior Princess has not met Chuck Norris yet, or otherwise he
+                      would have been badly and permanently injured.
+                      (Inspired by <a href="http://twitter.com/ZadYree">ZadYree</a>).
+
+                  </p>
+              </body>
+          </l>
+      </f>
+
   </list>
   <list xml:id="xslt_facts" title="XSLT Facts">
     <f>

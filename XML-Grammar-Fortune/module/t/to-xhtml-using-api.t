@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 45;
+use Test::More tests => 48;
 use Test::Differences;
 use Test::XML::Ordered qw(is_xml_ordered);
 
@@ -12,11 +12,12 @@ use Encode;
 
 use XML::Grammar::Fortune;
 
-# TEST:$num_texts=15
+# TEST:$num_texts=16
 
 my @tests = (qw(
         facts-fort-1
         facts-fort-3-more-than-one-list
+        facts-fort-4-from-shlomifish.org
         irc-conversation-4-several-convos
         irc-convos-and-raw-fortunes-1
         raw-fort-empty-info-1
