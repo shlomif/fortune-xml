@@ -11,7 +11,7 @@ use Carp ();
 
 use MooX qw/late/;
 
-has '_formatter' => (isa => "Text::Format", is => 'rw',
+has '_formatter' => (is => 'rw',
     default => sub {
         return Text::Format->new(
             {

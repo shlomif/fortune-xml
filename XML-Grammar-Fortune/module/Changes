@@ -1,3 +1,7 @@
+0.0513  2014-08-20
+        - Remove an isa => type due to it being a plain class name which
+        does not work in recent versions of Type::Tiny.
+
 0.0512  2013-05-22
         - Add t/style-trailing-space.t .
         - Add t/cpan-changes.t .
