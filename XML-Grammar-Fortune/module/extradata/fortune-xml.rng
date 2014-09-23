@@ -25,16 +25,22 @@
                         </attribute>
                         <oneOrMore>
                             <element name="f">
-                                <attribute name="xml:id">
-                                    <data type="ID"/>
-                                </attribute>
-                                <element name="l">
-                                    <attribute name="xml:lang">
-                                        <text />
+                                <optional>
+                                    <attribute name="xml:id">
+                                        <data type="ID"/>
                                     </attribute>
-                                    <ref name="quote_body"/>
-                                    <ref name="common_info" />
-                                </element>
+                                </optional>
+                                <oneOrMore>
+                                    <element name="l">
+                                        <attribute name="xml:lang">
+                                            <text />
+                                        </attribute>
+                                        <ref name="quote_body"/>
+                                        <optional>
+                                            <ref name="common_info" />
+                                        </optional>
+                                    </element>
+                                </oneOrMore>
                             </element>
                         </oneOrMore>
                     </element>
@@ -264,7 +270,7 @@
                     <attribute name="href">
                         <text/>
                     </attribute>
-                    <text />
+                    <ref name="inside_para_text" />
                 </element>
             </choice>
         </zeroOrMore>
@@ -272,7 +278,10 @@
     <define name="inside_quote_list">
         <oneOrMore>
             <element name="li">
-                <ref name="inside_para_text" />
+                <choice>
+                    <ref name="inside_para_text" />
+                    <ref name="regular_html_text" />
+                </choice>
             </element>
         </oneOrMore>
     </define>
