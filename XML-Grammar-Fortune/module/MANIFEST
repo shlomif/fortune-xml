@@ -53,6 +53,8 @@ t/data/xhtml-results/raw-fort-empty-info-1.xhtml
 t/data/xhtml-results/screenplay-fort-sample-1.xhtml
 t/data/xhtml-results/screenplay-fort-sample-2-with-italics.xhtml
 t/data/xml/facts-fort-1.xml
+t/data/xml/facts-fort-2-more-than-one-fact.xml
+t/data/xml/facts-fort-3-more-than-one-list.xml
 t/data/xml/irc-conversation-1.xml
 t/data/xml/irc-conversation-2-with-slash-me.xml
 t/data/xml/irc-conversation-3-with-join-unjoin.xml

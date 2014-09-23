@@ -15,28 +15,30 @@
             </element>
             <element name="facts">
                 <ref name="head"/>
-                <element name="list">
-                    <attribute name="xml:id">
-                        <data type="ID"/>
-                    </attribute>
-                    <attribute name="title">
-                        <text/>
-                    </attribute>
-                    <oneOrMore>
-                        <element name="f">
-                            <attribute name="xml:id">
-                                <data type="ID"/>
-                            </attribute>
-                            <element name="l">
-                                <attribute name="xml:lang">
-                                    <text />
+                <oneOrMore>
+                    <element name="list">
+                        <attribute name="xml:id">
+                            <data type="ID"/>
+                        </attribute>
+                        <attribute name="title">
+                            <text/>
+                        </attribute>
+                        <oneOrMore>
+                            <element name="f">
+                                <attribute name="xml:id">
+                                    <data type="ID"/>
                                 </attribute>
-                                <ref name="quote_body"/>
-                                <ref name="common_info" />
+                                <element name="l">
+                                    <attribute name="xml:lang">
+                                        <text />
+                                    </attribute>
+                                    <ref name="quote_body"/>
+                                    <ref name="common_info" />
+                                </element>
                             </element>
-                        </element>
-                    </oneOrMore>
-                </element>
+                        </oneOrMore>
+                    </element>
+                </oneOrMore>
             </element>
         </choice>
     </start>
