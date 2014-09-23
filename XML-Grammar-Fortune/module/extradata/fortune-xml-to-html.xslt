@@ -46,6 +46,45 @@ namespace-->
     </html>
 </xsl:template>
 
+<xsl:template match="/facts">
+    <html xml:lang="en-US">
+        <head>
+            <title>Facts</title>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        </head>
+        <body>
+            <xsl:choose>
+                <xsl:when test="$fortune.id">
+                    <xsl:apply-templates select="list/f[@id=$fortune.id]" />
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:apply-templates select="list" />
+                </xsl:otherwise>
+            </xsl:choose>
+        </body>
+    </html>
+</xsl:template>
+
+<xsl:template match="/facts/list">
+    <div class="list" xml:lang="en-US">
+        <h3 id="{@xml:id}"><xsl:value-of select="@title" /></h3>
+        <xsl:apply-templates select="f" />
+    </div>
+</xsl:template>
+
+<xsl:template match="/facts/list/f">
+    <div class="fact">
+            <xsl:apply-templates select="l[@xml:lang = 'en-US']"/>
+    </div>
+</xsl:template>
+
+<xsl:template match="/facts/list/f/l">
+    <blockquote>
+        <xsl:apply-templates select="body/*" mode="copy-html-ns"/>
+    </blockquote>
+    <xsl:call-template name="render_info" />
+</xsl:template>
+
 <xsl:template match="fortune">
     <div class="fortune">
         <h3 id="{@id}"><xsl:call-template name="get_header" /></h3>
