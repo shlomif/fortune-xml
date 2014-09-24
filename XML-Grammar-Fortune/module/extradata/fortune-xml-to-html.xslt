@@ -11,6 +11,7 @@
 
 <xsl:param name="fortune.id"></xsl:param>
 <xsl:param name="filter-facts-list.id"></xsl:param>
+<xsl:param name="filter.lang">en-US</xsl:param>
 
 <!-- The purpose of this function is to recursively copy elements without a
 namespace-->
@@ -48,7 +49,10 @@ namespace-->
 </xsl:template>
 
 <xsl:template match="/facts">
-    <html xml:lang="en-US">
+    <html>
+        <xsl:attribute name="xml:lang">
+            <xsl:value-of select="$filter.lang" />
+        </xsl:attribute>
         <head>
             <title>Facts</title>
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -70,11 +74,14 @@ namespace-->
 </xsl:template>
 
 <xsl:template match="/facts/list">
-    <div class="list" xml:lang="en-US">
+    <div class="list">
+        <xsl:attribute name="xml:lang">
+            <xsl:value-of select="$filter.lang" />
+        </xsl:attribute>
         <h3 id="{@xml:id}"><xsl:value-of select="@title" /></h3>
         <div class="main_facts_list">
             <ul>
-                <xsl:apply-templates select="f" />
+                <xsl:apply-templates select="f[l/@xml:lang = $filter.lang]" />
             </ul>
         </div>
     </div>
@@ -82,7 +89,7 @@ namespace-->
 
 <xsl:template match="/facts/list/f">
     <li class="fact">
-        <xsl:apply-templates select="l[@xml:lang = 'en-US']"/>
+        <xsl:apply-templates select="l[@xml:lang = $filter.lang]"/>
     </li>
 </xsl:template>
 

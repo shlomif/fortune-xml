@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 11;
+use Test::More tests => 12;
 use Test::Differences;
 
 use File::Spec;
@@ -11,6 +11,8 @@ use Encode;
 
 use XML::LibXML;
 use XML::LibXSLT;
+
+use Test::XML::Ordered qw(is_xml_ordered);
 
 # TEST:$num_texts=11
 
@@ -78,5 +80,27 @@ foreach my $fn_base (@tests)
     );
 }
 
+{
+    my $filename = "./t/data/xml/facts-fort-4-from-shlomifish.org.xml";
+
+    open my $xml_in, "<", $filename;
+    my $source = $parser->parse_fh($xml_in);
+    close($xml_in);
+
+    my $results = $stylesheet->transform(
+        $source,
+        'filter.lang' => q{'he-IL'},
+        'filter-facts-list.id' => q{'chuck_facts'},
+    );
+
+    my @common = (validation => 0, load_ext_dtd => 0, no_network => 1);
+    # TEST
+    is_xml_ordered (
+        [ string => scalar(normalize_xml($stylesheet->output_string($results))), @common, ],
+        [ location => "./t/data/xhtml-results/facts-fort-4-from-shlomifish.org--he-IL.xhtml", @common, ],
+        {},
+        "Testing for Good he-IL XSLTing of '$filename'",
+    );
+}
 1;
 

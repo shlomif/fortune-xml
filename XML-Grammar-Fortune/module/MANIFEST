@@ -41,6 +41,7 @@ t/data/web-feed-synd/after/irc-3.xml
 t/data/web-feed-synd/before/irc-3.xml
 t/data/xhtml-results/facts-fort-1.xhtml
 t/data/xhtml-results/facts-fort-3-more-than-one-list.xhtml
+t/data/xhtml-results/facts-fort-4-from-shlomifish.org--he-IL.xhtml
 t/data/xhtml-results/facts-fort-4-from-shlomifish.org.xhtml
 t/data/xhtml-results/irc-conversation-4-several-convos.xhtml
 t/data/xhtml-results/irc-convos-and-raw-fortunes-1.xhtml
