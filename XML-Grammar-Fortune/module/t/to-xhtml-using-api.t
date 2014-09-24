@@ -90,6 +90,7 @@ foreach my $fn_base (@tests)
     is_xml_ordered (
         [ string => normalize_xml($results_buffer), @common, ],
         [ location => "./t/data/xhtml-results/$fn_base.xhtml", @common, ],
+        {},
         "Testing for Good XSLTing of '$fn_base'",
     );
 }
@@ -126,6 +127,7 @@ foreach my $fn_base (@tests)
         is_xml_ordered(
             [ string => normalize_xml($results_buffer), @common, ],
             [ location => "./t/data/xhtml-results/$fn_base.xhtml", @common, ],
+            {},
             "Testing for Good XSLTing of '$fn_base'",
         );
 
