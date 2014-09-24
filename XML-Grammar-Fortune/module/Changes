@@ -1,3 +1,7 @@
+0.0600  2014-09-24
+        - Implement the <facts> top-level tag with grammar for factoids.
+            - See t/data/xml/facts-fort-4-from-shlomifish.org.xml
+
 0.0513  2014-08-20
         - Remove an isa => type due to it being a plain class name which
         does not work in recent versions of Type::Tiny.
