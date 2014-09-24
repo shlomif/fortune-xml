@@ -73,15 +73,17 @@ namespace-->
     <div class="list" xml:lang="en-US">
         <h3 id="{@xml:id}"><xsl:value-of select="@title" /></h3>
         <div class="main_facts_list">
-            <xsl:apply-templates select="f" />
+            <ul>
+                <xsl:apply-templates select="f" />
+            </ul>
         </div>
     </div>
 </xsl:template>
 
 <xsl:template match="/facts/list/f">
-    <div class="fact">
+    <li class="fact">
             <xsl:apply-templates select="l[@xml:lang = 'en-US']"/>
-    </div>
+    </li>
 </xsl:template>
 
 <xsl:template match="/facts/list/f/l">
