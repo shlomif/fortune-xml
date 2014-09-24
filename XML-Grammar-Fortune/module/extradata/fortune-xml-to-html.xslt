@@ -82,7 +82,7 @@ namespace-->
 
 <xsl:template match="/facts/list/f">
     <li class="fact">
-            <xsl:apply-templates select="l[@xml:lang = 'en-US']"/>
+        <xsl:apply-templates select="l[@xml:lang = 'en-US']"/>
     </li>
 </xsl:template>
 
