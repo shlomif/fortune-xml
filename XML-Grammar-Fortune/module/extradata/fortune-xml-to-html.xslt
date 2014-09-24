@@ -10,6 +10,7 @@
  />
 
 <xsl:param name="fortune.id"></xsl:param>
+<xsl:param name="filter-facts-list.id"></xsl:param>
 
 <!-- The purpose of this function is to recursively copy elements without a
 namespace-->
@@ -56,6 +57,9 @@ namespace-->
             <xsl:choose>
                 <xsl:when test="$fortune.id">
                     <xsl:apply-templates select="list/f[@id=$fortune.id]" />
+                </xsl:when>
+                <xsl:when test="$filter-facts-list.id">
+                    <xsl:apply-templates select="list[@xml:id=$filter-facts-list.id]" />
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:apply-templates select="list" />
