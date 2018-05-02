@@ -12,18 +12,17 @@ use MooX qw/late/;
 use XML::GrammarBase::Role::RelaxNG v0.2.2;
 use XML::GrammarBase::Role::XSLT v0.2.2;
 
-with ('XML::GrammarBase::Role::RelaxNG');
-with XSLT(output_format => 'html');
+with('XML::GrammarBase::Role::RelaxNG');
+with XSLT( output_format => 'html' );
 
-has '+module_base' => (default => 'XML-Grammar-Fortune');
-has '+rng_schema_basename' => (default => 'fortune-xml.rng');
-
+has '+module_base'         => ( default => 'XML-Grammar-Fortune' );
+has '+rng_schema_basename' => ( default => 'fortune-xml.rng' );
 
 has '+to_html_xslt_transform_basename' =>
-    (default => 'fortune-xml-to-html.xslt');
+    ( default => 'fortune-xml-to-html.xslt' );
 
-has '_mode' => (is => 'rw', init_arg => 'mode');
-has '_output_mode' => (is => 'rw', init_arg => 'output_mode',);
+has '_mode'        => ( is => 'rw', init_arg => 'mode' );
+has '_output_mode' => ( is => 'rw', init_arg => 'output_mode', );
 
 =head1 NAME
 
@@ -36,7 +35,6 @@ Version 0.0600
 =cut
 
 our $VERSION = '0.0600';
-
 
 =head1 SYNOPSIS
 
@@ -109,43 +107,43 @@ sub run
     my $xslt_params = $args->{'xslt_params'} || {};
 
     my $output = $args->{'output'};
-    my $input = $args->{'input'};
+    my $input  = $args->{'input'};
 
     my $mode = $self->_mode();
 
-    if ($mode eq "validate")
+    if ( $mode eq "validate" )
     {
         return $self->rng_validate_file($input);
     }
-    elsif ($mode eq "convert_to_html")
+    elsif ( $mode eq "convert_to_html" )
     {
         my $translate = sub {
-            my ($medium, $encoding) = @_;
+            my ( $medium, $encoding ) = @_;
 
             return $self->perform_xslt_translation(
                 {
                     output_format => 'html',
-                    source => {file => $input},
-                    output => $medium,
-                    encoding => $encoding,
-                    xslt_params => $xslt_params,
+                    source        => { file => $input },
+                    output        => $medium,
+                    encoding      => $encoding,
+                    xslt_params   => $xslt_params,
                 }
             );
         };
-        if ($self->_output_mode() eq "string")
+        if ( $self->_output_mode() eq "string" )
         {
-            $$output .= $translate->('string', 'bytes');
+            $$output .= $translate->( 'string', 'bytes' );
         }
         else
         {
-            $translate->({file => $output}, 'utf8');
+            $translate->( { file => $output }, 'utf8' );
         }
     }
 
     return;
 }
 
-1; # End of XML::Grammar::Fortune
+1;    # End of XML::Grammar::Fortune
 
 __END__
 
