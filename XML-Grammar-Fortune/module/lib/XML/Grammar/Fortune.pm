@@ -28,14 +28,6 @@ has '_output_mode' => ( is => 'rw', init_arg => 'output_mode', );
 
 XML::Grammar::Fortune - convert the FortunesXML grammar to other formats and from plaintext.
 
-=head1 VERSION
-
-Version 0.0600
-
-=cut
-
-our $VERSION = '0.0600';
-
 =head1 SYNOPSIS
 
     use XML::Grammar::Fortune;
