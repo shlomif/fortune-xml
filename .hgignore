@@ -1,12 +1,6 @@
 syntax:glob
-XML-Grammar-Fortune/module/Build
-XML-Grammar-Fortune/module/MANIFEST.bak
-XML-Grammar-Fortune/module/META.json
-XML-Grammar-Fortune/module/META.yml
-XML-Grammar-Fortune/module/MYMETA.json
-XML-Grammar-Fortune/module/MYMETA.yml
-XML-Grammar-Fortune/module/_build
-XML-Grammar-Fortune/module/blib
+XML-Grammar-Fortune/module/.build/
+XML-Grammar-Fortune/module/.tidyall.d/
 XML-Grammar-Fortune-Synd/module/blib
 XML-Grammar-Fortune-Synd/module/_build
 XML-Grammar-Fortune-Synd/module/Build
