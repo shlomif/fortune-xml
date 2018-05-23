@@ -3,11 +3,9 @@ package XML::Grammar::Fortune::Synd::App;
 use strict;
 use warnings;
 
-use base 'Exporter';
+use parent 'Exporter';
 
 use vars qw(@EXPORT);
-
-our $VERSION = '0.0211';
 
 @EXPORT=('run');
 

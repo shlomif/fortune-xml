@@ -10,15 +10,9 @@ use 5.008;
 XML::Grammar::Fortune::Synd - Provides syndication for a set of
 XML-Grammar-Fortune files.
 
-=head1 VERSION
-
-Version 0.0211
-
 =cut
 
-our $VERSION = '0.0211';
-
-use base 'Class::Accessor';
+use parent 'Class::Accessor';
 
 use YAML::XS (qw( DumpFile LoadFile ));
 use Heap::Elem::Ref (qw(RefElem));

@@ -8,15 +8,9 @@ use warnings;
 XML::Grammar::Fortune::Synd::Heap::Elem - heap element class for
 XML::Grammar::Fortune::Synd. For internal use.
 
-=head1 VERSION
-
-Version 0.0211
-
 =cut
 
-use base 'Class::Accessor';
-
-our $VERSION = '0.0211';
+use parent 'Class::Accessor';
 
 __PACKAGE__->mk_accessors(qw(
     date
