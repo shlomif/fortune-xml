@@ -299,14 +299,8 @@
             </choice>
         </oneOrMore>
     </define>
-    <define name="fact_contents">
-    <optional>
-    <attribute name="xml:id">
-    <data type="ID"/>
-    </attribute>
-    </optional>
-    <oneOrMore>
-    <element name="l">
+
+    <define name="lang_contents">
     <attribute name="xml:lang">
     <text />
     </attribute>
@@ -314,7 +308,23 @@
     <optional>
     <ref name="common_info" />
     </optional>
+    </define>
+
+    <define name="fact_contents">
+    <optional>
+    <attribute name="xml:id">
+    <data type="ID"/>
+    </attribute>
+    </optional>
+    <oneOrMore>
+    <choice>
+    <element name="l">
+    <ref name="lang_contents" />
     </element>
+    <element name="lang">
+    <ref name="lang_contents" />
+    </element>
+    </choice>
     </oneOrMore>
     </define>
 </grammar>
