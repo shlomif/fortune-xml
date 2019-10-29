@@ -81,7 +81,7 @@ namespace-->
         <h3 id="{@xml:id}"><xsl:value-of select="@title" /></h3>
         <div class="main_facts_list">
             <ul>
-                <xsl:apply-templates select="*[self::f or self::fact][l/@xml:lang = $filter.lang]" />
+                <xsl:apply-templates select="*[self::f or self::fact][*[self::l or self::lang]/@xml:lang = $filter.lang]" />
             </ul>
         </div>
     </div>
