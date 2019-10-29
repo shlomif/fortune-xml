@@ -89,11 +89,11 @@ namespace-->
 
 <xsl:template match="/facts/list/*[self::f or self::fact]">
     <li class="fact">
-        <xsl:apply-templates select="l[@xml:lang = $filter.lang]"/>
+        <xsl:apply-templates select="*[self::l or self::lang][@xml:lang = $filter.lang]"/>
     </li>
 </xsl:template>
 
-<xsl:template match="/facts/list/*[self::f or self::fact]/l">
+<xsl:template match="/facts/list/*[self::f or self::fact]/*[self::l or self::lang]">
     <blockquote>
         <xsl:apply-templates select="body/*" mode="copy-html-ns"/>
     </blockquote>
