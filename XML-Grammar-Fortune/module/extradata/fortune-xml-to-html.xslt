@@ -93,7 +93,7 @@ namespace-->
     </li>
 </xsl:template>
 
-<xsl:template match="/facts/list/f/l">
+<xsl:template match="/facts/list/*[self::f or self::fact]/l">
     <blockquote>
         <xsl:apply-templates select="body/*" mode="copy-html-ns"/>
     </blockquote>
