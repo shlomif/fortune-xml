@@ -43,5 +43,5 @@ foreach my $fn_base (@inputs)
     ok(
         ( defined($code) && ( $code == 0 ) ),
         "The validation of '$filename' succeeded."
-    ) || diag("\$@ == $@");
+    ) || diag("\$\@ == $@");
 }
