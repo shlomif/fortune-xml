@@ -12,30 +12,26 @@ XML::Grammar::Fortune::Synd. For internal use.
 
 use parent 'Class::Accessor';
 
-__PACKAGE__->mk_accessors(qw(
-    date
-    id
-    idx
-    file
-    ));
+__PACKAGE__->mk_accessors(
+    qw(
+        date
+        id
+        idx
+        file
+        )
+);
 
 # "All problems in computer science can be solved by
 # adding another level of indirection;"
 # -- http://en.wikipedia.org/wiki/Abstraction_layer
 sub cmp
 {
-    my ($self, $other) = @_;
-    return
-    (
-        ($self->date()->compare($other->date()))
-            ||
-        ($self->idx() <=> $other->idx())
-    )
-    ;
+    my ( $self, $other ) = @_;
+    return (   ( $self->date()->compare( $other->date() ) )
+            || ( $self->idx() <=> $other->idx() ) );
 }
 
 1;
-
 
 =head1 SYNOPSIS
 
