@@ -23,11 +23,11 @@ has '_formatter' => (
         );
     },
 );
-has '_is_first_line' => ( isa => "Bool", is       => 'rw' );
-has '_input'         => ( is  => 'rw',   init_arg => 'input', required => 1, );
-has '_output'        => ( is  => 'rw',   init_arg => 'output', required => 1, );
-has '_this_line'     => ( isa => 'Str',  is       => 'rw', default => '', );
-has '_buf' => (
+has '_is_first_line' => ( isa => "Bool", is      => 'rw' );
+has '_input'         => ( is  => 'rw',  init_arg => 'input',  required => 1, );
+has '_output'        => ( is  => 'rw',  init_arg => 'output', required => 1, );
+has '_this_line'     => ( isa => 'Str', is       => 'rw',     default  => '', );
+has '_buf'           => (
     isa     => 'ScalarRef[Str]',
     is      => 'rw',
     default => sub { my $s = ''; return \$s; }
