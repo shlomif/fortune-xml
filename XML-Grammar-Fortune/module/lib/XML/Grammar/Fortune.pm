@@ -5,8 +5,6 @@ use strict;
 
 use Fatal (qw(open));
 
-use File::Spec;
-
 use MooX qw/late/;
 
 use XML::GrammarBase::Role::RelaxNG v0.2.2;
@@ -148,49 +146,13 @@ L<Pod::Coverage> . Ignore.
 
 Shlomi Fish, L<http://www.shlomifish.org/> .
 
-=head1 BUGS
-
-Please report any bugs or feature requests to C<bug-xml-grammar-fortune at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=XML-Grammar-Fortune>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc XML::Grammar::Fortune
-
-
-You can also look for information at:
-
-=over 4
-
-=item * RT: CPAN's request tracker
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=XML-Grammar-Fortune>
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/XML-Grammar-Fortune>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/XML-Grammar-Fortune>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/XML-Grammar-Fortune>
-
-=back
-
-
 =head1 ACKNOWLEDGEMENTS
 
 =head1 COPYRIGHT & LICENSE
 
 Copyright 2008 by Shlomi Fish
 
-This program is distributed under the MIT (X11) License:
+This program is distributed under the MIT (Expat) License:
 L<http://www.opensource.org/licenses/mit-license.php>
 
 Permission is hereby granted, free of charge, to any person
