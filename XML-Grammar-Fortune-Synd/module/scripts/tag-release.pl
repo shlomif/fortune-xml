@@ -3,11 +3,11 @@
 use strict;
 use warnings;
 
-use IO::All;
+use Path::Tiny qw/ path /;
 
 my ($version) =
-    ( map { m{\Aversion *= *(\S+)\n?\z} ? ($1) : () }
-        io->file("./dist.ini")->getlines() );
+    ( map { m{\Aversion * = *(\S+)} ? ($1) : () }
+        path("./dist.ini")->lines_utf8() );
 
 if ( !defined($version) )
 {
@@ -22,4 +22,3 @@ my @cmd = (
 
 print join( " ", map { /\s/ ? qq{"$_"} : $_ } @cmd ), "\n";
 exec(@cmd);
-
