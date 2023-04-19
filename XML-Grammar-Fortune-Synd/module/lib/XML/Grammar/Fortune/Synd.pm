@@ -14,7 +14,10 @@ XML-Grammar-Fortune files.
 
 use parent 'Class::Accessor';
 
-use YAML::XS        (qw( DumpFile LoadFile ));
+use Path::Tiny qw/ path tempdir tempfile cwd /;
+
+use File::Update  qw( write_on_change_no_utf8 );
+use YAML::XS        (qw( Dump DumpFile LoadFile ));
 use Heap::Elem::Ref (qw(RefElem));
 use Heap::Binary;
 use XML::Feed;
@@ -203,7 +206,10 @@ sub calc_feeds
     {
         push @recent_ids, $id_obj;
     }
-    DumpFile( $scripts_hash_fn_out, $persistent_data );
+    write_on_change_no_utf8(
+        path( $scripts_hash_fn_out),
+        \(Dump($persistent_data) ),
+    );
 
     my @feed_formats = (qw(Atom RSS));
 
