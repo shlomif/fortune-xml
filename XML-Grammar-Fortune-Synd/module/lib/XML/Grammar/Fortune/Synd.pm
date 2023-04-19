@@ -19,13 +19,13 @@ use Path::Tiny qw/ path tempdir tempfile cwd /;
 use File::Update  qw( write_on_change_no_utf8 );
 use YAML::XS        (qw( Dump DumpFile LoadFile ));
 use Heap::Elem::Ref (qw(RefElem));
-use Heap::Binary;
-use XML::Feed;
-use XML::Grammar::Fortune;
-use DateTime::Format::W3CDTF;
-use XML::Grammar::Fortune::Synd::Heap::Elem;
+use Heap::Binary ();
+use XML::Feed ();
+use XML::Grammar::Fortune ();
+use DateTime::Format::W3CDTF ();
+use XML::Grammar::Fortune::Synd::Heap::Elem ();
 
-use File::Spec;
+use File::Spec ();
 
 __PACKAGE__->mk_accessors(
     qw(
