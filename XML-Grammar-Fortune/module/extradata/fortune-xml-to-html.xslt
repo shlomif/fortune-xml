@@ -10,6 +10,7 @@
  />
 
 <xsl:param name="fortune.id"></xsl:param>
+<xsl:param name="fortune.xhtml5.mode"></xsl:param>
 <xsl:param name="filter-facts-list.id"></xsl:param>
 <xsl:param name="filter.lang">en-US</xsl:param>
 
@@ -101,7 +102,20 @@ namespace-->
 </xsl:template>
 
 <xsl:template match="fortune">
-    <div class="fortune">
+    <xsl:variable name="elem_name">
+        <xsl:choose>
+            <xsl:when test="$fortune.xhtml5.mode">
+                <xsl:value-of select="'article'" />
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="'div'" />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:variable>
+    <xsl:element name="{$elem_name}">
+        <xsl:attribute name="class">
+            <xsl:value-of select="'fortune'" />
+        </xsl:attribute>
         <h3 id="{@id}"><xsl:call-template name="get_header" /></h3>
         <xsl:choose>
             <xsl:when test="irc">
@@ -118,7 +132,7 @@ namespace-->
             </xsl:when>
 
         </xsl:choose>
-    </div>
+    </xsl:element>
 </xsl:template>
 
 <xsl:template match="body">
