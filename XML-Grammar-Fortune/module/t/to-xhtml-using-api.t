@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 54;
+use Test::More tests => 56;
 use Test::XML::Ordered qw(is_xml_ordered);
 
 use Encode qw/ decode /;
@@ -114,6 +114,37 @@ foreach my $fn_base (@tests)
             {},
             "Testing for Good XSLTing of '$fn_base'",
         );
+
+        if ( $fn_base eq 'quote-fort-sample-10-with-hyperlink' )
+        {
+            my $results_buffer = "";
+
+            $converter->run(
+                {
+                    input       => $filename,
+                    output      => \$results_buffer,
+                    xslt_params => +{
+                        'fortune.xhtml5.mode' => q#'1'#,
+                    }
+                }
+            );
+
+            # TEST*1
+            unlike( $results_buffer, qr/[ \t]$/ms,
+                "No trailing space for '$fn_base'",
+            );
+
+            # TEST*1
+            is_xml_ordered(
+                [ string => normalize_xml($results_buffer), @common, ],
+                [
+                    location => "./t/data/xhtml5-mode-results/$fn_base.xhtml",
+                    @common,
+                ],
+                {},
+                "Testing for Good XSLTing of '$fn_base'",
+            );
+        }
     }
 }
 1;
