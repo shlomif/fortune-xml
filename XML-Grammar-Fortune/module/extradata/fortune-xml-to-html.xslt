@@ -116,7 +116,16 @@ namespace-->
         <xsl:attribute name="class">
             <xsl:value-of select="'fortune'" />
         </xsl:attribute>
-        <h3 id="{@id}"><xsl:call-template name="get_header" /></h3>
+        <xsl:choose>
+            <xsl:when test="$fortune.xhtml5.mode">
+                <header>
+                    <h3 id="{@id}"><xsl:call-template name="get_header" /></h3>
+                </header>
+            </xsl:when>
+            <xsl:otherwise>
+                <h3 id="{@id}"><xsl:call-template name="get_header" /></h3>
+            </xsl:otherwise>
+        </xsl:choose>
         <xsl:choose>
             <xsl:when test="irc">
                 <xsl:apply-templates select="irc" />
