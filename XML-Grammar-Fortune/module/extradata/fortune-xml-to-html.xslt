@@ -119,11 +119,11 @@ namespace-->
         <xsl:choose>
             <xsl:when test="$fortune.xhtml5.mode">
                 <header>
-                    <h3 id="{@id}"><xsl:call-template name="get_header" /></h3>
+                    <xsl:call-template name="get_header_wrapper" />
                 </header>
             </xsl:when>
             <xsl:otherwise>
-                <h3 id="{@id}"><xsl:call-template name="get_header" /></h3>
+                <xsl:call-template name="get_header_wrapper" />
             </xsl:otherwise>
         </xsl:choose>
         <xsl:choose>
@@ -199,6 +199,10 @@ namespace-->
             <xsl:call-template name="get_irc_default_header" />
         </xsl:otherwise>
     </xsl:choose>
+</xsl:template>
+
+<xsl:template name="get_header_wrapper">
+    <h3 id="{@id}"><xsl:call-template name="get_header" /></h3>
 </xsl:template>
 
 <xsl:template name="render_info">
