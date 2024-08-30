@@ -142,6 +142,35 @@ namespace-->
 
         </xsl:choose>
     </xsl:element>
+
+    <xsl:if test="seealso">
+        <xsl:variable name="elem_seealso">
+            <xsl:choose>
+                <xsl:when test="$fortune.xhtml5.mode">
+                    <xsl:value-of select="'section'" />
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="'div'" />
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:element name="{$elem_seealso}">
+            <xsl:attribute name="class">
+                <xsl:value-of select="'seealso'" />
+            </xsl:attribute>
+            <xsl:choose>
+                <xsl:when test="$fortune.xhtml5.mode">
+                    <header>
+                        <h4>See Also</h4>
+                    </header>
+                </xsl:when>
+                <xsl:otherwise>
+                    <h4>See Also</h4>
+                </xsl:otherwise>
+            </xsl:choose>
+            <xsl:apply-templates select="seealso/ol | seealso/ul" />
+        </xsl:element>
+    </xsl:if>
 </xsl:template>
 
 <xsl:template match="body">
