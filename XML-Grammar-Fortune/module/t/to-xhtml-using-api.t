@@ -36,6 +36,14 @@ my @tests = (
     )
 );
 
+# TEST:$xhtml5=3;
+my %test_with_xhtml5 =
+    map { $_ => 1 } (
+    'irc-conversation-4-several-convos',
+    'irc-conversation-5-with-see-also',
+    'quote-fort-sample-10-with-hyperlink',
+    );
+
 my @common = ( validation => 0, load_ext_dtd => 0, no_network => 1 );
 
 sub normalize_xml
@@ -116,10 +124,7 @@ foreach my $fn_base (@tests)
             "Testing for Good XSLTing of '$fn_base'",
         );
 
-        # TEST:$xhtml=3;
-        if (   $fn_base eq 'quote-fort-sample-10-with-hyperlink'
-            or $fn_base eq 'irc-conversation-4-several-convos'
-            or $fn_base eq 'irc-conversation-5-with-see-also' )
+        if ( exists( $test_with_xhtml5{$fn_base} ) )
         {
             my $results_buffer = "";
 
@@ -133,12 +138,12 @@ foreach my $fn_base (@tests)
                 }
             );
 
-            # TEST*$xhtml
+            # TEST*$xhtml5
             unlike( $results_buffer, qr/[ \t]$/ms,
                 "No trailing space for '$fn_base'",
             );
 
-            # TEST*$xhtml
+            # TEST*$xhtml5
             is_xml_ordered(
                 [ string => normalize_xml($results_buffer), @common, ],
                 [
