@@ -90,6 +90,33 @@ sub _render_single_fortune_cookie
 
     $self->_render_info_if_exists($fortune_node);
 
+    $self->_iterate_on_child_elems(
+        $fortune_node,
+        "seealso",
+        {
+            process => sub {
+                my $seealso = shift;
+
+                my $s = "See Also:";
+                $self->_out( "\n${s}\n" . ( "=" x ( length($s) ) . "\n" ) );
+
+                $self->_iterate_on_child_elems(
+                    $seealso, "ol|ul",
+                    {
+                        process => sub {
+                            my $para = shift;
+
+                            return $self->_render_generalized_para($para);
+                        },
+                    },
+                );
+
+                $self->_out("\n");
+
+                return;
+            },
+        }
+    );
     return;
 }
 
