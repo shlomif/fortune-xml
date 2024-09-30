@@ -44,29 +44,7 @@ foreach my $fn_base (@tests)
 {
     my $xml_fn = "./t/data/xml/$fn_base.xml";
     my $buffer = "";
-    my $tempfn = $tempdir->child("$fn_base.txt");
 
-    open my $have_o, '>:encoding(UTF-8)', $tempfn;
-    my $converter = XML::Grammar::Fortune::ToText->new(
-        {
-            'input'  => $xml_fn,
-            'output' => $have_o,
-        }
-    );
-
-    $converter->run();
-    close $have_o;
-    open my $io, '>:encoding(UTF-8)', \$buffer;
-    binmode $io, ':encoding(UTF-8)';
-    $converter = XML::Grammar::Fortune::ToText->new(
-        {
-            'input'  => $xml_fn,
-            'output' => $io,
-        }
-    );
-
-    $converter->run();
-    close $io;
     my $out_fn = "./t/data/text-results/$fn_base.txt";
     my $outp   = path($out_fn);
 
