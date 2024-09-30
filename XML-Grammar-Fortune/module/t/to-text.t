@@ -3,7 +3,9 @@
 use 5.014;
 use strict;
 use warnings;
+use utf8;
 
+use Encode qw/ decode /;
 use Test::More tests => 19;
 use Test::Differences qw/ eq_or_diff /;
 
@@ -69,18 +71,15 @@ foreach my $fn_base (@tests)
     my $outp   = path($out_fn);
 
     # if ( not -e $out_fn )
-    if (0)
+    open my $out, ">:encoding(UTF-8)", \$buffer;
+    XML::Grammar::Fortune::ToText->new( { input => $xml_fn, output => $out } )
+        ->run();
+    close($out);
+
+    if ( $ENV{DECODE} )
     {
-        open my $out, ">:encoding(UTF-8)", $out_fn;
-        XML::Grammar::Fortune::ToText->new(
-            { input => $xml_fn, output => $out } )->run();
-        close($out);
-
-        # body...
-        # path("./t/data/text-results/$fn_base.txt")->spew_utf8($buffer);
+        $buffer = decode( 'utf-8', $buffer );
     }
-
-    $buffer = path($tempfn)->slurp_utf8();
 
     # TEST*$num_texts
     eq_or_diff(
